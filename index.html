@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WorkHub — Work. Earn. Grow.</title>
+<style>
+:root{--bg:#f4f6fa;--ink:#101828;--muted:#667085;--card:#fff;--line:#e6e9ef;--blue:#2563eb;--nav:#0b1220;--green:#12b76a;--red:#b42318;--r:22px}
+*{box-sizing:border-box}html,body{margin:0;padding:0}body{background:#dfe4ec;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}button,input,select{font:inherit}.app{max-width:480px;min-height:100vh;margin:auto;background:var(--bg);padding-bottom:90px}.top{padding:20px 18px 10px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:10px;align-items:center;font-weight:900;font-size:21px}.mark{width:38px;height:38px;border-radius:12px;background:var(--nav);color:#fff;display:grid;place-items:center}.bell{width:40px;height:40px;border:1px solid var(--line);border-radius:13px;background:#fff}.page{display:none;padding:8px 18px}.page.active{display:block}.hero{background:var(--nav);color:#fff;border-radius:28px;padding:23px;margin-top:8px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-85px;top:-110px;background:#2563eb44}.hello{font-size:13px;color:#aeb8ca}.hero h1{font-size:25px;margin:5px 0 23px;letter-spacing:-.7px}.balance{font-size:37px;font-weight:900}.balance small{font-size:18px}.herofoot{display:flex;justify-content:space-between;gap:10px;margin-top:5px;color:#aeb8ca;font-size:12px}.herofoot b{color:#fff;font-size:14px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:14px 0}.action{border:1px solid var(--line);background:#fff;border-radius:18px;padding:17px;text-align:left;box-shadow:0 5px 18px #10182809}.ico{font-size:22px}.action b{display:block;margin-top:10px}.action span{font-size:11px;color:var(--muted)}.head{display:flex;justify-content:space-between;align-items:center;margin:22px 1px 10px}.head h2{font-size:16px;margin:0}.head a{font-size:12px;color:var(--blue);font-weight:800;cursor:pointer}.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:17px;box-shadow:0 7px 22px #10182808}.goal{display:flex;justify-content:space-between;font-size:12px;font-weight:750}.bar{height:8px;background:#edf0f5;border-radius:99px;margin-top:11px;overflow:hidden}.bar i{display:block;height:100%;width:0%;background:var(--blue);border-radius:99px}.task{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);padding:13px;border-radius:18px;margin:9px 0}.task .ticon{width:43px;height:43px;border-radius:13px;background:#eff6ff;display:grid;place-items:center}.task main{flex:1;min-width:0}.task b{font-size:13px}.task small{display:block;color:var(--muted);margin-top:3px}.reward{font-size:12px;font-weight:900;color:var(--green);background:#ecfdf3;padding:7px 9px;border-radius:10px;white-space:nowrap}.title{font-size:27px;margin:12px 0 4px;letter-spacing:-.8px}.sub{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5}.earn{display:flex;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}.earn:last-child{border:0}.earn .ticon{width:43px;height:43px;border-radius:13px;background:#f2f4f7;display:grid;place-items:center}.earn main{flex:1;min-width:0}.earn b{font-size:13px}.earn small{display:block;color:var(--muted);margin-top:3px}.go{border:0;background:#111827;color:#fff;padding:8px 11px;border-radius:10px;font-size:11px;font-weight:800}.ref{background:linear-gradient(145deg,#0b1220,#1d4ed8);color:#fff;border-radius:25px;padding:22px;margin:15px 0}.ref h2{margin:0 0 7px;font-size:23px}.ref p{font-size:12px;color:#c9d5ee;line-height:1.5}.refbox{display:flex;gap:7px;margin-top:17px}.refbox input{min-width:0;flex:1;border:1px solid #ffffff22;background:#ffffff12;color:#fff;border-radius:12px;padding:11px;font-size:11px}.refbox button{border:0;border-radius:12px;padding:0 13px;font-weight:800}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}.stat small{color:var(--muted);font-size:11px}.stat b{display:block;font-size:22px;margin-top:5px}.notice{padding:14px;background:#fffaeb;border:1px solid #fedf89;border-radius:17px;color:#925c00;font-size:12px;margin-bottom:12px;line-height:1.5}.status{padding:12px 14px;border-radius:14px;background:#f2f4f7;color:#475467;font-size:12px;line-height:1.5;margin-top:12px}.status.ok{background:#ecfdf3;color:#067647}.status.err{background:#fef3f2;color:#b42318}label{display:block;font-size:12px;font-weight:800;margin:15px 0 7px}.field{width:100%;padding:13px;border:1px solid #dfe3ea;border-radius:13px;background:#fafbfc;outline:0}.field:focus{border-color:#98a2b3;background:#fff}.primary{width:100%;border:0;background:var(--blue);color:#fff;padding:14px;border-radius:14px;font-weight:850;margin-top:17px}.primary:disabled{opacity:.55}.secondary{width:100%;border:1px solid #d0d5dd;background:#fff;color:#101828;padding:12px;border-radius:13px;font-weight:800;margin-top:9px}.profile{display:flex;gap:13px;align-items:center}.avatar{width:60px;height:60px;border-radius:18px;background:#111827;color:#fff;display:grid;place-items:center;font-weight:900;font-size:22px;overflow:hidden;background-size:cover;background-position:center}.profile h2{margin:0;font-size:18px}.profile p{margin:4px 0;color:var(--muted);font-size:12px;word-break:break-word}.menu{margin-top:13px;overflow:hidden}.row{display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}.row span{flex:1}.row small{color:#98a2b3}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);height:78px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:5;padding-bottom:env(safe-area-inset-bottom)}.nav button{border:0;background:#fff;color:#98a2b3;font-size:10px;font-weight:750}.nav button b{display:block;font-size:21px;margin-bottom:3px}.nav button.active{color:var(--blue)}.toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%) translateY(10px);background:#111827;color:#fff;padding:11px 15px;border-radius:12px;font-size:12px;opacity:0;transition:.2s;z-index:20;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#loginScreen{position:fixed;inset:0;z-index:1000;background:#f4f6fa;display:grid;place-items:center;padding:22px}#loginScreen.hidden{display:none}.loginCard{width:min(440px,100%);background:#fff;border:1px solid #e6e9ef;border-radius:28px;padding:30px 22px;box-shadow:0 18px 55px #10182818;text-align:center}.loginLogo{width:62px;height:62px;margin:0 auto 16px;border-radius:18px;background:#0b1220;color:#fff;display:grid;place-items:center;font-size:30px;font-weight:900}.loginCard h1{margin:0;font-size:28px}.loginCard p{color:#667085;font-size:13px;line-height:1.5;margin:9px 0 22px}.googleBtn{width:100%;border:1px solid #d0d5dd;background:#fff;color:#101828;border-radius:14px;padding:14px;font-weight:850;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}.googleBtn:disabled{opacity:.6}.googleG{font-size:21px;font-weight:900}#loginStatus{min-height:18px;margin-top:12px;color:#b42318;font-size:12px;line-height:1.45}.loginRef{font-size:11px;color:#667085;margin-top:14px;word-break:break-all}.loginRef b{color:#344054}
+#rulesModal{position:fixed;inset:0;z-index:2000;background:#10182866;display:none;align-items:flex-end;padding:0}#rulesModal.show{display:flex}.rulesBox{width:100%;max-height:88vh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:22px 20px 28px;box-shadow:0 -15px 45px #10182825}.rulesHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.rulesHead h2{margin:0;font-size:22px}.rulesClose{border:0;background:#eef2f7;border-radius:50%;width:38px;height:38px;font-size:20px}.rulesBox h3{font-size:15px;margin:18px 0 7px}.rulesBox p,.rulesBox li{font-size:13px;line-height:1.6;color:#475467}.rulesBox ul{padding-left:20px;margin-top:6px}.ruleWarn{background:#fff4e5;border:1px solid #f6d7a7;border-radius:14px;padding:12px;margin-top:14px;font-size:13px;line-height:1.55;color:#7a4b00}
+@media(min-width:600px){.app{border-radius:28px;box-shadow:0 20px 60px #10182822;overflow:hidden}}
+</style>
+</head>
+<body>
+<div id="loginScreen">
+  <div class="loginCard">
+    <div class="loginLogo">W</div>
+    <h1>Welcome to WorkHub</h1>
+    <p>Sign in with your Google account to start working, earn rewards, and manage your account.</p>
+    <button id="googleLoginBtn" class="googleBtn" type="button"><span class="googleG">G</span>Continue with Google</button>
+    <div id="loginStatus"></div>
+    <div id="loginRef" class="loginRef" hidden></div>
+  </div>
+</div>
+
+<main class="app">
+<header class="top"><div class="brand"><div class="mark">W</div>WorkHub</div><button class="bell" type="button" onclick="toast('You are all caught up')">🔔</button></header>
+
+<section id="home" class="page active">
+  <div class="hero"><div class="hello">Welcome back 👋</div><h1>Ready to earn today?</h1><div class="balance">৳<span id="homeBalance">0.00</span></div><div class="herofoot"><span>Available balance</span><span>Total earned <b id="homeTotalEarned">৳0</b></span></div></div>
+  <div class="actions"><button class="action" type="button" onclick="show('withdraw')"><div class="ico">↗</div><b>Withdraw</b><span>Cash out your balance</span></button><button class="action" type="button" onclick="show('refer')"><div class="ico">♧</div><b>Refer & Earn</b><span>Invite and get rewards</span></button></div>
+  <div class="head"><h2>Daily progress</h2><a id="homeDailyText">0 / 10</a></div><div class="card"><div class="goal"><span>Tasks completed</span><span id="homeDailyPercent">0%</span></div><div class="bar"><i id="homeBar"></i></div></div>
+  <div class="head"><h2>Available tasks</h2><a onclick="show('earn')">View all</a></div>
+  <div class="task"><div class="ticon">📲</div><main><b>Daily check-in</b><small>Task system will be connected here</small></main><span class="reward">+৳10</span></div>
+  <div class="task"><div class="ticon">▶️</div><main><b>Watch & earn</b><small>Ad/task system will be connected here</small></main><span class="reward">+৳5</span></div>
+</section>
+
+<section id="earn" class="page">
+  <h1 class="title">Earn</h1><p class="sub">Complete valid tasks normally. Rewards will be added only by the secure reward system.</p>
+  <div class="card"><div class="goal"><span>Daily goal</span><span id="earnDailyText">0 / 10 completed</span></div><div class="bar"><i id="earnBar"></i></div></div>
+  <div class="head"><h2>Tasks for you</h2></div><div class="card">
+    <div class="earn"><div class="ticon">🎁</div><main><b>Welcome Bonus</b><small>One-time account reward</small></main><span class="reward">৳0</span></div>
+    <div class="earn"><div class="ticon">📣</div><main><b>Community Task</b><small>Task integration coming next</small></main><button class="go" type="button" onclick="toast('Task system is being connected')">Start</button></div>
+    <div class="earn"><div class="ticon">▶️</div><main><b>Watch a Video</b><small>Ad integration will be connected next</small></main><button class="go" type="button" onclick="toast('Ad system is being connected')">Open</button></div>
+    <div class="earn"><div class="ticon">📝</div><main><b>Quick Survey</b><small>Survey integration will be connected next</small></main><button class="go" type="button" onclick="toast('Survey system is being connected')">Open</button></div>
+  </div>
+</section>
+
+<section id="refer" class="page">
+  <h1 class="title">Refer & Earn</h1><p class="sub">Invite real users. A referral starts as pending and becomes valid only after the required activity and anti-fraud checks are completed.</p>
+  <div class="ref"><h2>Earn ৳50 per valid referral</h2><p>Fake, duplicate, self-referrals and inactive accounts do not count. The browser never credits referral money by itself.</p><div class="refbox"><input id="ref" readonly value="Creating your referral link..."><button type="button" onclick="copyRef()">Copy</button></div><button class="primary" style="margin-top:10px;background:#fff;color:#111827" type="button" onclick="shareRef()">Share referral link</button><div id="refMsg" class="status" hidden></div></div>
+  <div class="stats"><div class="stat"><small>Valid referrals</small><b id="refCount">0</b></div><div class="stat"><small>Referral earnings</small><b id="refEarnings">৳0</b></div></div>
+  <div class="notice" style="margin-top:14px"><b>Withdrawal requirement:</b> ৳1,000 minimum balance + 20 valid referrals. A referral is not counted just for signing up; it must pass WorkHub's required activity/anti-fraud checks.</div>
+  <div class="head"><h2>Referral activity</h2></div><div id="refActivity" class="card"><p class="sub" style="margin:0">Loading referral activity...</p></div>
+</section>
+
+<section id="withdraw" class="page">
+  <h1 class="title">Withdraw</h1><p class="sub">Submit a request only when your balance and valid-referral requirements are satisfied.</p>
+  <div class="notice">ⓘ Minimum withdrawal is <b>৳1,000</b> and at least <b>20 valid referrals</b> are required. Requests may be reviewed before payment.</div>
+  <div class="card"><label>Payment method</label><select id="withdrawMethod" class="field"><option>bKash</option><option>Nagad</option></select><label>Account number</label><input id="withdrawAccount" class="field" placeholder="01XXXXXXXXX" inputmode="numeric" maxlength="11"><label>Amount</label><input id="withdrawAmount" class="field" placeholder="Enter amount" inputmode="decimal"><button id="withdrawBtn" class="primary" type="button" onclick="requestWithdrawal()">Request withdrawal</button><div id="withdrawMsg" class="status" hidden></div></div>
+  <div class="head"><h2>Recent requests</h2></div><div id="withdrawActivity" class="card"><p class="sub" style="margin:0">Loading...</p></div>
+</section>
+
+<section id="profile" class="page">
+  <h1 class="title">Profile</h1><p class="sub">Your WorkHub account and activity overview.</p>
+  <div class="card"><div class="profile"><div id="whAvatar" class="avatar">U</div><div><h2 id="whUserName">WorkHub User</h2><p id="whUserEmail">Google account</p></div></div><div class="stats" style="margin-top:18px"><div class="stat"><small>Tasks done</small><b id="profileTasks">0</b></div><div class="stat"><small>Withdrawn</small><b id="profileWithdrawn">৳0</b></div></div></div>
+  <div class="card menu"><div class="row">⚙️ <span>Account settings</span><small>›</small></div><div class="row">💬 <span>Help & Support</span><small>›</small></div><div class="row" onclick="openRules()" style="cursor:pointer">📄 <span>Platform rules</span><small>›</small></div><div class="row" onclick="googleLogout()" style="cursor:pointer">🚪 <span>Log out</span><small>›</small></div></div>
+</section>
+
+<div id="rulesModal" onclick="if(event.target===this)closeRules()"><div class="rulesBox"><div class="rulesHead"><h2>📄 WorkHub Platform Rules</h2><button class="rulesClose" type="button" onclick="closeRules()">×</button></div><p>WorkHub-এ সঠিকভাবে কাজ করে আয় করার জন্য নিচের নিয়মগুলো মানতে হবে।</p><h3>1. Account & Login</h3><ul><li>Google account দিয়ে একটিমাত্র WorkHub account ব্যবহার করতে হবে।</li><li>একই Google account দিয়ে বারবার নতুন account তৈরি হবে না; একই account/UID-তেই login হবে।</li><li>অন্যের account ব্যবহার বা account sharing করা যাবে না।</li></ul><h3>2. Task & Ad Rules</h3><ul><li>কোনো ad/task-এর নির্ধারিত সময় সম্পূর্ণ না করে বের হয়ে গেলে ওই task-এর reward পাওয়া যাবে না।</li><li>Timer চলাকালীন page/app বন্ধ, task skip বা system bypass করা যাবে না।</li><li>শুধু নিয়ম মেনে সম্পূর্ণ করা valid task-এর জন্য reward গণনা হবে।</li></ul><h3>3. VPN & Fake Activity</h3><ul><li>VPN, proxy, emulator বা location/device masking ব্যবহার করে task বা referral system manipulate করা নিষিদ্ধ।</li><li>Fake click, bot, auto-refresh, multiple/fake account বা অন্য কোনো প্রতারণামূলক activity নিষিদ্ধ।</li></ul><h3>4. Withdrawal</h3><ul><li>Minimum withdrawal: <b>৳1,000</b>।</li><li>Referral-based withdrawal eligibility-এর জন্য <b>20টি valid referral</b> প্রয়োজন।</li><li>Withdrawal request review করা হতে পারে। Invalid/fraudulent earning থাকলে request hold বা reject হতে পারে।</li></ul><h3>5. Referral</h3><ul><li>শুধু বাস্তব ও valid user referral গণনা হবে।</li><li>নিজের জন্য multiple account খুলে referral তৈরি করা যাবে না।</li><li>Referral signup নিজে থেকে ৳50 credit করে না; required activity/anti-fraud validation শেষ হলে server/admin valid referral হিসেবে গণনা করবে।</li></ul><div class="ruleWarn"><b>⚠️ প্রতারণা করলে:</b> account review, task/reward বাতিল, withdrawal hold/reject এবং প্রয়োজন অনুযায়ী account suspension করা হতে পারে।</div><button class="primary" style="margin-top:18px" type="button" onclick="closeRules()">I Understand</button></div></div>
+
+<nav class="nav"><button class="active" type="button" data-page="home"><b>⌂</b>Home</button><button type="button" data-page="earn"><b>▣</b>Earn</button><button type="button" data-page="refer"><b>♧</b>Refer</button><button type="button" data-page="withdraw"><b>↗</b>Withdraw</button><button type="button" data-page="profile"><b>◎</b>Profile</button></nav>
+<div id="toast" class="toast"></div>
+</main>
+
+<script>
+const pages=[...document.querySelectorAll('.page')],nav=[...document.querySelectorAll('.nav button')];
+function show(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));nav.forEach(n=>n.classList.toggle('active',n.dataset.page===id));window.scrollTo(0,0);if(id==='refer'&&window.refreshReferralActivity)window.refreshReferralActivity();if(id==='withdraw'&&window.refreshWithdrawActivity)window.refreshWithdrawActivity()}
+nav.forEach(n=>n.addEventListener('click',()=>show(n.dataset.page)));
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>e.classList.remove('show'),2200)}
+function openRules(){document.getElementById('rulesModal').classList.add('show')}
+function closeRules(){document.getElementById('rulesModal').classList.remove('show')}
+function setStatus(id,text,type=''){const e=document.getElementById(id);if(!e)return;e.textContent=text;e.hidden=!text;e.className='status '+type}
+</script>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,serverTimestamp,collection,addDoc,query,where,limit,getDocs}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyDr1Iqk8EDqqpOWSE45hEq10u4fhDwY_oc",authDomain:"workhub-3f724.firebaseapp.com",projectId:"workhub-3f724",storageBucket:"workhub-3f724.firebasestorage.app",messagingSenderId:"840186064028",appId:"1:840186064028:web:3028ae4275ea303c551159",measurementId:"G-XKYDKL24V9"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
+setPersistence(auth,browserLocalPersistence).catch(e=>console.error('Auth persistence setup failed:',e));
+window.whAuth=auth;window.whDb=db;
+
+const REF_KEY='workhub_pending_ref';
+function normalizeRef(v){return String(v||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,32)}
+function getReferralCode(uid){return 'WH'+String(uid||'').replace(/[^a-zA-Z0-9]/g,'').slice(-8).toUpperCase()}
+function getReferralLink(uid){return location.origin+location.pathname+'?ref='+getReferralCode(uid)}
+function captureReferral(){const raw=new URLSearchParams(location.search).get('ref');const code=normalizeRef(raw);if(code){try{localStorage.setItem(REF_KEY,code)}catch(e){}try{sessionStorage.setItem(REF_KEY,code)}catch(e){}}return code||pendingReferral()}
+const initialRef=captureReferral();
+function pendingReferral(){let v='';try{v=localStorage.getItem(REF_KEY)||''}catch(e){}if(!v){try{v=sessionStorage.getItem(REF_KEY)||''}catch(e){}}return normalizeRef(v)}
+
+function setUserUI(u){const screen=document.getElementById('loginScreen'),name=document.getElementById('whUserName'),email=document.getElementById('whUserEmail'),avatar=document.getElementById('whAvatar'),loginRef=document.getElementById('loginRef');if(u){screen.classList.add('hidden');if(name)name.textContent=u.displayName||'WorkHub User';if(email)email.textContent=u.email||'';if(avatar){avatar.textContent=(u.displayName||u.email||'U').charAt(0).toUpperCase();avatar.style.backgroundImage='none';if(u.photoURL){avatar.textContent='';avatar.style.backgroundImage=`url("${String(u.photoURL).replace(/"/g,'')}" )`}}}else{screen.classList.remove('hidden')}if(loginRef){const code=pendingReferral();loginRef.hidden=!code;loginRef.innerHTML=code?`Referral code detected: <b>${code}</b>`:''}}
+
+async function ensureUserDocument(u){
+ const ref=doc(db,'users',u.uid),snap=await getDoc(ref);
+ if(!snap.exists()){
+   await setDoc(ref,{uid:u.uid,name:u.displayName||'WorkHub User',email:u.email||'',photoURL:u.photoURL||'',balance:0,totalEarned:0,tasksDone:0,totalWithdrawn:0,referrals:0,referralEarnings:0,welcomeBonusClaimed:false,referralCode:getReferralCode(u.uid),accountCreated:true,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+ }else{
+   await setDoc(ref,{name:u.displayName||'WorkHub User',email:u.email||'',photoURL:u.photoURL||'',updatedAt:serverTimestamp()},{merge:true});
+ }
+}
+
+async function ensureReferralCode(u){const code=getReferralCode(u.uid),ref=doc(db,'referralCodes',code),snap=await getDoc(ref);if(!snap.exists()){await setDoc(ref,{uid:u.uid,code,createdAt:serverTimestamp()})}return code}
+
+async function registerReferralFromUrl(u){
+ const urlCode=normalizeRef(new URLSearchParams(location.search).get('ref'));
+ const code=urlCode||pendingReferral();
+ if(!u||!code)return{state:'none'};
+ const myCode=getReferralCode(u.uid);
+ if(code===myCode){setStatus('refMsg','This referral link belongs to this same account, so self-referral was blocked.','err');return{state:'self'};}
+ const ownerSnap=await getDoc(doc(db,'referralCodes',code));
+ if(!ownerSnap.exists()){setStatus('refMsg','Referral code was not found. Please use a valid WorkHub referral link.','err');return{state:'invalid'};}
+ const owner=ownerSnap.data();
+ if(!owner || typeof owner.uid!=='string' || owner.uid===u.uid){setStatus('refMsg','Self-referral was blocked.','err');return{state:'self'};}
+ const refKey=code+'_'+u.uid;
+ const refDoc=doc(db,'referrals',refKey);
+ const snap=await getDoc(refDoc);
+ if(!snap.exists()){
+   await setDoc(refDoc,{refCode:code,referrerUserId:owner.uid,referredUserId:u.uid,status:'pending',createdAt:serverTimestamp()});
+   setStatus('refMsg','Referral registered successfully and is pending validation.','ok');
+ }else{
+   setStatus('refMsg',`Referral status: ${snap.data()?.status||'pending'}.`,'ok');
+ }
+ try{localStorage.removeItem(REF_KEY)}catch(e){}
+ try{sessionStorage.removeItem(REF_KEY)}catch(e){}
+ return{state:'registered',referrerUserId:owner.uid};
+}
+
+async function loadUserData(u){
+ const snap=await getDoc(doc(db,'users',u.uid));if(!snap.exists())return{};const d=snap.data();
+ const bal=Number(d.balance||0),total=Number(d.totalEarned||0),tasks=Number(d.tasksDone||0),withdrawn=Number(d.totalWithdrawn||0),refs=Number(d.referrals||0),refEarn=Number(d.referralEarnings||0),daily=Math.max(0,Math.min(10,tasks%11));
+ document.getElementById('homeBalance').textContent=bal.toFixed(2);document.getElementById('homeTotalEarned').textContent='৳'+total.toFixed(2);document.getElementById('homeDailyText').textContent=daily+' / 10';document.getElementById('homeDailyPercent').textContent=Math.round(daily*10)+'%';document.getElementById('homeBar').style.width=(daily*10)+'%';document.getElementById('earnDailyText').textContent=daily+' / 10 completed';document.getElementById('earnBar').style.width=(daily*10)+'%';document.getElementById('refCount').textContent=refs;document.getElementById('refEarnings').textContent='৳'+refEarn.toFixed(2);document.getElementById('profileTasks').textContent=tasks;document.getElementById('profileWithdrawn').textContent='৳'+withdrawn.toFixed(2);
+ const refInput=document.getElementById('ref');if(refInput)refInput.value=getReferralLink(u.uid);
+ return d;
+}
+
+window.copyRef=async()=>{const v=document.getElementById('ref')?.value||'';try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(v);else{const t=document.createElement('textarea');t.value=v;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.focus();t.select();document.execCommand('copy');t.remove()}toast('Referral link copied')}catch(e){toast('Copy failed — press and hold the link to copy')}};
+window.shareRef=async()=>{const v=document.getElementById('ref')?.value||'';if(!v)return;if(navigator.share){try{await navigator.share({title:'WorkHub',text:'Join WorkHub using my referral link:',url:v})}catch(e){}}else await window.copyRef()};
+
+window.refreshReferralActivity=async()=>{const u=auth.currentUser,box=document.getElementById('refActivity');if(!u){box.innerHTML='<p class="sub" style="margin:0">Please login first.</p>';return}box.innerHTML='<p class="sub" style="margin:0">Loading referral activity...</p>';try{const q=query(collection(db,'referrals'),where('referrerUserId','==',u.uid),limit(20)),snap=await getDocs(q);if(snap.empty){box.innerHTML='<p class="sub" style="margin:0">No referral activity yet.</p>';return}box.innerHTML='';snap.forEach(s=>{const d=s.data(),row=document.createElement('div');row.className='earn';row.innerHTML=`<div class="ticon">👤</div><main><b>Referral</b><small>Status: ${String(d.status||'pending')}</small></main><span class="reward">${d.status==='valid'?'+৳50':'Pending'}</span>`;box.appendChild(row)})}catch(e){console.error(e);box.innerHTML='<p class="sub" style="margin:0">Referral activity could not be loaded.</p>'}};
+
+window.requestWithdrawal=async()=>{const u=auth.currentUser,msg=document.getElementById('withdrawMsg'),btn=document.getElementById('withdrawBtn');setStatus('withdrawMsg','');if(!u){setStatus('withdrawMsg','Please login first.','err');return}const method=document.getElementById('withdrawMethod').value,account=document.getElementById('withdrawAccount').value.trim(),amount=Number(document.getElementById('withdrawAmount').value);if(!/^01\d{9}$/.test(account)){setStatus('withdrawMsg','Enter a valid 11-digit bKash/Nagad number.','err');return}if(!Number.isFinite(amount)||amount<1000){setStatus('withdrawMsg','Minimum withdrawal is ৳1,000.','err');return}btn.disabled=true;btn.textContent='Checking…';try{const snap=await getDoc(doc(db,'users',u.uid));if(!snap.exists())throw new Error('Account profile not found.');const d=snap.data(),balance=Number(d.balance||0),refs=Number(d.referrals||0);if(balance<1000){setStatus('withdrawMsg',`Your available balance is ৳${balance.toFixed(2)}. Minimum withdrawal is ৳1,000.`,'err');return}if(refs<20){setStatus('withdrawMsg',`You have ${refs} valid referrals. 20 valid referrals are required.`,'err');return}if(amount>balance){setStatus('withdrawMsg',`Withdrawal amount cannot exceed your available balance (৳${balance.toFixed(2)}).`,'err');return}await addDoc(collection(db,'withdrawals'),{userId:u.uid,method,account,amount,status:'pending',createdAt:serverTimestamp()});setStatus('withdrawMsg','Withdrawal request submitted for review.','ok');document.getElementById('withdrawAccount').value='';document.getElementById('withdrawAmount').value='';toast('Withdrawal request submitted');await window.refreshWithdrawActivity()}catch(e){console.error(e);setStatus('withdrawMsg',e?.message||'Request could not be submitted.','err')}finally{btn.disabled=false;btn.textContent='Request withdrawal'}};
+
+window.refreshWithdrawActivity=async()=>{const u=auth.currentUser,box=document.getElementById('withdrawActivity');if(!u){box.innerHTML='<p class="sub" style="margin:0">Please login first.</p>';return}box.innerHTML='<p class="sub" style="margin:0">Loading...</p>';try{const q=query(collection(db,'withdrawals'),where('userId','==',u.uid),limit(20)),snap=await getDocs(q);if(snap.empty){box.innerHTML='<p class="sub" style="margin:0">No withdrawal requests yet.</p>';return}box.innerHTML='';snap.forEach(s=>{const d=s.data(),row=document.createElement('div');row.className='task';row.innerHTML=`<div class="ticon">৳</div><main><b>৳${Number(d.amount||0).toFixed(2)}</b><small>${d.method||''} • ${d.status||'pending'}</small></main><span class="reward">${d.status||'Pending'}</span>`;box.appendChild(row)})}catch(e){console.error(e);box.innerHTML='<p class="sub" style="margin:0">Withdrawal history could not be loaded.</p>'}};
+
+window.googleLogin=async()=>{const b=document.getElementById('googleLoginBtn'),st=document.getElementById('loginStatus');b.disabled=true;b.innerHTML='<span class="googleG">G</span>Signing in…';st.textContent='';try{captureReferral();await setPersistence(auth,browserLocalPersistence);await signInWithPopup(auth,provider)}catch(x){if(['auth/popup-blocked','auth/popup-closed-by-user','auth/operation-not-supported-in-this-environment'].includes(x.code)){try{await setPersistence(auth,browserLocalPersistence);await signInWithRedirect(auth,provider)}catch(y){st.textContent=y?.message||'Google sign-in failed.'}}else st.textContent=x?.message||'Google sign-in failed.'}finally{b.disabled=false;b.innerHTML='<span class="googleG">G</span>Continue with Google'}};
+window.googleLogout=async()=>{try{await signOut(auth);toast('Logged out')}catch(e){console.error(e)}};
+document.getElementById('googleLoginBtn').addEventListener('click',window.googleLogin);
+getRedirectResult(auth).catch(x=>{if(x)document.getElementById('loginStatus').textContent=x.message||'Google sign-in failed.'});
+
+onAuthStateChanged(auth,async u=>{
+ setUserUI(u);
+ if(!u)return;
+ document.getElementById('loginStatus').textContent='';
+ try{await ensureUserDocument(u)}catch(e){console.error('User profile error:',e);setStatus('refMsg','Account login succeeded, but the Firestore profile could not be synced. Check Firestore rules.','err')}
+ try{await ensureReferralCode(u)}catch(e){console.error('Referral code error:',e)}
+ try{await registerReferralFromUrl(u)}catch(e){console.error('Referral registration error:',e);setStatus('refMsg','Referral registration failed: '+(e?.code||e?.message||'unknown error'),'err')}
+ try{await loadUserData(u)}catch(e){console.error('Load user data error:',e)}
+ await window.refreshReferralActivity();await window.refreshWithdrawActivity();
+});
+</script>
+</body>
+</html>
