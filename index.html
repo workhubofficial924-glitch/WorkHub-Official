@@ -44,8 +44,23 @@ function getReferralLink(uid){
 }
 async function copyRef(){
   const v=document.getElementById("ref")?.value||"";
-  try{await navigator.clipboard.writeText(v);toast("Referral link copied")}
-  catch(e){toast("Copy failed")}
+  if(!v){toast("Referral link is not ready");return}
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(v);
+    }else{
+      const ta=document.createElement("textarea");
+      ta.value=v;ta.setAttribute("readonly","");
+      ta.style.position="fixed";ta.style.opacity="0";
+      document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,ta.value.length);
+      const ok=document.execCommand("copy");
+      document.body.removeChild(ta);
+      if(!ok) throw new Error("copy failed");
+    }
+    toast("Referral link copied");
+  }catch(e){
+    toast("Copy failed — tap Share referral link");
+  }
 }
 async function shareRef(){
   const v=document.getElementById("ref")?.value||"";
