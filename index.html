@@ -86,11 +86,12 @@ function setStatus(id,text,type=''){const e=document.getElementById(id);if(!e)re
 
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import{getFirestore,doc,getDoc,setDoc,serverTimestamp,collection,addDoc,query,where,limit,getDocs}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig={apiKey:"AIzaSyDr1Iqk8EDqqpOWSE45hEq10u4fhDwY_oc",authDomain:"workhub-3f724.firebaseapp.com",projectId:"workhub-3f724",storageBucket:"workhub-3f724.firebasestorage.app",messagingSenderId:"840186064028",appId:"1:840186064028:web:3028ae4275ea303c551159",measurementId:"G-XKYDKL24V9"};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
+setPersistence(auth,browserLocalPersistence).catch(e=>console.error('Auth persistence setup failed:',e));
 window.whAuth=auth;window.whDb=db;
 
 const REF_KEY='workhub_pending_ref';
@@ -151,7 +152,7 @@ window.requestWithdrawal=async()=>{const u=auth.currentUser,msg=document.getElem
 
 window.refreshWithdrawActivity=async()=>{const u=auth.currentUser,box=document.getElementById('withdrawActivity');if(!u){box.innerHTML='<p class="sub" style="margin:0">Please login first.</p>';return}box.innerHTML='<p class="sub" style="margin:0">Loading...</p>';try{const q=query(collection(db,'withdrawals'),where('userId','==',u.uid),limit(20)),snap=await getDocs(q);if(snap.empty){box.innerHTML='<p class="sub" style="margin:0">No withdrawal requests yet.</p>';return}box.innerHTML='';snap.forEach(s=>{const d=s.data(),row=document.createElement('div');row.className='task';row.innerHTML=`<div class="ticon">৳</div><main><b>৳${Number(d.amount||0).toFixed(2)}</b><small>${d.method||''} • ${d.status||'pending'}</small></main><span class="reward">${d.status||'Pending'}</span>`;box.appendChild(row)})}catch(e){console.error(e);box.innerHTML='<p class="sub" style="margin:0">Withdrawal history could not be loaded.</p>'}};
 
-window.googleLogin=async()=>{const b=document.getElementById('googleLoginBtn'),st=document.getElementById('loginStatus');b.disabled=true;b.innerHTML='<span class="googleG">G</span>Signing in…';st.textContent='';try{captureReferral();await signInWithPopup(auth,provider)}catch(x){if(['auth/popup-blocked','auth/popup-closed-by-user','auth/operation-not-supported-in-this-environment'].includes(x.code)){try{await signInWithRedirect(auth,provider)}catch(y){st.textContent=y?.message||'Google sign-in failed.'}}else st.textContent=x?.message||'Google sign-in failed.'}finally{b.disabled=false;b.innerHTML='<span class="googleG">G</span>Continue with Google'}};
+window.googleLogin=async()=>{const b=document.getElementById('googleLoginBtn'),st=document.getElementById('loginStatus');b.disabled=true;b.innerHTML='<span class="googleG">G</span>Signing in…';st.textContent='';try{captureReferral();await setPersistence(auth,browserLocalPersistence);await signInWithPopup(auth,provider)}catch(x){if(['auth/popup-blocked','auth/popup-closed-by-user','auth/operation-not-supported-in-this-environment'].includes(x.code)){try{await setPersistence(auth,browserLocalPersistence);await signInWithRedirect(auth,provider)}catch(y){st.textContent=y?.message||'Google sign-in failed.'}}else st.textContent=x?.message||'Google sign-in failed.'}finally{b.disabled=false;b.innerHTML='<span class="googleG">G</span>Continue with Google'}};
 window.googleLogout=async()=>{try{await signOut(auth);toast('Logged out')}catch(e){console.error(e)}};
 document.getElementById('googleLoginBtn').addEventListener('click',window.googleLogin);
 getRedirectResult(auth).catch(x=>{if(x)document.getElementById('loginStatus').textContent=x.message||'Google sign-in failed.'});
