@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none';">
-<title>WorkHub — Professional</title>
+<title>WorkHub — Fiverr Style Marketplace</title>
 <style>
 :root{
   --bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;
@@ -14,7 +14,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
 body{min-height:100vh}
-button,input,select{font:inherit}
+button,input,select,textarea{font:inherit}
 button{border:0;cursor:pointer}
 .app{width:min(100%,560px);margin:auto;min-height:100vh;padding-bottom:96px}
 .hero{padding:24px 18px 22px;background:linear-gradient(145deg,#0b1330 0%,#172b67 58%,#2456c8 100%);color:#fff;border-radius:0 0 30px 30px}
@@ -41,17 +41,13 @@ main{padding:16px}
 .split-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
 .split-row:last-child{border-bottom:0}.split-left{display:flex;align-items:center;gap:9px;font-weight:750}.split-icon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#f1f5ff}
 .percent{font-size:18px;font-weight:900;color:#234bb7}
-.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.service{padding:15px;border:1px solid var(--line);border-radius:17px;background:#fbfcff;text-align:left}
-.service.active{border-color:#315bea;background:#eef4ff}
-.service-icon{font-size:24px}.service b{display:block;margin-top:7px}.service small{color:var(--muted)}
 .label{display:block;margin-top:13px;font-size:12px;font-weight:800}
-input,select{width:100%;margin-top:6px;padding:13px 14px;border:1px solid #dbe2eb;border-radius:13px;background:#fff;outline:none}
-input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,234,.10)}
+input,select,textarea{width:100%;margin-top:6px;padding:13px 14px;border:1px solid #dbe2eb;border-radius:13px;background:#fff;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,234,.10)}
 .primary{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#315bea,#2447c7);color:#fff;font-weight:900;margin-top:14px}
 .job{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
 .job:last-child{border-bottom:0}.job-main{display:flex;gap:10px;align-items:center}.job-icon{width:42px;height:42px;border-radius:13px;background:#eef4ff;display:grid;place-items:center;font-size:21px}
-.job b{font-size:14px}.job small{display:block;color:var(--muted);margin-top:3px}.status{padding:6px 9px;border-radius:999px;background:#fff7e8;color:#9a6400;font-size:10px;font-weight:850}
+.job b{font-size:14px}.job small{display:block;color:var(--muted);margin-top:3px}
 .bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(calc(100% - 22px),520px);height:68px;background:rgba(255,255,255,.96);border:1px solid #e2e8f0;border-radius:22px;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 15px 40px rgba(15,23,42,.15);z-index:50;backdrop-filter:blur(12px)}
 .bottom-nav button{background:transparent;color:#7a8799;font-size:10px;font-weight:850}.bottom-nav button.active{color:#315bea}.bottom-nav i{font-style:normal;font-size:21px;display:block;margin-bottom:3px}
 .hidden{display:none!important}
@@ -61,7 +57,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 .mini-card{padding:14px;border:1px solid var(--line);border-radius:16px;margin-top:10px}.mini-card h3{margin:0 0 5px;font-size:15px}.muted{color:var(--muted);font-size:12px;line-height:1.55}
 .notice{padding:12px;border-radius:13px;background:#fff7e8;color:#8a5a00;font-size:12px;margin-top:10px}
 .success{padding:12px;border-radius:13px;background:#eaf8f2;color:#08754d;font-size:12px;margin-top:10px}
-@media(max-width:380px){.hero{padding-left:14px;padding-right:14px}main{padding:13px}.service-grid{grid-template-columns:1fr}.bottom-nav{bottom:8px}}
+@media(max-width:380px){.hero{padding-left:14px;padding-right:14px}main{padding:13px}.bottom-nav{bottom:8px}}
 </style>
 </head>
 <body>
@@ -71,7 +67,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
   <div style="width:min(100%,440px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3);margin:auto;">
     <div style="text-align:center;margin-bottom:15px">
       <div style="font-size:28px;font-weight:900;color:#101a3a">Work<span style="color:#315bea">Hub</span></div>
-      <p style="color:#64748b;font-size:13px;margin-top:5px">আপনার প্রফেশনাল মাইক্রো-টাস্ক প্ল্যাটফর্ম</p>
+      <p style="color:#64748b;font-size:13px;margin-top:5px">আপনার প্রফেশনাল ফ্রিল্যান্সিং মার্কেটপ্লেস</p>
     </div>
     
     <div id="authFormContent">
@@ -89,7 +85,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
       
       <label class="label">একাউন্টের ধরণ / রোল (Role)</label>
       <select id="authRole">
-        <option value="Worker">কর্মী / বিক্রেতা (Worker/Editor)</option>
+        <option value="Worker">ফ্রিল্যান্সার / সেলার (Freelancer/Worker)</option>
         <option value="Client Bringer">ক্লায়েন্ট সংগ্রাহক (Client Bringer)</option>
       </select>
       
@@ -104,7 +100,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
       <div class="logo">Work<span>Hub</span></div>
       <button class="profile-btn" type="button" onclick="openProfile()">U</button>
     </div>
-    <p class="hero-sub">Creative work • Clients • Earnings — সব এক জায়গায়</p>
+    <p class="hero-sub">Fiverr Style Marketplace — গিগ পোস্ট ও ফ্রিল্যান্সিং</p>
     <div class="balance-card">
       <div class="balance-label">বর্তমান ব্যালেন্স</div>
       <div class="balance" id="balance">৳0</div>
@@ -126,7 +122,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
       <div class="section-head"><h2>Overview</h2></div>
       <div class="card">
         <div class="stats">
-          <div class="stat"><small>মোট কাজ</small><b id="jobsDone">0</b></div>
+          <div class="stat"><small>সম্পন্ন কাজ</small><b id="jobsDone">0</b></div>
           <div class="stat"><small>মোট আয়</small><b id="earned">৳0</b></div>
         </div>
       </div>
@@ -139,40 +135,54 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 
       <div class="section-head"><h2>Profit Split</h2><span>Dynamic percentage</span></div>
       <div class="card">
-        <div class="split-row"><div class="split-left"><span class="split-icon">🎨</span>Worker</div><div class="percent">60%</div></div>
+        <div class="split-row"><div class="split-left"><span class="split-icon">💻</span>Freelancer/Worker</div><div class="percent">60%</div></div>
         <div class="split-row"><div class="split-left"><span class="split-icon">🤝</span>Client Bringer</div><div class="percent">20%</div></div>
         <div class="split-row"><div class="split-left"><span class="split-icon">👑</span>Owner</div><div class="percent">20%</div></div>
-        <p class="muted">লাভ বন্টন: Worker ৬০%, Client Bringer ২০%, Owner ২০%।</p>
+        <p class="muted">লাভ বন্টন: ফ্রিল্যান্সার ৬০%, ক্লায়েন্ট সংগ্রাহক ২০%, মালিক ২০%।</p>
       </div>
     </section>
 
     <section id="jobsPage" class="hidden">
-      <div class="section-head"><h2>নতুন কাজের অফার পোস্ট</h2><span>Editor / Worker Post (Fiverr Style)</span></div>
+      <div class="section-head"><h2>নতুন গিগ বা সার্ভিস পোস্ট করুন</h2><span>Fiverr Style Gig Creator</span></div>
       <div class="card">
-        <label class="label" style="margin-top:0">কাজের ক্যাটাগরি</label>
+        <label class="label" style="margin-top:0">কাজের ক্যাটাগরি (Category)</label>
         <select id="postCategory">
-          <option value="Canva Design">Canva Design</option>
-          <option value="CapCut Editing">CapCut Editing</option>
+          <option value="Data Entry">📊 Data Entry & Excel</option>
+          <option value="Video Editing">✂️ Video Editing (CapCut/Premiere)</option>
+          <option value="Graphic Design">🎨 Graphic Design & Canva</option>
+          <option value="Web Development">🌐 Web Development & Coding</option>
+          <option value="Digital Marketing">📈 Digital Marketing & SEO</option>
+          <option value="Content Writing">✍️ Content Writing & Translation</option>
         </select>
 
-        <label class="label">ভিডিও লিংক / ইমেজ লিংক</label>
-        <input id="postLink" placeholder="কাজের ড্রাইভ লিংক বা স্যাম্পল লিংক দিন">
+        <label class="label">গিগ বা সার্ভিসের শিরোনাম (Title)</label>
+        <input id="postTitle" placeholder="যেমন: I will do professional data entry work">
 
-        <label class="label">কাজের দাম / বাজেট (নিজের ইচ্ছমতো)</label>
+        <label class="label">কাজের স্যাম্পল লিংক / পোর্টফোলিও লিংক</label>
+        <input id="postLink" placeholder="ড্রাইভ বা কাজের স্যাম্পল লিংক দিন">
+
+        <label class="label">সার্ভিসের দাম / বাজেট (৳)</label>
         <input id="postPrice" type="number" min="50" placeholder="যেমন: 500, 1000 বা আপনার ইচ্ছামত">
 
-        <div class="notice">এই পোস্টটি পাবলিক গিগ বা মার্কেটপ্লেসে সবার জন্য ভেসে উঠবে।</div>
-        <button class="primary" type="button" onclick="publishJobOffer()">✅ পাবলিশ করুন (Post Gig)</button>
+        <div class="notice">পোস্ট করার সাথে সাথেই এটি পাবলিক মার্কেটপ্লেসে সবার জন্য গিগ হিসেবে দেখা যাবে।</div>
+        <button class="primary" type="button" onclick="publishGig()">✅ গিগ পাবলিশ করুন (Publish Gig)</button>
       </div>
 
-      <div class="section-head"><h2>Available Market Gigs / Orders</h2><span>Public Feed</span></div>
+      <div class="section-head"><h2>Public Marketplace Gigs</h2><span>All available services</span></div>
       <div class="card" id="availableJobsList">
         <div class="job">
           <div class="job-main">
-            <div class="job-icon">🎨</div>
-            <div><b>Canva Design (Sample)</b><small>Price: ৳500 • Worker 60%</small></div>
+            <div class="job-icon">📊</div>
+            <div><b>Data Entry & Excel Work (Sample Gig)</b><small>Price: ৳500 • By: Admin (Worker 60%)</small></div>
           </div>
-          <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(500, 'Canva Design')">Order Now</button>
+          <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(500, 'Data Entry & Excel Work')">Order Now</button>
+        </div>
+        <div class="job">
+          <div class="job-main">
+            <div class="job-icon">✂️</div>
+            <div><b>Professional Video Editing (Sample Gig)</b><small>Price: ৳1000 • By: Admin (Worker 60%)</small></div>
+          </div>
+          <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(1000, 'Professional Video Editing')">Order Now</button>
         </div>
       </div>
     </section>
@@ -181,7 +191,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
       <div class="section-head"><h2>Support</h2><span>We're here to help</span></div>
       <div class="card">
         <h3 style="margin-top:0">Need help?</h3>
-        <p class="muted">Role, project payment, work delivery বা withdrawal সংক্রান্ত সাহায্যের জন্য Owner/Admin Support-এ যোগাযোগ করুন।</p>
+        <p class="muted">গিগ পোস্ট, পেমেন্ট, ওয়ার্ক ডেলিভারি বা উইথড্রাল সংক্রান্ত সহায়তার জন্য টেলিগ্রাম সাপোর্টে যোগাযোগ করুন।</p>
         <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support Team</a>
       </div>
     </section>
@@ -197,7 +207,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 
   <nav class="bottom-nav" id="bottomNav">
     <button class="active" type="button" onclick="showPage('homePage',this)"><i>⌂</i>Home</button>
-    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>গিগ ও কাজ</button>
+    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>মার্কেটপ্লেস ও গিগ</button>
     <button type="button" onclick="showPage('supportPage',this)"><i>◉</i>Support</button>
     <button type="button" onclick="showPage('withdrawPage',this)"><i>৳</i>Withdraw</button>
   </nav>
@@ -211,13 +221,8 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 
 <script>
 const state={
-  userName:"",
-  userEmail:"",
-  userPass:"",
-  userNum:"",
-  balance:0, earned:0, jobs:0,
-  roles:[], service:"Canva Design",
-  orders:[], payments:[], withdrawals:[], activationRequests:[], postedJobs:[]
+  userName:"", userEmail:"", userPass:"", userNum:"",
+  balance:0, earned:0, jobs:0, roles:[], postedGigs:[]
 };
 const $=id=>document.getElementById(id);
 const money=n=>"৳"+Number(n||0).toLocaleString("en-BD");
@@ -229,10 +234,10 @@ function handleAuthRegister(){
   const num = $("authNum").value.trim();
   const role = $("authRole").value;
 
-  if(!name){ return alert("দয়া করে আপনার নাম লিখুন।"); }
-  if(!email || !email.includes("@")){ return alert("দয়া করে সঠিক জিমেইল (Gmail) দিন।"); }
-  if(!pass || pass.length < 4){ return alert("কমপক্ষে ৪ অক্ষরের একটি পাসওয়ার্ড দিন।"); }
-  if(!/^01\d{9}$/.test(num)){ return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।"); }
+  if(!name) return alert("দয়া করে আপনার নাম লিখুন।");
+  if(!email || !email.includes("@")) return alert("দয়া করে সঠিক জিমেইল দিন।");
+  if(!pass || pass.length < 4) return alert("কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড দিন।");
+  if(!/^01\d{9}$/.test(num)) return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
 
   state.userName = name;
   state.userEmail = email;
@@ -250,7 +255,7 @@ function render(){
   $("earned").textContent=money(state.earned);
   $("jobsDone").textContent=state.jobs;
   $("roles").innerHTML=state.roles.map(r=>{
-    const icon=r==="Worker"?"🎨":r==="Client Bringer"?"🤝":"👑";
+    const icon=r.includes("Worker")?"💻":"🤝";
     return '<span class="role">'+icon+" "+r+"</span>";
   }).join("");
 }
@@ -289,39 +294,27 @@ function openRoles(){
       <h2>Role Activation (৳100 Fee)</h2>
       <button class="close" type="button" onclick="closeModal()">×</button>
     </div>
-
     <div class="mini-card">
-      <h3>🎨 Worker / Editor</h3>
-      <p class="muted">কাজের লিংক ও নিজের ইচ্ছমতো প্রাইস সেট করে গিগ বা অফার পোস্ট করতে পারবেন।</p>
-      <button class="primary" type="button" onclick="openActivationPayment('Worker')">Worker Role Active করুন (৳100)</button>
+      <h3>💻 Freelancer / Worker</h3>
+      <p class="muted">Data Entry, Video Editing সহ যেকোনো সার্ভিসের গিগ পোস্ট করতে পারবেন।</p>
+      <button class="primary" type="button" onclick="openActivationPayment('Worker')">Worker Role Active (৳100)</button>
     </div>
-
     <div class="mini-card">
       <h3>🤝 Client Bringer</h3>
-      <p class="muted">ক্লায়েন্ট বা প্রজেক্ট নিয়ে এসে কমিশন উপার্জন করতে পারবেন।</p>
-      <button class="primary" type="button" onclick="openActivationPayment('Client Bringer')">Client Bringer Active করুন (৳100)</button>
+      <p class="muted">ক্লায়েন্ট নিয়ে এসে কমিশন আয় করতে পারবেন।</p>
+      <button class="primary" type="button" onclick="openActivationPayment('Client Bringer')">Client Bringer Active (৳100)</button>
     </div>
   `);
 }
 
 function openActivationPayment(role){
-  if(state.roles.includes(role)){
-    return alert(role + " ইতিমধ্যে আপনার অ্যাকাউন্টে Active আছে।");
-  }
-
+  if(state.roles.includes(role)) return alert(role + " ইতিমধ্যে Active আছে।");
   openModal(`
-    <div class="sheet-top">
-      <h2>${role} Activation</h2>
-      <button class="close" type="button" onclick="closeModal()">×</button>
-    </div>
-    <div class="success"><b>৳100 Send Money করতে হবে নিচের নম্বরে:</b></div>
+    <div class="sheet-top"><h2>${role} Activation</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+    <div class="success"><b>৳100 Send Money করুন এই নম্বরে:</b></div>
     <div style="font-size:26px;font-weight:900;margin:10px 0">01622842102</div>
-    <label class="label">পেমেন্ট মেথড
-      <select id="actMethod"><option>bKash</option><option>Nagad</option></select>
-    </label>
-    <label class="label">আপনার TrxID দিন
-      <input id="actTrx" placeholder="Send Money TrxID লিখুন">
-    </label>
+    <label class="label">পেমেন্ট মাধ্যম<select><option>bKash</option><option>Nagad</option></select></label>
+    <label class="label">TrxID<input id="actTrx" placeholder="টাকা পাঠানোর TrxID দিন"></label>
     <button class="primary" type="button" onclick="submitRoleActivation('${role}')">পেমেন্ট সাবমিট করুন</button>
   `);
 }
@@ -329,57 +322,59 @@ function openActivationPayment(role){
 function submitRoleActivation(role){
   const trx = $("actTrx").value.trim();
   if(trx.length < 5) return alert("সঠিক TrxID দিন।");
-  
   state.roles.push(role);
   closeModal();
   render();
-  alert(role + " সাকসেসফুলভাবে Active করা হয়েছে!");
+  alert(role + " সফলভাবে Active করা হয়েছে!");
 }
 
-function publishJobOffer(){
+function publishGig(){
   const category = $("postCategory").value;
+  const title = $("postTitle").value.trim();
   const link = $("postLink").value.trim();
   const price = Number($("postPrice").value);
 
-  if(!link || !price || price < 50){
-    return alert("সঠিক লিংক এবং কমপক্ষে ৳50 বা তার বেশি বাজেট দিন।");
+  if(!title || !link || !price || price < 50){
+    return alert("সবগুলো তথ্য সঠিকভাবে পূরণ করুন এবং কমপক্ষে ৳50 বাজেট দিন।");
   }
 
-  state.postedJobs.push({category, link, price, author: state.userName});
-  
-  // Render public market feed
+  const icons = {
+    "Data Entry": "📊",
+    "Video Editing": "✂️",
+    "Graphic Design": "🎨",
+    "Web Development": "🌐",
+    "Digital Marketing": "📈",
+    "Content Writing": "✍️"
+  };
+  const icon = icons[category] || "💼";
+
   const list = $("availableJobsList");
   const newDiv = document.createElement("div");
   newDiv.className = "job";
   newDiv.innerHTML = `
     <div class="job-main">
-      <div class="job-icon">${category === 'Canva Design' ? '🎨' : '✂️'}</div>
-      <div><b>${category}</b><small>Price: ৳${price} • By: ${state.userName} (Worker 60%)</small></div>
+      <div class="job-icon">${icon}</div>
+      <div><b>${title}</b><small>Category: ${category} • Price: ৳${price} • By: ${state.userName} (Worker 60%)</small></div>
     </div>
-    <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${price}, '${category}')">Order Now</button>
+    <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${price}, '${title}')">Order Now</button>
   `;
-  list.prepend(newDiv); // New posts will appear at the top like Fiverr
+  list.prepend(newDiv);
 
+  $("postTitle").value = "";
   $("postLink").value = "";
   $("postPrice").value = "";
-  alert("আপনার গিগ/অফার সফলভাবে পাবলিক মার্কেটে পাবলিশ হয়েছে!");
+  alert("আপনার গিগ সফলভাবে পাবলিক মার্কেটপ্লেসে পাবলিশ হয়েছে!");
 }
 
 function buyJob(price, serviceName){
   openModal(`
-    <div class="sheet-top"><h2>Client Order Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+    <div class="sheet-top"><h2>Client Order & Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
     <div class="success">Service: <b>${serviceName}</b><br>Total Price: <b>${money(price)}</b></div>
-    <div class="notice"><b>মালিকের বিকাশ/নগদ Send Money নম্বর:</b><br><span style="font-size:20px;font-weight:900">01622842102</span><br>এই নম্বরে টাকা পাঠিয়ে নিচের তথ্য দিন।</div>
+    <div class="notice"><b>মালিকের বিকাশ/নগদ Send Money নম্বর:</b><br><span style="font-size:20px;font-weight:900">01622842102</span><br>টাকা পাঠিয়ে নিচের তথ্য দিন।</div>
     
-    <label class="label">পেমেন্ট মাধ্যম
-      <select id="clientPayMethod"><option>bKash</option><option>Nagad</option></select>
-    </label>
-    <label class="label">আপনার বিকাশ/নগদ নম্বর
-      <input id="clientPayNum" placeholder="01XXXXXXXXX" maxlength="11">
-    </label>
-    <label class="label">TrxID
-      <input id="clientTrx" placeholder="টাকা পাঠানোর TrxID দিন">
-    </label>
+    <label class="label">পেমেন্ট মাধ্যম<select><option>bKash</option><option>Nagad</option></select></label>
+    <label class="label">আপনার মোবাইল নম্বর<input id="clientPayNum" placeholder="01XXXXXXXXX" maxlength="11"></label>
+    <label class="label">TrxID<input id="clientTrx" placeholder="টাকা পাঠানোর TrxID দিন"></label>
     <button class="primary" type="button" onclick="confirmClientOrder(${price})">অর্ডার কনফার্ম করুন</button>
   `);
 }
@@ -398,14 +393,14 @@ function confirmClientOrder(price){
 
   closeModal();
   render();
-  alert("পেমেন্ট সফল! মালিক কর্তৃক ভেরিফাই হয়ে আপনার অ্যাকাউন্টে Worker এর ৬০% (৳" + workerShare + ") যোগ হয়েছে।");
+  alert("পেমেন্ট সফল! ভেরিফাই হয়ে আপনার অ্যাকাউন্টে Worker এর ৬০% (৳" + workerShare + ") যোগ হয়েছে।");
 }
 
 function openWithdraw(){
   openModal(`
     <div class="sheet-top"><h2>Withdraw Request</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
     <div class="success">Available balance: <b>${money(state.balance)}</b></div>
-    <label class="label">Method<select id="wMethod"><option>bKash</option><option>Nagad</option></select></label>
+    <label class="label">Method<select><option>bKash</option><option>Nagad</option></select></label>
     <label class="label">Account Number<input id="wNumber" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></label>
     <label class="label">Amount<input id="wAmount" type="number" min="1000" placeholder="Minimum 1000"></label>
     <button class="primary" onclick="requestWithdraw()">Send Withdraw Request</button>
@@ -416,13 +411,13 @@ function requestWithdraw(){
   const amount = Number($("wAmount").value);
   const number = $("wNumber").value.trim();
   if(amount < 1000) return alert("Minimum withdrawal ৳1000।");
-  if(amount > state.balance) return alert("আপনার balance যথেষ্ট নয়।");
-  if(!/^01\d{9}$/.test(number)) return alert("সঠিক bKash/Nagad number দিন।");
+  if(amount > state.balance) return alert("পর্যাপ্ত ব্যালেন্স নেই।");
+  if(!/^01\d{9}$/.test(number)) return alert("সঠিক নম্বর দিন।");
   
   state.balance -= amount;
   closeModal();
   render();
-  alert("Withdraw request সফল হয়েছে! খুব শীঘ্রই পেমেন্ট পেয়ে যাবেন।");
+  alert("Withdraw request সফল হয়েছে!");
 }
 
 render();
