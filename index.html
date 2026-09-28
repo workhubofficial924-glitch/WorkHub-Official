@@ -143,6 +143,9 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
       </div>
       
       <button class="primary" type="button" onclick="handleAuthAction()" id="authSubmitBtn">Create Account</button>
+          <div id="authStatusText" style="text-align:center;margin-top:10px;font-size:12px;color:#64748b;">
+            Secure account registration powered by Firebase
+          </div>
       <p style="text-align:center;margin-top:16px;font-size:13px;color:#1dbf73;cursor:pointer;font-weight:700" onclick="toggleAuthMode()" id="authToggleText">Already have an account? Login</p>
     </div>
   </div>
@@ -279,7 +282,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   window.toggleAuthMode = function() {
     isLoginMode = !isLoginMode;
     if(isLoginMode) {
-      document.getElementById("authSubmitBtn").textContent = "Login Korun";
+      document.getElementById("authSubmitBtn").textContent = "Login";
       document.getElementById("authToggleText").textContent = "Want to create a new account? Register";
       document.getElementById("nameFieldGroup").style.display = "none";
       document.getElementById("extraFields").style.display = "none";
@@ -305,16 +308,16 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
         if(!name) return alert("Please enter your full name.");
         if(!num) return alert("Please enter your mobile number.");
 
-        // Check if phone number already exists
-        const phoneQuery = query(collection(db, "users"), where("num", "==", num));
-        const phoneSnapshot = await getDocs(phoneQuery);
-
-        if(!phoneSnapshot.empty) {
-          return alert("An account already exists with this mobile number. Please use another number.");
-        }
-
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        const userData = { name, email, country, num, balance: 0, createdAt: serverTimestamp() };
+        const userData = {
+          name,
+          email,
+          country,
+          num,
+          balance: 0,
+          createdAt: serverTimestamp()
+        };
+
         await setDoc(doc(db, "users", cred.user.uid), userData);
         alert("Account created successfully!");
       } else {
@@ -322,7 +325,22 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
         alert("Login successful!");
       }
     } catch(err) {
-      alert("Truti: " + err.message);
+      console.error("Authentication error:", err);
+
+      let message = "We could not complete your request. Please try again.";
+      if(err?.code === "permission-denied"){
+        message = "Account setup is blocked by the Firebase security rules. Please contact the administrator.";
+      } else if(err?.code === "auth/email-already-in-use"){
+        message = "This email is already registered. Please use Login instead.";
+      } else if(err?.code === "auth/invalid-credential"){
+        message = "The email or password is incorrect.";
+      } else if(err?.code === "auth/weak-password"){
+        message = "Password must be at least 6 characters.";
+      } else if(err?.message){
+        message = err.message.replace(/^Firebase:\s*/i, "");
+      }
+
+      alert(message);
     }
   }
 
