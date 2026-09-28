@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WorkHub — Fiverr Style Marketplace with Live Chat & Delivery</title>
+<title>WorkHub — Ads Earning & Referral System</title>
 <style>
 :root{
   --bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;
@@ -47,8 +47,8 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 .job{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
 .job:last-child{border-bottom:0}.job-main{display:flex;gap:10px;align-items:center}.job-icon{width:42px;height:42px;border-radius:13px;background:#eef4ff;display:grid;place-items:center;font-size:21px}
 .job b{font-size:14px}.job small{display:block;color:var(--muted);margin-top:3px}
-.bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(calc(100% - 22px),520px);height:68px;background:rgba(255,255,255,.96);border:1px solid #e2e8f0;border-radius:22px;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 15px 40px rgba(15,23,42,.15);z-index:50;backdrop-filter:blur(12px)}
-.bottom-nav button{background:transparent;color:#7a8799;font-size:10px;font-weight:850}.bottom-nav button.active{color:#315bea}.bottom-nav i{font-style:normal;font-size:21px;display:block;margin-bottom:3px}
+.bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(calc(100% - 22px),520px);height:68px;background:rgba(255,255,255,.96);border:1px solid #e2e8f0;border-radius:22px;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 15px 40px rgba(15,23,42,.15);z-index:50;backdrop-filter:blur(12px)}
+.bottom-nav button{background:transparent;color:#7a8799;font-size:9px;font-weight:850}.bottom-nav button.active{color:#315bea}.bottom-nav i{font-style:normal;font-size:19px;display:block;margin-bottom:2px}
 .hidden{display:none!important}
 .modal{position:fixed;inset:0;background:rgba(5,12,30,.62);display:flex;align-items:flex-end;justify-content:center;z-index:100;padding:0}
 .sheet{width:min(100%,560px);max-height:88vh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:20px 17px 28px;box-shadow:0 -15px 50px rgba(0,0,0,.18)}
@@ -64,7 +64,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   <div style="width:min(100%,440px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3);margin:auto;">
     <div style="text-align:center;margin-bottom:15px">
       <div style="font-size:28px;font-weight:900;color:#101a3a">Work<span style="color:#315bea">Hub</span></div>
-      <p style="color:#64748b;font-size:13px;margin-top:5px">আপনার প্রফেশনাল ফ্রিল্যান্সিং মার্কেটপ্লেস</p>
+      <p style="color:#64748b;font-size:13px;margin-top:5px">অ্যাড দেখে ইনকাম ও ফ্রিল্যান্সিং প্ল্যাটফর্ম</p>
     </div>
     
     <div id="authFormContent">
@@ -83,11 +83,8 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
         <label class="label">মোবাইল নম্বর (Number)</label>
         <input id="authNum" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
         
-        <label class="label">একাউন্টের ধরণ / রোল (Role)</label>
-        <select id="authRole">
-          <option value="Worker">ফ্রিল্যান্সার / সেলার (Freelancer/Worker)</option>
-          <option value="Client Bringer">ক্লায়েন্ট সংগ্রাহক (Client Bringer)</option>
-        </select>
+        <label class="label">রেফার কোড (যদি থাকে)</label>
+        <input id="authRefer" placeholder="রেফারকারীর মোবাইল নম্বর বা কোড">
       </div>
       
       <button class="primary" type="button" onclick="handleAuthAction()" id="authSubmitBtn">একাউন্ট তৈরি করুন</button>
@@ -102,13 +99,13 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       <div class="logo">Work<span>Hub</span></div>
       <button class="profile-btn" type="button" onclick="openProfile()">U</button>
     </div>
-    <p class="hero-sub">Fiverr Style Marketplace — গিগ পোস্ট ও ফ্রিল্যান্সিং</p>
+    <p class="hero-sub">Watch Ads & Referral Earning System</p>
     <div class="balance-card">
       <div class="balance-label">বর্তমান ব্যালেন্স</div>
       <div class="balance" id="balance">৳0</div>
       <div class="hero-actions">
         <button class="withdraw-btn" type="button" onclick="openWithdraw()">Withdraw</button>
-        <button class="outline-btn" type="button" onclick="openRoles()">+ Role Active</button>
+        <button class="outline-btn" type="button" onclick="showPage('earnPage', document.querySelectorAll('#bottomNav button')[2])">🎁 Free Earn</button>
       </div>
     </div>
   </header>
@@ -117,21 +114,15 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     <section id="homePage">
       <div id="adminPanelBtnContainer"></div>
       
-      <div class="section-head"><h2>আপনার Roles</h2><span>Multiple roles supported</span></div>
-      <div class="card">
-        <div class="role-row" id="roles"></div>
-        <button class="add-role" type="button" onclick="openRoles()">＋ নতুন Role Active করুন (৳100)</button>
-      </div>
-
-      <div class="section-head"><h2>Overview</h2></div>
+      <div class="section-head"><h2>আপনার স্ট্যাটাস</h2><span>Overview</span></div>
       <div class="card">
         <div class="stats">
-          <div class="stat"><small>সম্পন্ন কাজ</small><b id="jobsDone">0</b></div>
-          <div class="stat"><small>মোট আয়</small><b id="earned">৳0</b></div>
+          <div class="stat"><small>অ্যাড দেখে আয়</small><b id="adEarned">৳0</b></div>
+          <div class="stat"><small>রেফার বোনাস</small><b id="refEarned">৳0</b></div>
         </div>
       </div>
 
-      <div class="section-head"><h2>Active Orders & Live Chat</h2><span>Manage your ongoing projects</span></div>
+      <div class="section-head"><h2>Active Orders & Chat</h2><span>Ongoing projects</span></div>
       <div class="card" id="myOrdersList">
         <p class="muted" style="text-align:center">আপনার কোনো চলমান অর্ডার নেই।</p>
       </div>
@@ -143,47 +134,66 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       </div>
     </section>
 
-    <section id="jobsPage" class="hidden">
-      <div class="section-head"><h2>নতুন গিগ বা সার্ভিস পোস্ট করুন</h2><span>Fiverr Style Gig Creator</span></div>
+    <section id="earnPage" class="hidden">
+      <div class="section-head"><h2>অ্যাড দেখে ইনকাম (Watch Ads)</h2><span>Earn Money Daily</span></div>
       <div class="card">
-        <label class="label" style="margin-top:0">কাজের ক্যাটাগরি (Category)</label>
-        <select id="postCategory">
-          <option value="Data Entry">📊 Data Entry & Excel</option>
-          <option value="Video Editing">✂️ Video Editing (CapCut/Premiere)</option>
-          <option value="Graphic Design">🎨 Graphic Design & Canva</option>
-          <option value="Web Development">🌐 Web Development & Coding</option>
-          <option value="Digital Marketing">📈 Digital Marketing & SEO</option>
-          <option value="Content Writing">✍️ Content Writing & Translation</option>
-        </select>
-
-        <label class="label">গিগ বা সার্ভিসের শিরোনাম (Title)</label>
-        <input id="postTitle" placeholder="যেমন: I will do professional data entry work">
-
-        <label class="label">কাজের স্যাম্পল লিংক / পোর্টফোলিও লিংক</label>
-        <input id="postLink" placeholder="ড্রাইভ বা কাজের স্যাম্পল লিংক দিন">
-
-        <label class="label">সার্ভিসের দাম / বাজেট (৳)</label>
-        <input id="postPrice" type="number" min="50" placeholder="যেমন: 500, 1000 বা আপনার ইচ্ছামত">
-
-        <div class="notice">পোস্ট করার সাথে সাথেই এটি পাবলিক মার্কেটপ্লেসে সবার জন্য গিগ হিসেবে দেখা যাবে।</div>
-        <button class="primary" type="button" onclick="publishGig()">✅ গিগ পাবলিশ করুন (Publish Gig)</button>
+        <div class="success">প্রতিটি অ্যাড সম্পূর্ণ দেখলে আপনার মূল ব্যালেন্সের সাথে টাকা যোগ হবে।</div>
+        <div id="adsListContainer" style="margin-top:14px">
+          <div class="job">
+            <div class="job-main"><div class="job-icon">📺</div><div><b>Ad Task #1 (Promotional Video)</b><small>Reward: ৳5 • Duration: 15 Sec</small></div></div>
+            <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="watchAd(5, 1)">Watch Ad</button>
+          </div>
+          <div class="job">
+            <div class="job-main"><div class="job-icon">📺</div><div><b>Ad Task #2 (Sponsor Banner)</b><small>Reward: ৳3 • Duration: 10 Sec</small></div></div>
+            <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="watchAd(3, 2)">Watch Ad</button>
+          </div>
+          <div class="job">
+            <div class="job-main"><div class="job-icon">📺</div><div><b>Ad Task #3 (App Promotion)</b><small>Reward: ৳5 • Duration: 15 Sec</small></div></div>
+            <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="watchAd(5, 3)">Watch Ad</button>
+          </div>
+        </div>
       </div>
 
-      <div class="section-head"><h2>Public Marketplace Gigs</h2><span>All available services</span></div>
+      <div class="section-head"><h2>বন্ধুদের রেফার করুন (Referral)</h2><span>Earn ৳20 per refer</span></div>
+      <div class="card">
+        <p class="muted">আপনার বন্ধু যখন আপনার রেফারেল লিংক বা মোবাইল নম্বর ব্যবহার করে একাউন্ট খুলবে, তখন আপনি ইনস্ট্যান্ট **৳20** বোনাস পাবেন!</p>
+        <label class="label">আপনার রেফারেল লিংক / কোড</label>
+        <input id="myReferLink" readonly style="background:#f8fafc;font-weight:bold;color:#315bea">
+        <button class="primary" type="button" onclick="copyReferLink()">📋 রেফার লিংক কপি করুন</button>
+      </div>
+    </section>
+
+    <section id="jobsPage" class="hidden">
+      <div class="section-head"><h2>গিগ মার্কেটপ্লেস</h2><span>Fiverr Style Gigs</span></div>
+      <div class="card">
+        <label class="label" style="margin-top:0">ক্যাটাগরি</label>
+        <select id="postCategory">
+          <option value="Data Entry">📊 Data Entry & Excel</option>
+          <option value="Video Editing">✂️ Video Editing</option>
+          <option value="Graphic Design">🎨 Graphic Design</option>
+        </select>
+        <label class="label">শিরোনাম</label>
+        <input id="postTitle" placeholder="I will do...">
+        <label class="label">স্যাম্পল লিংক</label>
+        <input id="postLink" placeholder="Drive Link">
+        <label class="label">বাজেট (৳)</label>
+        <input id="postPrice" type="number" placeholder="500">
+        <button class="primary" type="button" onclick="publishGig()">✅ গিগ পাবলিশ করুন</button>
+      </div>
+      <div class="section-head"><h2>সব গিগসমূহ</h2></div>
       <div class="card" id="availableJobsList"></div>
     </section>
 
     <section id="supportPage" class="hidden">
-      <div class="section-head"><h2>Support</h2><span>We're here to help</span></div>
+      <div class="section-head"><h2>Support</h2></div>
       <div class="card">
-        <h3 style="margin-top:0">Need help?</h3>
-        <p class="muted">গিগ পোস্ট, পেমেন্ট, ওয়ার্ক ডেলিভারি বা উইথড্রাল সংক্রান্ত সহায়তার জন্য টেলিগ্রাম সাপোর্টে যোগাযোগ করুন।</p>
-        <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support Team</a>
+        <p class="muted">যেকোনো সহায়তার জন্য টেলিগ্রাম গ্রুপে যোগাযোগ করুন।</p>
+        <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support</a>
       </div>
     </section>
 
     <section id="withdrawPage" class="hidden">
-      <div class="section-head"><h2>Withdraw</h2><span>bKash / Nagad</span></div>
+      <div class="section-head"><h2>Withdraw</h2></div>
       <div class="card">
         <div class="success">Minimum withdrawal: ৳1,000</div>
         <button class="primary" type="button" onclick="openWithdraw()">💸 Withdraw Request</button>
@@ -193,7 +203,8 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   <nav class="bottom-nav" id="bottomNav">
     <button class="active" type="button" onclick="showPage('homePage',this)"><i>⌂</i>Home</button>
-    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>মার্কেটপ্লেস ও গিগ</button>
+    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>Market</button>
+    <button type="button" onclick="showPage('earnPage',this)"><i>🎁</i>Earn Ad</button>
     <button type="button" onclick="showPage('supportPage',this)"><i>◉</i>Support</button>
     <button type="button" onclick="showPage('withdrawPage',this)"><i>৳</i>Withdraw</button>
   </nav>
@@ -225,8 +236,9 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   const db = getFirestore(app);
 
   let isLoginMode = false;
+  let currentUid = "";
   let currentUserData = {
-    name: "", email: "", num: "", balance: 0, earned: 0, jobs: 0, roles: ["Worker"]
+    name: "", email: "", num: "", balance: 0, adEarned: 0, refEarned: 0, roles: ["Worker"]
   };
 
   const ADMIN_PHONE = "01622842102";
@@ -257,14 +269,37 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       if(!isLoginMode) {
         const name = $("authName").value.trim();
         const num = $("authNum").value.trim();
-        const role = $("authRole").value;
+        const referCode = $("authRefer").value.trim();
         if(!name) return alert("দয়া করে আপনার নাম লিখুন।");
         if(!/^01\d{9}$/.test(num)) return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
 
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
         const userData = {
-          name, email, num, balance: 0, earned: 0, jobs: 0, roles: [role], createdAt: serverTimestamp()
+          name, email, num, balance: 0, adEarned: 0, refEarned: 0, roles: ["Worker"], createdAt: serverTimestamp()
         };
+        
+        // Referral Bonus Logic
+        if(referCode && referCode !== num) {
+          const querySnapshot = await getDocs(collection(db, "users"));
+          let referrerDocId = null;
+          querySnapshot.forEach(d => {
+            if(d.data().num === referCode) {
+              referrerDocId = d.id;
+              userData.referredBy = referCode;
+            }
+          });
+          if(referrerDocId) {
+            const refDocRef = doc(db, "users", referrerDocId);
+            const refSnap = await getDoc(refDocRef);
+            if(refSnap.exists()) {
+              const refData = refSnap.data();
+              const newRefBal = (refData.balance || 0) + 20;
+              const newRefEarn = (refData.refEarned || 0) + 20;
+              await updateDoc(refDocRef, { balance: newRefBal, refEarned: newRefEarn });
+            }
+          }
+        }
+
         await setDoc(doc(db, "users", cred.user.uid), userData);
         alert("সফলভাবে অ্যাকাউন্ট তৈরি হয়েছে!");
       } else {
@@ -278,6 +313,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   onAuthStateChanged(auth, async (user) => {
     if(user) {
+      currentUid = user.uid;
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if(userDoc.exists()) {
         currentUserData = userDoc.data();
@@ -295,12 +331,9 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   function render(){
     $("balance").textContent = "৳" + Number(currentUserData.balance || 0).toLocaleString("en-BD");
-    $("earned").textContent = "৳" + Number(currentUserData.earned || 0).toLocaleString("en-BD");
-    $("jobsDone").textContent = currentUserData.jobs || 0;
-    $("roles").innerHTML = (currentUserData.roles || ["Worker"]).map(r => {
-      const icon = r.includes("Worker") ? "💻" : "🤝";
-      return '<span class="role">' + icon + " " + r + "</span>";
-    }).join("");
+    $("adEarned").textContent = "৳" + Number(currentUserData.adEarned || 0).toLocaleString("en-BD");
+    $("refEarned").textContent = "৳" + Number(currentUserData.refEarned || 0).toLocaleString("en-BD");
+    $("myReferLink").value = currentUserData.num ? currentUserData.num : "No Number";
 
     const adminContainer = $("adminPanelBtnContainer");
     if(currentUserData.num === ADMIN_PHONE) {
@@ -314,6 +347,55 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     }
   }
 
+  window.watchAd = async function(rewardAmount, adId) {
+    openModal(`
+      <div class="sheet-top"><h2>📺 Watch Ad & Earn</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <div class="notice" style="text-align:center">অ্যাডটি সম্পূর্ণ দেখতে ১৫ সেকেন্ড অপেক্ষা করুন...</div>
+      <div id="adTimerBox" style="font-size:32px;font-weight:900;text-align:center;margin:20px 0;color:#315bea">15</div>
+      <button class="primary" id="claimAdBtn" disabled style="opacity:0.5" type="button" onclick="claimAdReward(${rewardAmount})">বাকাশ/ব্যালেন্সে টাকা যোগ করুন</button>
+    `);
+
+    let timeLeft = 15;
+    const timerInterval = setInterval(() => {
+      timeLeft--;
+      const box = $("adTimerBox");
+      if(box) box.textContent = timeLeft;
+      if(timeLeft <= 0) {
+        clearInterval(timerInterval);
+        if($("claimAdBtn")) {
+          $("claimAdBtn.disabled") // placeholder
+          $("claimAdBtn").disabled = false;
+          $("claimAdBtn").style.opacity = 1;
+          $("claimAdBtn").textContent = `🎁 Claim ৳${rewardAmount} Reward`;
+        }
+      }
+    }, 1000);
+  }
+
+  window.claimAdReward = async function(reward) {
+    currentUserData.balance = (currentUserData.balance || 0) + reward;
+    currentUserData.adEarned = (currentUserData.adEarned || 0) + reward;
+
+    try {
+      await updateDoc(doc(db, "users", currentUid), {
+        balance: currentUserData.balance,
+        adEarned: currentUserData.adEarned
+      });
+      closeModal();
+      render();
+      alert(`অভিনন্দন! সফলভাবে ৳${reward} আপনার ব্যালেন্সে যোগ হয়েছে।`);
+    } catch(err) {
+      alert("ত্রুটি: " + err.message);
+    }
+  }
+
+  window.copyReferLink = function() {
+    const num = currentUserData.num;
+    if(!num) return alert("নম্ব পাওয়া যায়নি।");
+    navigator.clipboard.writeText(num);
+    alert("আপনার রেফারেল কোড/নম্বর কপি হয়েছে: " + num);
+  }
+
   window.openAdminPanel = async function() {
     openModal(`
       <div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
@@ -325,7 +407,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       const list = $("adminOrdersList");
       list.innerHTML = "";
       if(querySnapshot.empty) {
-        list.innerHTML = "<p class='muted'>কোনো অর্ডার পাওয়া যায়নি।</p>";
+        list.innerHTML = "<p class='muted'>কোনো অর্ডার নেই।</p>";
         return;
       }
       querySnapshot.forEach((docSnap) => {
@@ -333,28 +415,20 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
         const div = document.createElement("div");
         div.className = "mini-card";
         div.innerHTML = `
-          <b>Service:</b> ${d.serviceName}<br>
-          <b>Price:</b> ৳${d.price}<br>
-          <b>Status:</b> <span style="color:#315bea">${d.status || 'Pending'}</span><br>
-          <b>Buyer:</b> ${d.buyerEmail}<br>
-          <button class="primary" style="margin-top:8px;padding:6px" onclick="updateOrderStatus('${docSnap.id}', 'In Progress')">Work Start করুন</button>
+          <b>Service:</b> ${d.serviceName}<br><b>Price:</b> ৳${d.price}<br><b>Status:</b> ${d.status || 'Pending'}<br>
+          <button class="primary" style="margin-top:8px;padding:6px" onclick="updateOrderStatus('${docSnap.id}', 'In Progress')">Work Start</button>
         `;
         list.appendChild(div);
       });
     } catch(err) {
-      $("adminOrdersList").innerHTML = "<p class='muted'>ডাটা লোড করতে সমস্যা হয়েছে।</p>";
+      $("adminOrdersList").innerHTML = "<p class='muted'>লোড করতে সমস্যা হয়েছে।</p>";
     }
   }
 
   window.updateOrderStatus = async function(orderId, status) {
-    try {
-      await updateDoc(doc(db, "orders", orderId), { status });
-      alert("অর্ডারের স্ট্যাটাস আপডেট করা হয়েছে!");
-      closeModal();
-      loadMyOrders();
-    } catch(err) {
-      alert("ত্রুটি: " + err.message);
-    }
+    await updateDoc(doc(db, "orders", orderId), { status });
+    alert("আপডেট হয়েছে!");
+    closeModal();
   }
 
   async function loadMyOrders() {
@@ -371,96 +445,36 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
           const div = document.createElement("div");
           div.className = "mini-card";
           div.innerHTML = `
-            <h3>${d.serviceName}</h3>
-            <p class="muted">Price: ৳${d.price} • Status: <b>${d.status || 'Pending'}</b></p>
+            <h3>${d.serviceName}</h3><p class="muted">Price: ৳${d.price} • Status: <b>${d.status || 'Pending'}</b></p>
             ${d.deliveryProof ? `<p style="color:#12a86b"><b>Delivery:</b> ${d.deliveryProof}</p>` : ''}
-            <div style="display:flex;gap:8px;margin-top:10px">
-              <button class="primary" style="margin:0;flex:1" onclick="openChat('${docSnap.id}', '${d.serviceName}')">💬 Live Chat</button>
-              ${currentUserData.num === ADMIN_PHONE ? `<button class="outline-btn" style="background:#315bea;margin:0;flex:1" onclick="openDeliveryModal('${docSnap.id}')">Submit Work</button>` : ''}
-            </div>
+            <button class="primary" style="margin-top:8px;padding:6px" onclick="openChat('${docSnap.id}', '${d.serviceName}')">💬 Live Chat</button>
           `;
           list.appendChild(div);
         }
       });
-      if(count === 0) {
-        list.innerHTML = '<p class="muted" style="text-align:center">আপনার কোনো চলমান অর্ডার নেই।</p>';
-      }
-    } catch(err) {
-      list.innerHTML = '<p class="muted" style="text-align:center">অর্ডার লোড করতে সমস্যা হয়েছে।</p>';
-    }
-  }
-
-  window.openDeliveryModal = function(orderId) {
-    openModal(`
-      <div class="sheet-top"><h2>Submit Work Delivery</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <label class="label">কাজের ফাইল বা ড্রাইভ লিংক দিন</label>
-      <input id="deliveryLinkInput" placeholder="Google Drive Link বা কাজের বিবরণ">
-      <button class="primary" type="button" onclick="submitDelivery('${orderId}')">ডেলিভারি কনফার্ম করুন</button>
-    `);
-  }
-
-  window.submitDelivery = async function(orderId) {
-    const link = $("deliveryLinkInput").value.trim();
-    if(!link) return alert("দয়া করে কাজের লিংক দিন।");
-    try {
-      await updateDoc(doc(db, "orders", orderId), { deliveryProof: link, status: "Completed" });
-      alert("কাজ সফলভাবে ডেলিভারি করা হয়েছে!");
-      closeModal();
-      loadMyOrders();
-    } catch(err) {
-      alert("ত্রুটি: " + err.message);
-    }
+      if(count === 0) list.innerHTML = '<p class="muted" style="text-align:center">চলমান কোনো অর্ডার নেই।</p>';
+    } catch(e) {}
   }
 
   window.openChat = async function(orderId, serviceName) {
     openModal(`
-      <div class="sheet-top"><h2>💬 Live Chat: ${serviceName}</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <div id="chatMessagesBox" style="max-height:250px;overflow-y:auto;background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:10px">
-        <p class="muted">মেসেজ লোড হচ্ছে...</p>
-      </div>
-      <input id="chatInputMsg" placeholder="আপনার মেসেজ লিখুন...">
-      <button class="primary" type="button" onclick="sendChatMessage('${orderId}')">মেসেজ পাঠান</button>
+      <div class="sheet-top"><h2>💬 Chat: ${serviceName}</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <div id="chatBox" style="max-height:220px;overflow-y:auto;background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:10px"><p class="muted">লোড হচ্ছে...</p></div>
+      <input id="chatText" placeholder="মেসেজ লিখুন...">
+      <button class="primary" type="button" onclick="sendMsg('${orderId}')">পাঠান</button>
     `);
-    loadChatMessages(orderId);
+    const q = await getDocs(collection(db, "orders", orderId, "messages"));
+    const box = $("chatBox");
+    box.innerHTML = q.empty ? '<p class="muted">মেসেজ নেই।</p>' : "";
+    q.forEach(d => { box.innerHTML += `<div><b>${d.data().sender}:</b> ${d.data().text}</div>`; });
   }
 
-  async function loadChatMessages(orderId) {
-    try {
-      const querySnapshot = await getDocs(collection(db, "orders", orderId, "messages"));
-      const box = $("chatMessagesBox");
-      if(!box) return;
-      box.innerHTML = "";
-      if(querySnapshot.empty) {
-        box.innerHTML = '<p class="muted">কোনো মেসেজ নেই। কথা বলা শুরু করুন।</p>';
-        return;
-      }
-      querySnapshot.forEach(docSnap => {
-        const m = docSnap.data();
-        const div = document.createElement("div");
-        div.style.margin = "6px 0";
-        div.innerHTML = `<b>${m.sender}:</b> ${m.text}`;
-        box.appendChild(div);
-      });
-      box.scrollTop = box.scrollHeight;
-    } catch(err) {
-      console.log(err);
-    }
-  }
-
-  window.sendChatMessage = async function(orderId) {
-    const text = $("chatInputMsg").value.trim();
+  window.sendMsg = async function(orderId) {
+    const text = $("chatText").value.trim();
     if(!text) return;
-    try {
-      await addDoc(collection(db, "orders", orderId, "messages"), {
-        sender: currentUserData.name || "User",
-        text,
-        createdAt: serverTimestamp()
-      });
-      $("chatInputMsg").value = "";
-      loadChatMessages(orderId);
-    } catch(err) {
-      alert("মেসেজ পাঠাতে সমস্যা হয়েছে।");
-    }
+    await addDoc(collection(db, "orders", orderId, "messages"), { sender: currentUserData.name, text, createdAt: serverTimestamp() });
+    $("chatText").value = "";
+    openChat(orderId, "Order Chat");
   }
 
   window.publishGig = async function() {
@@ -468,195 +482,62 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     const title = $("postTitle").value.trim();
     const link = $("postLink").value.trim();
     const price = Number($("postPrice").value);
-
-    if(!title || !link || !price || price < 50){
-      return alert("সবগুলো তথ্য সঠিকভাবে পূরণ করুন এবং কমপক্ষে ৳50 বাজেট দিন।");
-    }
-
-    try {
-      await addDoc(collection(db, "gigs"), {
-        category, title, link, price,
-        sellerName: currentUserData.name || "Seller",
-        createdAt: serverTimestamp()
-      });
-      alert("আপনার গিগ সফলভাবে পাবলিক মার্কেটপ্লেসে পাবলিশ হয়েছে!");
-      $("postTitle").value = "";
-      $("postLink").value = "";
-      $("postPrice").value = "";
-      loadGigs();
-    } catch(err) {
-      alert("গিগ পাবলিশ করতে সমস্যা হয়েছে: " + err.message);
-    }
+    if(!title || !link || !price) return alert("সব তথ্য দিন।");
+    await addDoc(collection(db, "gigs"), { category, title, link, price, sellerName: currentUserData.name, createdAt: serverTimestamp() });
+    alert("গিগ পাবলিশ হয়েছে!");
+    loadGigs();
   }
 
   async function loadGigs() {
     const list = $("availableJobsList");
     if(!list) return;
-    list.innerHTML = "<p class='muted' style='text-align:center'>গিগ লোড হচ্ছে...</p>";
-    try {
-      const querySnapshot = await getDocs(collection(db, "gigs"));
-      list.innerHTML = "";
-      if(querySnapshot.empty) {
-        list.innerHTML = "<p class='muted' style='text-align:center'>কোনো গিগ পাওয়া যায়নি।</p>";
-        return;
-      }
-      querySnapshot.forEach((docSnap) => {
-        const data = docSnap.data();
-        const icons = { "Data Entry": "📊", "Video Editing": "✂️", "Graphic Design": "🎨", "Web Development": "🌐", "Digital Marketing": "📈", "Content Writing": "✍️" };
-        const icon = icons[data.category] || "💼";
-
-        const div = document.createElement("div");
-        div.className = "job";
-        div.innerHTML = `
-          <div class="job-main">
-            <div class="job-icon">${icon}</div>
-            <div><b>${data.title}</b><small>Category: ${data.category} • Price: ৳${data.price} • By: ${data.sellerName}</small></div>
-          </div>
-          <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${data.price}, '${data.title}')">Order Now</button>
-        `;
-        list.appendChild(div);
-      });
-    } catch(err) {
-      list.innerHTML = "<p class='muted' style='text-align:center'>গিগ লোড করতে সমস্যা হয়েছে।</p>";
-    }
+    const q = await getDocs(collection(db, "gigs"));
+    list.innerHTML = q.empty ? "<p class='muted' style='text-align:center'>গিগ নেই।</p>" : "";
+    q.forEach(d => {
+      const data = d.data();
+      list.innerHTML += `<div class="job"><div class="job-main"><div class="job-icon">💼</div><div><b>${data.title}</b><small>৳${data.price} • ${data.sellerName}</small></div></div><button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${data.price}, '${data.title}')">Order</button></div>`;
+    });
   }
 
-  window.buyJob = function(price, serviceName){
+  window.buyJob = function(price, name) {
     openModal(`
-      <div class="sheet-top"><h2>Client Order & Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <div class="success">Service: <b>${serviceName}</b><br>Total Price: <b>৳${price}</b></div>
-      <div class="notice"><b>মালিকের বিকাশ/নগদ Send Money নম্বর:</b><br><span style="font-size:20px;font-weight:900">01622842102</span><br>টাকা পাঠিয়ে নিচের তথ্য দিন।</div>
-      
-      <label class="label">পেমেন্ট মাধ্যম<select id="clientMethod"><option>bKash</option><option>Nagad</option></select></label>
-      <label class="label">আপনার মোবাইল নম্বর<input id="clientPayNum" placeholder="01XXXXXXXXX" maxlength="11"></label>
-      <label class="label">TrxID<input id="clientTrx" placeholder="টাকা পাঠানোর TrxID দিন"></label>
-      <button class="primary" type="button" onclick="confirmClientOrder(${price}, '${serviceName}')">অর্ডার কনফার্ম করুন</button>
+      <div class="sheet-top"><h2>Order Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <div class="success">Pay ৳${price} to: <b>01622842102</b></div>
+      <label class="label">Medium<select id="payM"><option>bKash</option><option>Nagad</option></select></label>
+      <label class="label">Number<input id="payNum" maxlength="11" placeholder="01XXXXXXXXX"></label>
+      <label class="label">TrxID<input id="payTrx" placeholder="TrxID"></label>
+      <button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">কনফার্ম করুন</button>
     `);
   }
 
-  window.confirmClientOrder = async function(price, serviceName){
-    const num = $("clientPayNum").value.trim();
-    const trx = $("clientTrx").value.trim();
-    const method = $("clientMethod").value;
-
-    if(!/^01\d{9}$/.test(num)) return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
-    if(trx.length < 5) return alert("সঠিক TrxID দিন।");
-
-    try {
-      await addDoc(collection(db, "orders"), {
-        serviceName, price, method, senderNum: num, trxId: trx,
-        buyerEmail: currentUserData.email,
-        status: "Pending",
-        createdAt: serverTimestamp()
-      });
-      closeModal();
-      alert("পেমেন্ট ও অর্ডার সফলভাবে সাবমিট হয়েছে!");
-      loadMyOrders();
-    } catch(err) {
-      alert("অর্ডার সাবমিট করতে সমস্যা হয়েছে: " + err.message);
-    }
-  }
-
-  window.submitRoleActivation = async function(role){
-    const trx = $("actTrx").value.trim();
-    if(trx.length < 5) return alert("সঠিক TrxID দিন।");
-    
-    if(!currentUserData.roles.includes(role)) {
-      currentUserData.roles.push(role);
-      const user = auth.currentUser;
-      if(user) {
-        await setDoc(doc(db, "users", user.uid), { roles: currentUserData.roles }, { merge: true });
-      }
-    }
+  window.confirmOrder = async function(price, name) {
+    const senderNum = $("payNum").value;
+    const trxId = $("payTrx").value;
+    if(!/^01\d{9}$/.test(senderNum) || trxId.length < 4) return alert("সঠিক তথ্য দিন।");
+    await addDoc(collection(db, "orders"), { serviceName: name, price, senderNum, trxId, buyerEmail: currentUserData.email, status: "Pending", createdAt: serverTimestamp() });
     closeModal();
-    render();
-    alert(role + " সফলভাবে Active করা হয়েছে!");
+    alert("অর্ডার সফলভাবে সাবমিট হয়েছে!");
+    loadMyOrders();
   }
 </script>
 
 <script>
 const $=id=>document.getElementById(id);
-
 function showPage(id,btn){
-  ["homePage","jobsPage","supportPage","withdrawPage"].forEach(x=>$(x).classList.add("hidden"));
+  ["homePage","earnPage","jobsPage","supportPage","withdrawPage"].forEach(x=>$(x).classList.add("hidden"));
   $(id).classList.remove("hidden");
   document.querySelectorAll("#bottomNav button").forEach(x=>x.classList.remove("active"));
   btn.classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
 }
-
-function openModal(content){
-  $("modalBody").innerHTML=content;
-  $("modal").classList.remove("hidden");
-  document.body.style.overflow="hidden";
-}
-function closeModal(){
-  $("modal").classList.add("hidden");
-  $("modalBody").innerHTML="";
-  document.body.style.overflow="";
-}
+function openModal(content){$("modalBody").innerHTML=content;$("modal").classList.remove("hidden");document.body.style.overflow="hidden";}
+function closeModal(){$("modal").classList.add("hidden");$("modalBody").innerHTML="";document.body.style.overflow="";}
 $("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
-
 function openProfile(){
-  openModal(`
-    <div class="sheet-top"><h2>Profile</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="mini-card"><h3>${currentUserData.name || "User"}</h3><p class="muted">📧 ${currentUserData.email || ""}<br>📱 ${currentUserData.num || ""}</p></div>
-    <div class="mini-card"><h3>Active Roles</h3><p class="muted">${(currentUserData.roles || []).join(" • ")}</p></div>
-  `);
+  openModal(`<div class="sheet-top"><h2>Profile</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>${currentUserData.name}</h3><p class="muted">📧 ${currentUserData.email}<br>📱 ${currentUserData.num}</p></div>`);
 }
-
-function openRoles(){
-  openModal(`
-    <div class="sheet-top">
-      <h2>Role Activation (৳100 Fee)</h2>
-      <button class="close" type="button" onclick="closeModal()">×</button>
-    </div>
-    <div class="mini-card">
-      <h3>💻 Freelancer / Worker</h3>
-      <p class="muted">Data Entry, Video Editing সহ যেকোনো সার্ভিসের গিগ পোস্ট করতে পারবেন।</p>
-      <button class="primary" type="button" onclick="openActivationPayment('Worker')">Worker Role Active (৳100)</button>
-    </div>
-    <div class="mini-card">
-      <h3>🤝 Client Bringer</h3>
-      <p class="muted">ক্লায়েন্ট নিয়ে এসে কমিশন আয় করতে পারবেন।</p>
-      <button class="primary" type="button" onclick="openActivationPayment('Client Bringer')">Client Bringer Active (৳100)</button>
-    </div>
-  `);
-}
-
-function openActivationPayment(role){
-  openModal(`
-    <div class="sheet-top"><h2>${role} Activation</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="success"><b>৳100 Send Money করুন এই নম্বরে:</b></div>
-    <div style="font-size:26px;font-weight:900;margin:10px 0">01622842102</div>
-    <label class="label">পেমেন্ট মাধ্যম<select id="actMethod"><option>bKash</option><option>Nagad</option></select></label>
-    <label class="label">TrxID<input id="actTrx" placeholder="টাকা পাঠানোর TrxID দিন"></label>
-    <button class="primary" type="button" onclick="submitRoleActivation('${role}')">পেমেন্ট সাবমিট করুন</button>
-  `);
-}
-
 function openWithdraw(){
-  openModal(`
-    <div class="sheet-top"><h2>Withdraw Request</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="success">Available balance: <b>৳${currentUserData.balance || 0}</b></div>
-    <label class="label">Method<select><option>bKash</option><option>Nagad</option></select></label>
-    <label class="label">Account Number<input id="wNumber" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></label>
-    <label class="label">Amount<input id="wAmount" type="number" min="1000" placeholder="Minimum 1000"></label>
-    <button class="primary" onclick="requestWithdraw()">Send Withdraw Request</button>
-  `);
-}
-
-function requestWithdraw(){
-  const amount = Number($("wAmount").value);
-  const number = $("wNumber").value.trim();
-  if(amount < 1000) return alert("Minimum withdrawal ৳1000।");
-  if(amount > currentUserData.balance) return alert("পর্যাপ্ত ব্যালেন্স নেই।");
-  if(!/^01\d{9}$/.test(number)) return alert("সঠিক নম্বর দিন।");
-  
-  currentUserData.balance -= amount;
-  closeModal();
-  render();
-  alert("Withdraw request সফল হয়েছে!");
+  openModal(`<div class="sheet-top"><h2>Withdraw</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="success">Balance: ৳${currentUserData.balance}</div><label class="label">Amount<input id="wAmt" type="number" min="1000" placeholder="Min 1000"></label><button class="primary" onclick="alert('Withdraw Request Sent!')">Request</button>`);
 }
 </script>
 </body>
