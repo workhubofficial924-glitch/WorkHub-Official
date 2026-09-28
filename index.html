@@ -125,7 +125,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     <div id="authFormContent">
       <div id="nameFieldGroup">
         <label class="label" style="margin-top:0">Apnar Nam (Full Name)</label>
-        <input id="authName" placeholder="Pura nam likhun">
+        <input id="authName" placeholder="Enter your full name">
       </div>
       
       <label class="label">Email Address</label>
@@ -139,11 +139,11 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
         <input id="authCountry" placeholder="Bangladesh / USA / UK etc.">
         
         <label class="label">Mobile Number / Contact</label>
-        <input id="authNum" placeholder="01XXXXXXXXX ba International Number">
+        <input id="authNum" placeholder="01XXXXXXXXX or International Number">
       </div>
       
-      <button class="primary" type="button" onclick="handleAuthAction()" id="authSubmitBtn">Account Tori Korun</button>
-      <p style="text-align:center;margin-top:16px;font-size:13px;color:#1dbf73;cursor:pointer;font-weight:700" onclick="toggleAuthMode()" id="authToggleText">Agei account ache? Login korun</p>
+      <button class="primary" type="button" onclick="handleAuthAction()" id="authSubmitBtn">Create Account</button>
+      <p style="text-align:center;margin-top:16px;font-size:13px;color:#1dbf73;cursor:pointer;font-weight:700" onclick="toggleAuthMode()" id="authToggleText">Already have an account? Login</p>
     </div>
   </div>
 </div>
@@ -157,7 +157,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     
     <div class="hero-search">
       <span>🔍</span>
-      <input id="mainSearchInput" placeholder="Kon service khujte chan? (Gig khunjun...)" oninput="filterGigs()">
+      <input id="mainSearchInput" placeholder="What service are you looking for? (Search gigs...)" oninput="filterGigs()">
     </div>
 
     <div class="balance-card">
@@ -185,7 +185,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     </section>
 
     <section id="jobsPage" class="hidden">
-      <div class="section-head"><h2>Notun Professional Gig Tori Korun</h2></div>
+      <div class="section-head"><h2>Create a New Professional Gig</h2></div>
       <div class="card">
         <label class="label" style="margin-top:0">Category</label>
         <select id="postCategory">
@@ -200,7 +200,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
         <input id="postLink" placeholder="Drive / Portfolio Link">
         <label class="label">Budget (৳ / USD)</label>
         <input id="postPrice" type="number" placeholder="500">
-        <button class="primary" type="button" onclick="publishGig()">🚀 Gig Publish Korun</button>
+        <button class="primary" type="button" onclick="publishGig()">🚀 Publish Gig</button>
       </div>
 
       <div class="section-head"><h2>Marketplace Gigs</h2></div>
@@ -210,7 +210,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     <section id="supportPage" class="hidden">
       <div class="section-head"><h2>Customer Support</h2></div>
       <div class="card" style="text-align:center;padding:24px">
-        <p class="muted">Jekono order ba payment-er shohayotar jonno amader official support team-er sathe jogajog korun.</p>
+        <p class="muted">For any order or payment assistance, contact our official support team.</p>
         <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support Channel</a>
       </div>
     </section>
@@ -219,7 +219,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
       <div class="section-head"><h2>Earnings & Withdrawal</h2></div>
       <div class="card">
         <div class="success">Minimum Withdrawal: ৳1,000 / $10 USD</div>
-        <button class="primary" type="button" onclick="window.openWithdraw()">💸 Withdrawal Request Pathan</button>
+        <button class="primary" type="button" onclick="window.openWithdraw()">💸 Submit Withdrawal Request</button>
       </div>
     </section>
   </main>
@@ -280,12 +280,12 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     isLoginMode = !isLoginMode;
     if(isLoginMode) {
       document.getElementById("authSubmitBtn").textContent = "Login Korun";
-      document.getElementById("authToggleText").textContent = "Notun account khulte chan? Registration korun";
+      document.getElementById("authToggleText").textContent = "Want to create a new account? Register";
       document.getElementById("nameFieldGroup").style.display = "none";
       document.getElementById("extraFields").style.display = "none";
     } else {
-      document.getElementById("authSubmitBtn").textContent = "Account Tori Korun";
-      document.getElementById("authToggleText").textContent = "Agei account ache? Login korun";
+      document.getElementById("authSubmitBtn").textContent = "Create Account";
+      document.getElementById("authToggleText").textContent = "Already have an account? Login";
       document.getElementById("nameFieldGroup").style.display = "block";
       document.getElementById("extraFields").style.display = "block";
     }
@@ -294,32 +294,32 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   window.handleAuthAction = async function() {
     const email = document.getElementById("authEmail").value.trim();
     const pass = document.getElementById("authPass").value.trim();
-    if(!email || !email.includes("@")) return alert("Sothik Email din.");
-    if(!pass || pass.length < 6) return alert("Kamপক্ষে 6 okhorer password din.");
+    if(!email || !email.includes("@")) return alert("Please enter a valid email address.");
+    if(!pass || pass.length < 6) return alert("Password must be at least 6 characters.");
 
     try {
       if(!isLoginMode) {
         const name = document.getElementById("authName").value.trim();
         const country = document.getElementById("authCountry").value.trim() || "Bangladesh";
         const num = document.getElementById("authNum").value.trim();
-        if(!name) return alert("Apnar nam likhun.");
-        if(!num) return alert("Apnar mobile number din.");
+        if(!name) return alert("Please enter your full name.");
+        if(!num) return alert("Please enter your mobile number.");
 
         // Check if phone number already exists
         const phoneQuery = query(collection(db, "users"), where("num", "==", num));
         const phoneSnapshot = await getDocs(phoneQuery);
 
         if(!phoneSnapshot.empty) {
-          return alert("Ei mobile number-ti diye already ekta account khola hoyeche! Onno number use korun.");
+          return alert("An account already exists with this mobile number. Please use another number.");
         }
 
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
         const userData = { name, email, country, num, balance: 0, createdAt: serverTimestamp() };
         await setDoc(doc(db, "users", cred.user.uid), userData);
-        alert("Account shofolhabe tori hoyeche!");
+        alert("Account created successfully!");
       } else {
         await signInWithEmailAndPassword(auth, email, pass);
-        alert("Shofolhabe login hoyeche!");
+        alert("Login successful!");
       }
     } catch(err) {
       alert("Truti: " + err.message);
@@ -354,10 +354,10 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   }
 
   window.openAdminPanel = async function() {
-    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="window.closeModal()">×</button></div><div class="mini-card"><h3>Sokol Order List</h3><div id="adminOrdersList"><p class="muted">Load hocche...</p></div></div>`);
+    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="window.closeModal()">×</button></div><div class="mini-card"><h3>All Orders</h3><div id="adminOrdersList"><p class="muted">Loading...</p></div></div>`);
     const q = await getDocs(collection(db, "orders"));
     const list = document.getElementById("adminOrdersList");
-    list.innerHTML = q.empty ? "<p class='muted'>Kono order nei.</p>" : "";
+    list.innerHTML = q.empty ? "<p class='muted'>No orders found.</p>" : "";
     q.forEach(d => {
       const data = d.data();
       list.innerHTML += `<div class="mini-card"><b>${data.serviceName}</b> - ৳${data.price}<br>Method: ${data.method} | Wallet Address: ${data.walletAddress}<br>Status: <b>${data.status}</b><br><button class="primary" style="margin-top:6px;padding:6px" onclick="updateOrderStatus('${d.id}', 'Completed')">Complete & Pay</button></div>`;
@@ -366,7 +366,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
 
   window.updateOrderStatus = async function(orderId, status) {
     await updateDoc(doc(db, "orders", orderId), { status });
-    alert("Status update hoyeche!");
+    alert("Status updated successfully!");
     closeModal();
   }
 
@@ -375,9 +375,9 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     const title = document.getElementById("postTitle").value.trim();
     const link = document.getElementById("postLink").value.trim();
     const price = Number(document.getElementById("postPrice").value);
-    if(!title || !link || !price) return alert("Sokol toto puron korun.");
+    if(!title || !link || !price) return alert("Please complete all required fields.");
     await addDoc(collection(db, "gigs"), { category, title, link, price, sellerName: currentUserData.name || "Freelancer", createdAt: serverTimestamp() });
-    alert("Gig shofolhabe publish hoyeche!");
+    alert("Gig published successfully!");
     document.getElementById("postTitle").value = "";
     document.getElementById("postLink").value = "";
     document.getElementById("postPrice").value = "";
@@ -397,7 +397,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     
     let htmlContent = "";
     if(list.length === 0) {
-      htmlContent = "<p class='muted' style='text-align:center;grid-column:1/-1;padding:20px'>Kono gig paoa jayni.</p>";
+      htmlContent = "<p class='muted' style='text-align:center;grid-column:1/-1;padding:20px'>No gigs found.</p>";
     } else {
       list.forEach(data => {
         const firstLetter = data.sellerName ? data.sellerName.charAt(0).toUpperCase() : "F";
@@ -444,10 +444,10 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
       <label class="label">Admin USDT Wallet Address (TRC20):</label>
       <input type="text" value="THAX2DVDwj9kcScsTLjPm2kqSFVjQtjDiN" readonly style="font-family:monospace;background:#f1f5f9;">
       
-      <label class="label">Apnar Transaction Hash / Wallet Address</label>
-      <input id="walletAddress" placeholder="TxID ba Crypto Address din">
+      <label class="label">Your Transaction Hash / Wallet Address</label>
+      <input id="walletAddress" placeholder="Enter TxID or Crypto Address">
 
-      <button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">Order Confirm Korun</button>
+      <button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">Confirm Order</button>
     `);
   }
 
@@ -455,7 +455,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     const method = "Binance USDT (TRC20)";
     const walletAddress = document.getElementById("walletAddress").value.trim();
 
-    if(!walletAddress) return alert("Apnar wallet address ba transaction hash din.");
+    if(!walletAddress) return alert("Please enter your wallet address or transaction hash.");
 
     await addDoc(collection(db, "orders"), { 
       serviceName: name, 
@@ -467,7 +467,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
       createdAt: serverTimestamp() 
     });
     closeModal();
-    alert("Apnar order shofolhabe submit hoyeche!");
+    alert("Your order has been submitted successfully!");
   }
 </script>
 
@@ -557,7 +557,7 @@ window.openFiverrProfile = function(){
 }
 
 window.openHistory = function(){
-  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="window.closeModal()">×</button></div><div class="mini-card"><p class="muted">Apnar sokol payment ebong withdrawal history ekhane thakbe.</p></div>`);
+  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="window.closeModal()">×</button></div><div class="mini-card"><p class="muted">Your payment and withdrawal history will appear here.</p></div>`);
 }
 
 window.openWithdraw = function(){
@@ -584,14 +584,14 @@ window.openWithdraw = function(){
       <option value="Binance USDT (TRC20)">🪙 Binance USDT (TRC20)</option>
     </select>
 
-    <label class="label">Withdraw Amount (৳)</label>
+    <label class="label">Withdrawal Amount (৳)</label>
     <input id="wAmt" type="number" min="1000" max="${balance}" placeholder="Minimum ৳1,000">
 
     <label class="label" id="destinationLabel">bKash Number</label>
     <input id="wDest" type="tel" autocomplete="off" placeholder="01XXXXXXXXX">
 
     <div class="mini-card" style="margin-top:10px">
-      <div class="muted">⚠️ নিজের সঠিক bKash/Nagad নম্বর অথবা Binance TRC20 address দিন। ভুল তথ্যের কারণে payment সমস্যা হলে request review লাগতে পারে।</div>
+      <div class="muted">⚠️ Enter the correct bKash/Nagad number or Binance TRC20 address. Incorrect information may cause payment issues and require manual review.</div>
     </div>
 
     <div id="withdrawError" class="muted" style="display:none;color:#dc2626;margin-top:8px"></div>
@@ -647,14 +647,14 @@ window.submitWithdrawRequest = async function(){
   };
 
   if(amount < 1000) return showError("Minimum withdrawal amount is ৳1,000.");
-  if(amount > balance) return showError("Apnar balance-er cheye beshi amount withdraw kora jabe na.");
-  if(!destination) return showError(method === "Binance USDT (TRC20)" ? "Binance TRC20 wallet address din." : method + " number din.");
+  if(amount > balance) return showError("You cannot withdraw more than your available balance.");
+  if(!destination) return showError(method === "Binance USDT (TRC20)" ? "Please enter your Binance TRC20 wallet address." : method + " number.");
 
   if(method === "bKash" || method === "Nagad"){
     const phone = destination.replace(/[\\s-]/g, "");
-    if(!/^01\\d{9}$/.test(phone)) return showError("Sothik 11 digit " + method + " number din.");
+    if(!/^01\\d{9}$/.test(phone)) return showError("Please enter a valid 11-digit " + method + " number.");
   }else{
-    if(destination.length < 20) return showError("Binance TRC20 wallet address-ti check korun.");
+    if(destination.length < 20) return showError("Please check your Binance TRC20 wallet address.");
   }
 
   try{
@@ -675,14 +675,14 @@ window.submitWithdrawRequest = async function(){
     });
 
     window.closeModal();
-    alert("✅ Withdrawal request successfully submitted. Admin review korar por process korbe.");
+    alert("✅ Withdrawal request submitted successfully. It will be processed after admin review.");
   }catch(err){
     console.error(err);
     if(btn){
       btn.disabled = false;
       btn.textContent = "💸 Submit Withdrawal Request";
     }
-    showError("Request submit hoyni. Firebase/Firestore permission check korun.");
+    showError("Request could not be submitted. Please check Firebase/Firestore permissions.");
   }
 }
 </script>
