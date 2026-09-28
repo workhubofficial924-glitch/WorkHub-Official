@@ -147,7 +147,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
     </section>
 
     <section id="jobsPage" class="hidden">
-      <div class="section-head"><h2>নতুন কাজের অফার পোস্ট</h2><span>Editor / Worker Post</span></div>
+      <div class="section-head"><h2>নতুন কাজের অফার পোস্ট</h2><span>Editor / Worker Post (Fiverr Style)</span></div>
       <div class="card">
         <label class="label" style="margin-top:0">কাজের ক্যাটাগরি</label>
         <select id="postCategory">
@@ -161,14 +161,19 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
         <label class="label">কাজের দাম / বাজেট (নিজের ইচ্ছমতো)</label>
         <input id="postPrice" type="number" min="50" placeholder="যেমন: 500, 1000 বা আপনার ইচ্ছামত">
 
-        <div class="notice">আপনার সেট করা দামে ক্লায়েন্ট অর্ডার করতে পারবে।</div>
-        <button class="primary" type="button" onclick="publishJobOffer()">✅ কাজের অফার পাবলিশ করুন</button>
+        <div class="notice">এই পোস্টটি পাবলিক গিগ বা মার্কেটপ্লেসে সবার জন্য ভেসে উঠবে।</div>
+        <button class="primary" type="button" onclick="publishJobOffer()">✅ পাবলিশ করুন (Post Gig)</button>
       </div>
 
-      <div class="section-head"><h2>Available Work & Orders</h2></div>
+      <div class="section-head"><h2>Available Market Gigs / Orders</h2><span>Public Feed</span></div>
       <div class="card" id="availableJobsList">
-        <div class="job"><div class="job-main"><div class="job-icon">🎨</div><div><b>Canva Design (Sample)</b><small>Price: ৳500 • Worker 60%</small></div></div><button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(500, 'Canva Design')">Order Now</button></div>
-        <div class="job"><div class="job-main"><div class="job-icon">✂️</div><div><b>CapCut Editing (Sample)</b><small>Price: ৳1000 • Worker 60%</small></div></div><button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(1000, 'CapCut Editing')">Order Now</button></div>
+        <div class="job">
+          <div class="job-main">
+            <div class="job-icon">🎨</div>
+            <div><b>Canva Design (Sample)</b><small>Price: ৳500 • Worker 60%</small></div>
+          </div>
+          <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(500, 'Canva Design')">Order Now</button>
+        </div>
       </div>
     </section>
 
@@ -192,7 +197,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 
   <nav class="bottom-nav" id="bottomNav">
     <button class="active" type="button" onclick="showPage('homePage',this)"><i>⌂</i>Home</button>
-    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>কাজ ও অফার</button>
+    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>গিগ ও কাজ</button>
     <button type="button" onclick="showPage('supportPage',this)"><i>◉</i>Support</button>
     <button type="button" onclick="showPage('withdrawPage',this)"><i>৳</i>Withdraw</button>
   </nav>
@@ -287,7 +292,7 @@ function openRoles(){
 
     <div class="mini-card">
       <h3>🎨 Worker / Editor</h3>
-      <p class="muted">কাজের লিংক ও নিজের ইচ্ছমতো প্রাইস সেট করে অফার পোস্ট করতে পারবেন।</p>
+      <p class="muted">কাজের লিংক ও নিজের ইচ্ছমতো প্রাইস সেট করে গিগ বা অফার পোস্ট করতে পারবেন।</p>
       <button class="primary" type="button" onclick="openActivationPayment('Worker')">Worker Role Active করুন (৳100)</button>
     </div>
 
@@ -340,23 +345,24 @@ function publishJobOffer(){
     return alert("সঠিক লিংক এবং কমপক্ষে ৳50 বা তার বেশি বাজেট দিন।");
   }
 
-  state.postedJobs.push({category, link, price});
+  state.postedJobs.push({category, link, price, author: state.userName});
   
+  // Render public market feed
   const list = $("availableJobsList");
   const newDiv = document.createElement("div");
   newDiv.className = "job";
   newDiv.innerHTML = `
     <div class="job-main">
       <div class="job-icon">${category === 'Canva Design' ? '🎨' : '✂️'}</div>
-      <div><b>${category}</b><small>Price: ৳${price} • Worker 60%</small></div>
+      <div><b>${category}</b><small>Price: ৳${price} • By: ${state.userName} (Worker 60%)</small></div>
     </div>
     <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${price}, '${category}')">Order Now</button>
   `;
-  list.appendChild(newDiv);
+  list.prepend(newDiv); // New posts will appear at the top like Fiverr
 
   $("postLink").value = "";
   $("postPrice").value = "";
-  alert("আপনার কাজের অফার সফলভাবে পাবলিশ হয়েছে!");
+  alert("আপনার গিগ/অফার সফলভাবে পাবলিক মার্কেটে পাবলিশ হয়েছে!");
 }
 
 function buyJob(price, serviceName){
