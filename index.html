@@ -101,12 +101,6 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
         </div>
       </div>
 
-      <div class="section-head"><h2>Payment & Support</h2><span>Official contact</span></div>
-      <div class="card">
-        <div class="split-row"><div class="split-left"><span class="split-icon">💳</span>bKash / Nagad</div><div class="percent" style="font-size:15px">01622842102</div></div>
-        <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support</a>
-      </div>
-
       <div class="section-head"><h2>Profit Split</h2><span>Dynamic percentage</span></div>
       <div class="card">
         <div class="split-row"><div class="split-left"><span class="split-icon">🎨</span>Worker</div><div class="percent">60%</div></div>
@@ -223,17 +217,36 @@ function openRoles(){
   openModal(`
     <div class="sheet-top"><h2>Role Activation</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
     <div class="mini-card"><h3>🎨 Worker</h3><p class="muted">Canva ও CapCut editing কাজ করবেন।</p><button class="primary" onclick="activateWorker()">Worker Active করুন</button></div>
-    <div class="mini-card"><h3>🤝 Client Bringer</h3><p class="muted">Client বা নতুন project নিয়ে আসবেন।</p><div class="notice">একবারের activation fee: ৳100</div><button class="primary" onclick="activateClient()">৳100 দিয়ে Active করুন</button></div>
+    <div class="mini-card"><h3>🤝 Client Bringer</h3><p class="muted">Client বা নতুন project নিয়ে আসবেন।</p><div class="notice">এই Role Active করতে একবারের জন্য ৳100 Send Money করতে হবে।</div><button class="primary" onclick="showClientActivationPayment()">৳100 দিয়ে Active করুন</button></div>
   `);
 }
 function activateWorker(){
   if(!state.roles.includes("Worker"))state.roles.push("Worker");
   render();closeModal();
 }
-function activateClient(){
+function showClientActivationPayment(){
   if(state.roles.includes("Client Bringer"))return alert("Client Bringer ইতিমধ্যে Active।");
-  if(state.balance<100)return alert("Client Bringer Active করতে ৳100 balance প্রয়োজন।");
-  state.balance-=100;state.roles.push("Client Bringer");render();closeModal();
+  openModal(`
+    <div class="sheet-top"><h2>Client Bringer Activation</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+    <div class="success"><b>Account Active করতে ৳100 Send Money করতে হবে।</b></div>
+    <div class="mini-card">
+      <h3>💳 Send Money</h3>
+      <p class="muted">bKash অথবা Nagad থেকে নিচের নম্বরে ঠিক <b>৳100</b> Send Money করুন:</p>
+      <div style="font-size:25px;font-weight:900;letter-spacing:.5px;margin:10px 0">01622842102</div>
+      <div class="notice"><b>শুধু Send Money করুন।</b><br>Payment করার পর TrxID নিচে দিন।</div>
+    </div>
+    <label class="label">Payment Method<select id="rolePayMethod"><option>bKash</option><option>Nagad</option></select></label>
+    <label class="label">TrxID<input id="roleTrx" placeholder="Send Money TrxID দিন"></label>
+    <button class="primary" onclick="submitClientActivation()">Payment Submit করুন</button>
+  `);
+}
+function submitClientActivation(){
+  const trx=$("roleTrx").value.trim();
+  const method=$("rolePayMethod").value;
+  if(trx.length<5)return alert("সঠিক Send Money TrxID দিন।");
+  state.clientActivation={amount:100,method,trx,status:"pending",number:"01622842102"};
+  closeModal();
+  alert("৳100 Send Money payment submitted। Owner verification-এর পর Client Bringer Active হবে।");
 }
 function chooseService(name){
   state.service=name;
