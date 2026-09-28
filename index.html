@@ -67,16 +67,25 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 <body>
 
 <!-- Authentication / Sign-up Overlay -->
-<div id="authOverlay" style="position:fixed;inset:0;background:linear-gradient(145deg,#0b1330 0%,#172b67 58%,#2456c8 100%);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;">
-  <div style="width:min(100%,440px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3)">
-    <div style="text-align:center;margin-bottom:20px">
+<div id="authOverlay" style="position:fixed;inset:0;background:linear-gradient(145deg,#0b1330 0%,#172b67 58%,#2456c8 100%);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;">
+  <div style="width:min(100%,440px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3);margin:auto;">
+    <div style="text-align:center;margin-bottom:15px">
       <div style="font-size:28px;font-weight:900;color:#101a3a">Work<span style="color:#315bea">Hub</span></div>
       <p style="color:#64748b;font-size:13px;margin-top:5px">আপনার প্রফেশনাল মাইক্রো-টাস্ক প্ল্যাটফর্ম</p>
     </div>
     
     <div id="authFormContent">
-      <label class="label" style="margin-top:0">আপনার নাম</label>
+      <label class="label" style="margin-top:0">১. নাম (Name)</label>
       <input id="authName" placeholder="আপনার পুরো নাম লিখুন">
+      
+      <label class="label">২. জিমেইল (Gmail)</label>
+      <input id="authEmail" type="email" placeholder="example@gmail.com">
+
+      <label class="label">৩. পাসওয়ার্ড (Password)</label>
+      <input id="authPass" type="password" placeholder="একটি শক্তিশালী পাসওয়ার্ড দিন">
+
+      <label class="label">৪. মোবাইল নম্বর (Number)</label>
+      <input id="authNum" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
       
       <label class="label">একাউন্টের ধরণ / রোল (Role)</label>
       <select id="authRole">
@@ -198,6 +207,9 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 <script>
 const state={
   userName:"",
+  userEmail:"",
+  userPass:"",
+  userNum:"",
   balance:0, earned:0, jobs:0,
   roles:[], service:"Canva Design",
   orders:[], payments:[], withdrawals:[], activationRequests:[], postedJobs:[]
@@ -207,11 +219,20 @@ const money=n=>"৳"+Number(n||0).toLocaleString("en-BD");
 
 function handleAuthRegister(){
   const name = $("authName").value.trim();
+  const email = $("authEmail").value.trim();
+  const pass = $("authPass").value.trim();
+  const num = $("authNum").value.trim();
   const role = $("authRole").value;
-  if(!name){
-    return alert("দয়া করে আপনার নাম লিখুন।");
-  }
+
+  if(!name){ return alert("দয়া করে আপনার নাম লিখুন।"); }
+  if(!email || !email.includes("@")){ return alert("দয়া করে সঠিক জিমেইল (Gmail) দিন।"); }
+  if(!pass || pass.length < 4){ return alert("কমপক্ষে ৪ অক্ষরের একটি পাসওয়ার্ড দিন।"); }
+  if(!/^01\d{9}$/.test(num)){ return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।"); }
+
   state.userName = name;
+  state.userEmail = email;
+  state.userPass = pass;
+  state.userNum = num;
   state.roles = [role];
   
   $("authOverlay").classList.add("hidden");
@@ -252,7 +273,7 @@ $("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
 function openProfile(){
   openModal(`
     <div class="sheet-top"><h2>Profile</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="mini-card"><h3>${state.userName || "User"}</h3><p class="muted">Active Account & Dashboard</p></div>
+    <div class="mini-card"><h3>${state.userName || "User"}</h3><p class="muted">📧 ${state.userEmail}<br>📱 ${state.userNum}</p></div>
     <div class="mini-card"><h3>Active Roles</h3><p class="muted">${state.roles.join(" • ")}</p></div>
   `);
 }
@@ -321,7 +342,6 @@ function publishJobOffer(){
 
   state.postedJobs.push({category, link, price});
   
-  // Update available work list
   const list = $("availableJobsList");
   const newDiv = document.createElement("div");
   newDiv.className = "job";
@@ -365,7 +385,6 @@ function confirmClientOrder(price){
   if(!/^01\d{9}$/.test(num)) return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
   if(trx.length < 5) return alert("সঠিক TrxID দিন।");
 
-  // Calculate profit distribution (Worker: 60%, Client Bringer: 20%, Owner: 20%)
   const workerShare = price * 0.60;
   state.balance += workerShare;
   state.earned += workerShare;
