@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WorkHub — Pro Freelance Marketplace with Search & History</title>
+<title>WorkHub — Pro Freelance Marketplace</title>
 <style>
 :root{
   --bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;
@@ -34,8 +34,6 @@ main{padding:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:21px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .stat{padding:14px;border-radius:16px;background:#f8fafc}.stat small{color:var(--muted);font-size:12px}.stat b{display:block;font-size:21px;margin-top:4px}
-.split-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
-.split-row:last-child{border-bottom:0}.split-left{display:flex;align-items:center;gap:9px;font-weight:750}.split-icon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#f1f5ff}
 .label{display:block;margin-top:13px;font-size:12px;font-weight:800}
 input,select,textarea{width:100%;margin-top:6px;padding:13px 14px;border:1px solid #dbe2eb;border-radius:13px;background:#fff;outline:none}
 input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,234,.10)}
@@ -50,7 +48,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 .sheet{width:min(100%,560px);max-height:88vh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:20px 17px 28px;box-shadow:0 -15px 50px rgba(0,0,0,.18)}
 .sheet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.sheet-top h2{margin:0;font-size:20px}.close{width:38px;height:38px;border-radius:12px;background:#f1f5f9;color:#334155;font-size:24px}
 .mini-card{padding:14px;border:1px solid var(--line);border-radius:16px;margin-top:10px}.mini-card h3{margin:0 0 5px;font-size:15px}.muted{color:var(--muted);font-size:12px;line-height:1.55}
-.notice{padding:12px;border-radius:13px;background:#fff7e8;color:#8a5a00;font-size:12px;margin-top:10px}
 .success{padding:12px;border-radius:13px;background:#eaf8f2;color:#08754d;font-size:12px;margin-top:10px}
 </style>
 </head>
@@ -90,9 +87,9 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   <header class="hero">
     <div class="topbar">
       <div class="logo">Work<span>Hub</span></div>
-      <button class="profile-btn" type="button" onclick="openProfile()">U</button>
+      <button class="profile-btn" type="button" onclick="openFiverrProfile()" id="profileInitialsBtn">U</button>
     </div>
-    <p class="hero-sub">Pro Marketplace with Search & History</p>
+    <p class="hero-sub">Pro Fiverr-Style Marketplace</p>
     <div class="balance-card">
       <div class="balance-label">বর্তমান ব্যালেন্স</div>
       <div class="balance" id="balance">৳0</div>
@@ -265,6 +262,9 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       if(userDoc.exists()) currentUserData = userDoc.data();
       $("authOverlay").classList.add("hidden");
       $("workhubApp").classList.remove("hidden");
+      if(currentUserData.name) {
+        $("profileInitialsBtn").textContent = currentUserData.name.charAt(0).toUpperCase();
+      }
       render();
       loadGigs();
       loadMyOrders();
@@ -415,9 +415,40 @@ function showPage(id,btn){
 function openModal(content){$("modalBody").innerHTML=content;$("modal").classList.remove("hidden");document.body.style.overflow="hidden";}
 function closeModal(){$("modal").classList.add("hidden");$("modalBody").innerHTML="";document.body.style.overflow="";}
 $("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
-function openProfile(){
-  openModal(`<div class="sheet-top"><h2>Profile</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>${currentUserData.name}</h3><p class="muted">📧 ${currentUserData.email}<br>📱 ${currentUserData.num}</p></div>`);
+
+// Fiverr-Style Pro Profile Page
+function openFiverrProfile(){
+  openModal(`
+    <div class="sheet-top">
+      <h2>ف Profile (Fiverr Style)</h2>
+      <button class="close" type="button" onclick="closeModal()">×</button>
+    </div>
+    <div style="text-align:center;padding:10px 0 15px;border-bottom:1px solid var(--line);">
+      <div style="width:72px;height:72px;background:#315bea;color:#fff;font-size:30px;font-weight:900;border-radius:50%;display:grid;place-items:center;margin:auto;box-shadow:0 8px 20px rgba(49,91,234,.3)">
+        ${currentUserData.name ? currentUserData.name.charAt(0).toUpperCase() : 'U'}
+      </div>
+      <h3 style="margin:10px 0 3px;font-size:18px;">${currentUserData.name || 'Freelancer'}</h3>
+      <p style="color:var(--muted);font-size:13px;margin:0;">⭐️ 5.0 (12 Reviews) • Top Rated Seller</p>
+    </div>
+    <div class="mini-card">
+      <h3><b>বায়ো ও পরিচিতি</b></h3>
+      <p class="muted">প্রফেশনাল ফ্রিল্যান্সার এবং ডিজিটাল সার্ভিস প্রোভাইডার। কাজের মান শতভাগ নিশ্চিত করা হয়।</p>
+    </div>
+    <div class="mini-card">
+      <h3><b>দক্ষতা ও স্কিল (Skills)</b></h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+        <span style="background:#eef4ff;color:#315bea;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;">Data Entry</span>
+        <span style="background:#eef4ff;color:#315bea;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;">Video Editing</span>
+        <span style="background:#eef4ff;color:#315bea;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;">Graphic Design</span>
+      </div>
+    </div>
+    <div class="mini-card">
+      <h3><b>একাউন্ট তথ্য</b></h3>
+      <p class="muted">📧 Email: ${currentUserData.email || 'N/A'}<br>📱 Mobile: ${currentUserData.num || 'N/A'}</p>
+    </div>
+  `);
 }
+
 function openHistory(){
   openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><p class="muted">আপনার সমস্ত লেনদেন এবং উইথড্রল হিস্টরি এখানে সংরক্ষিত থাকবে।</p></div>`);
 }
