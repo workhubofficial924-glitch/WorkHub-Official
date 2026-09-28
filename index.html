@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WorkHub — Fiverr Style Marketplace with Admin</title>
+<title>WorkHub — Fiverr Style Marketplace with Live Chat & Delivery</title>
 <style>
 :root{
   --bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;
@@ -60,7 +60,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 </head>
 <body>
 
-<!-- Authentication Overlay -->
 <div id="authOverlay" style="position:fixed;inset:0;background:linear-gradient(145deg,#0b1330 0%,#172b67 58%,#2456c8 100%);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;">
   <div style="width:min(100%,440px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3);margin:auto;">
     <div style="text-align:center;margin-bottom:15px">
@@ -132,18 +131,15 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
         </div>
       </div>
 
+      <div class="section-head"><h2>Active Orders & Live Chat</h2><span>Manage your ongoing projects</span></div>
+      <div class="card" id="myOrdersList">
+        <p class="muted" style="text-align:center">আপনার কোনো চলমান অর্ডার নেই।</p>
+      </div>
+
       <div class="section-head"><h2>Payment & Support</h2><span>Official contact</span></div>
       <div class="card">
         <div class="split-row"><div class="split-left"><span class="split-icon">💳</span>bKash / Nagad Send Money</div><div class="percent" style="font-size:15px">01622842102</div></div>
         <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support</a>
-      </div>
-
-      <div class="section-head"><h2>Profit Split</h2><span>Dynamic percentage</span></div>
-      <div class="card">
-        <div class="split-row"><div class="split-left"><span class="split-icon">💻</span>Freelancer/Worker</div><div class="percent">60%</div></div>
-        <div class="split-row"><div class="split-left"><span class="split-icon">🤝</span>Client Bringer</div><div class="percent">20%</div></div>
-        <div class="split-row"><div class="split-left"><span class="split-icon">👑</span>Owner</div><div class="percent">20%</div></div>
-        <p class="muted">লাভ বন্টন: ফ্রিল্যান্সার ৬০%, ক্লায়েন্ট সংগ্রাহক ২০%, মালিক ২০%।</p>
       </div>
     </section>
 
@@ -212,7 +208,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
       apiKey: "AIzaSyABrMA-Bb5sv4Z39uawO5BTpX76cXPblLs",
@@ -290,6 +286,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       $("workhubApp").classList.remove("hidden");
       render();
       loadGigs();
+      loadMyOrders();
     } else {
       $("authOverlay").classList.remove("hidden");
       $("workhubApp").classList.add("hidden");
@@ -305,7 +302,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       return '<span class="role">' + icon + " " + r + "</span>";
     }).join("");
 
-    // Admin Panel Button Check
     const adminContainer = $("adminPanelBtnContainer");
     if(currentUserData.num === ADMIN_PHONE) {
       adminContainer.innerHTML = `
@@ -321,7 +317,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   window.openAdminPanel = async function() {
     openModal(`
       <div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <div class="mini-card"><h3>রিসিভড অর্ডার ও পেমেন্ট রিকোয়েস্ট</h3><div id="adminOrdersList"><p class="muted">লোড হচ্ছে...</p></div></div>
+      <div class="mini-card"><h3>সব অর্ডার ও পেমেন্ট রিকোয়েস্ট</h3><div id="adminOrdersList"><p class="muted">লোড হচ্ছে...</p></div></div>
     `);
     
     try {
@@ -329,7 +325,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       const list = $("adminOrdersList");
       list.innerHTML = "";
       if(querySnapshot.empty) {
-        list.innerHTML = "<p class='muted'>কোনো নতুন অর্ডার বা পেমেন্ট নেই।</p>";
+        list.innerHTML = "<p class='muted'>কোনো অর্ডার পাওয়া যায়নি।</p>";
         return;
       }
       querySnapshot.forEach((docSnap) => {
@@ -339,14 +335,131 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
         div.innerHTML = `
           <b>Service:</b> ${d.serviceName}<br>
           <b>Price:</b> ৳${d.price}<br>
-          <b>Method:</b> ${d.method} (${d.senderNum})<br>
-          <b>TrxID:</b> <span style="color:#315bea;font-weight:bold">${d.trxId}</span><br>
-          <b>Buyer:</b> ${d.buyerEmail}
+          <b>Status:</b> <span style="color:#315bea">${d.status || 'Pending'}</span><br>
+          <b>Buyer:</b> ${d.buyerEmail}<br>
+          <button class="primary" style="margin-top:8px;padding:6px" onclick="updateOrderStatus('${docSnap.id}', 'In Progress')">Work Start করুন</button>
         `;
         list.appendChild(div);
       });
     } catch(err) {
       $("adminOrdersList").innerHTML = "<p class='muted'>ডাটা লোড করতে সমস্যা হয়েছে।</p>";
+    }
+  }
+
+  window.updateOrderStatus = async function(orderId, status) {
+    try {
+      await updateDoc(doc(db, "orders", orderId), { status });
+      alert("অর্ডারের স্ট্যাটাস আপডেট করা হয়েছে!");
+      closeModal();
+      loadMyOrders();
+    } catch(err) {
+      alert("ত্রুটি: " + err.message);
+    }
+  }
+
+  async function loadMyOrders() {
+    const list = $("myOrdersList");
+    if(!list) return;
+    try {
+      const querySnapshot = await getDocs(collection(db, "orders"));
+      list.innerHTML = "";
+      let count = 0;
+      querySnapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        if(d.buyerEmail === currentUserData.email || currentUserData.num === ADMIN_PHONE) {
+          count++;
+          const div = document.createElement("div");
+          div.className = "mini-card";
+          div.innerHTML = `
+            <h3>${d.serviceName}</h3>
+            <p class="muted">Price: ৳${d.price} • Status: <b>${d.status || 'Pending'}</b></p>
+            ${d.deliveryProof ? `<p style="color:#12a86b"><b>Delivery:</b> ${d.deliveryProof}</p>` : ''}
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="primary" style="margin:0;flex:1" onclick="openChat('${docSnap.id}', '${d.serviceName}')">💬 Live Chat</button>
+              ${currentUserData.num === ADMIN_PHONE ? `<button class="outline-btn" style="background:#315bea;margin:0;flex:1" onclick="openDeliveryModal('${docSnap.id}')">Submit Work</button>` : ''}
+            </div>
+          `;
+          list.appendChild(div);
+        }
+      });
+      if(count === 0) {
+        list.innerHTML = '<p class="muted" style="text-align:center">আপনার কোনো চলমান অর্ডার নেই।</p>';
+      }
+    } catch(err) {
+      list.innerHTML = '<p class="muted" style="text-align:center">অর্ডার লোড করতে সমস্যা হয়েছে।</p>';
+    }
+  }
+
+  window.openDeliveryModal = function(orderId) {
+    openModal(`
+      <div class="sheet-top"><h2>Submit Work Delivery</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <label class="label">কাজের ফাইল বা ড্রাইভ লিংক দিন</label>
+      <input id="deliveryLinkInput" placeholder="Google Drive Link বা কাজের বিবরণ">
+      <button class="primary" type="button" onclick="submitDelivery('${orderId}')">ডেলিভারি কনফার্ম করুন</button>
+    `);
+  }
+
+  window.submitDelivery = async function(orderId) {
+    const link = $("deliveryLinkInput").value.trim();
+    if(!link) return alert("দয়া করে কাজের লিংক দিন।");
+    try {
+      await updateDoc(doc(db, "orders", orderId), { deliveryProof: link, status: "Completed" });
+      alert("কাজ সফলভাবে ডেলিভারি করা হয়েছে!");
+      closeModal();
+      loadMyOrders();
+    } catch(err) {
+      alert("ত্রুটি: " + err.message);
+    }
+  }
+
+  window.openChat = async function(orderId, serviceName) {
+    openModal(`
+      <div class="sheet-top"><h2>💬 Live Chat: ${serviceName}</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <div id="chatMessagesBox" style="max-height:250px;overflow-y:auto;background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:10px">
+        <p class="muted">মেসেজ লোড হচ্ছে...</p>
+      </div>
+      <input id="chatInputMsg" placeholder="আপনার মেসেজ লিখুন...">
+      <button class="primary" type="button" onclick="sendChatMessage('${orderId}')">মেসেজ পাঠান</button>
+    `);
+    loadChatMessages(orderId);
+  }
+
+  async function loadChatMessages(orderId) {
+    try {
+      const querySnapshot = await getDocs(collection(db, "orders", orderId, "messages"));
+      const box = $("chatMessagesBox");
+      if(!box) return;
+      box.innerHTML = "";
+      if(querySnapshot.empty) {
+        box.innerHTML = '<p class="muted">কোনো মেসেজ নেই। কথা বলা শুরু করুন।</p>';
+        return;
+      }
+      querySnapshot.forEach(docSnap => {
+        const m = docSnap.data();
+        const div = document.createElement("div");
+        div.style.margin = "6px 0";
+        div.innerHTML = `<b>${m.sender}:</b> ${m.text}`;
+        box.appendChild(div);
+      });
+      box.scrollTop = box.scrollHeight;
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  window.sendChatMessage = async function(orderId) {
+    const text = $("chatInputMsg").value.trim();
+    if(!text) return;
+    try {
+      await addDoc(collection(db, "orders", orderId, "messages"), {
+        sender: currentUserData.name || "User",
+        text,
+        createdAt: serverTimestamp()
+      });
+      $("chatInputMsg").value = "";
+      loadChatMessages(orderId);
+    } catch(err) {
+      alert("মেসেজ পাঠাতে সমস্যা হয়েছে।");
     }
   }
 
@@ -378,6 +491,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   async function loadGigs() {
     const list = $("availableJobsList");
+    if(!list) return;
     list.innerHTML = "<p class='muted' style='text-align:center'>গিগ লোড হচ্ছে...</p>";
     try {
       const querySnapshot = await getDocs(collection(db, "gigs"));
@@ -436,7 +550,8 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
         createdAt: serverTimestamp()
       });
       closeModal();
-      alert("পেমেন্ট ও অর্ডার সফলভাবে সাবমিট হয়েছে! এডমিন যাচাই করে কাজ শুরু করে দেবেন।");
+      alert("পেমেন্ট ও অর্ডার সফলভাবে সাবমিট হয়েছে!");
+      loadMyOrders();
     } catch(err) {
       alert("অর্ডার সাবমিট করতে সমস্যা হয়েছে: " + err.message);
     }
