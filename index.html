@@ -6,79 +6,104 @@
 <title>WorkHub — Pro Fiverr-Style Marketplace</title>
 <style>
 :root{
-  --bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;
-  --line:#e8edf4;--navy:#101a3a;--blue:#315bea;--cyan:#18b7c9;
-  --green:#12a86b;--soft:#eef4ff;--shadow:0 12px 35px rgba(15,23,42,.08);
+  --bg:#f8fafc;--card:#fff;--ink:#0f172a;--muted:#64748b;
+  --line:#e2e8f0;--navy:#0f172a;--blue:#1dbf73;--blue-dark:#19a463;
+  --soft:#f1fdf4;--shadow:0 4px 20px rgba(0,0,0,.05);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
 body{min-height:100vh}
 button,input,select,textarea{font:inherit}
 button{border:0;cursor:pointer}
-.app{width:min(100%,560px);margin:auto;min-height:100vh;padding-bottom:96px}
-.hero{padding:24px 18px 22px;background:linear-gradient(145deg,#0b1330 0%,#172b67 58%,#2456c8 100%);color:#fff;border-radius:0 0 30px 30px}
+.app{width:min(100%,600px);margin:auto;min-height:100vh;padding-bottom:84px}
+
+/* Fiverr Pro Header Style */
+.hero{padding:20px 16px;background:#0f172a;color:#fff;border-radius:0 0 24px 24px}
 .topbar{display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:25px;font-weight:900;letter-spacing:-.7px}
-.logo span{color:#65e5ef}
-.profile-btn{width:44px;height:44px;border-radius:15px;background:rgba(255,255,255,.12);color:#fff;font-weight:900}
-.hero-sub{margin:7px 0 20px;color:#c8d4f5;font-size:13px}
-.balance-card{padding:18px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.08);border-radius:22px;backdrop-filter:blur(8px)}
-.balance-label{color:#b9c8ea;font-size:12px}
-.balance{font-size:37px;font-weight:900;margin:5px 0 15px;letter-spacing:-1px}
-.hero-actions{display:flex;gap:9px}
-.hero-actions button{flex:1;padding:12px;border-radius:13px;font-weight:850}
-.withdraw-btn{background:#fff;color:#17398c}.outline-btn{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.18)}
-main{padding:16px}
-.section-head{display:flex;justify-content:space-between;align-items:end;margin:3px 2px 10px}
-.section-head h2{font-size:18px;margin:0}.section-head span{font-size:12px;color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:21px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{padding:14px;border-radius:16px;background:#f8fafc}.stat small{color:var(--muted);font-size:12px}.stat b{display:block;font-size:21px;margin-top:4px}
-.label{display:block;margin-top:13px;font-size:12px;font-weight:800}
-input,select,textarea{width:100%;margin-top:6px;padding:13px 14px;border:1px solid #dbe2eb;border-radius:13px;background:#fff;outline:none}
-input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,234,.10)}
-.primary{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#315bea,#2447c7);color:#fff;font-weight:900;margin-top:14px}
-.job{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
-.job:last-child{border-bottom:0}.job-main{display:flex;gap:10px;align-items:center}.job-icon{width:42px;height:42px;border-radius:13px;background:#eef4ff;display:grid;place-items:center;font-size:21px}
-.job b{font-size:14px}.job small{display:block;color:var(--muted);margin-top:3px}
-.bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(calc(100% - 22px),520px);height:68px;background:rgba(255,255,255,.96);border:1px solid #e2e8f0;border-radius:22px;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 15px 40px rgba(15,23,42,.15);z-index:998;backdrop-filter:blur(12px)}
-.bottom-nav button{background:transparent;color:#7a8799;font-size:9px;font-weight:850}.bottom-nav button.active{color:#315bea}.bottom-nav i{font-style:normal;font-size:19px;display:block;margin-bottom:2px}
+.logo{font-size:24px;font-weight:900;letter-spacing:-.5px}
+.logo span{color:#1dbf73}
+.profile-btn{width:40px;height:40px;border-radius:50%;background:#1dbf73;color:#fff;font-weight:900;display:grid;place-items:center;font-size:16px}
+.hero-search{margin-top:16px;position:relative}
+.hero-search input{width:100%;padding:12px 16px 12px 42px;border-radius:12px;border:0;background:#1e293b;color:#fff;outline:none}
+.hero-search input::placeholder{color:#94a3b8}
+.hero-search span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px}
+
+/* Balance Card */
+.balance-card{margin-top:16px;padding:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;display:flex;justify-content:space-between;align-items:center}
+.balance-info small{color:#94a3b8;font-size:11px}
+.balance-info .balance{font-size:24px;font-weight:900;color:#1dbf73;margin-top:2px}
+.hero-actions{display:flex;gap:8px}
+.hero-actions button{padding:8px 14px;border-radius:10px;font-weight:700;font-size:12px}
+.withdraw-btn{background:#1dbf73;color:#fff}.outline-btn{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2)}
+
+main{padding:14px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:16px 2px 10px}
+.section-head h2{font-size:16px;margin:0;font-weight:800}
+.section-head span{font-size:12px;color:var(--muted);cursor:pointer}
+
+/* Fiverr Gig Card Style */
+.gigs-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.gig-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s}
+.gig-thumb{height:140px;background:linear-gradient(135deg,#e2e8f0,#cbd5e1);display:grid;place-items:center;font-size:32px;color:#64748b;font-weight:900}
+.gig-body{padding:14px}
+.seller-info{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.seller-avatar{width:24px;height:24px;border-radius:50%;background:#1dbf73;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+.seller-name{font-size:12px;font-weight:700;color:var(--ink)}
+.gig-title{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4}
+.gig-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+.gig-rating{font-size:12px;font-weight:700;color:#f59e0b}
+.gig-price{font-size:16px;font-weight:900;color:var(--ink)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
+.label{display:block;margin-top:10px;font-size:12px;font-weight:700;color:var(--muted)}
+input,select,textarea{width:100%;margin-top:6px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
+.primary{width:100%;padding:13px;border-radius:12px;background:#1dbf73;color:#fff;font-weight:800;margin-top:14px;font-size:14px}
+
+/* Bottom Nav Fiverr Style */
+.bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,600px);height:64px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:998;box-shadow:0 -4px 20px rgba(0,0,0,.03)}
+.bottom-nav button{background:transparent;color:var(--muted);font-size:10px;font-weight:700}
+.bottom-nav button.active{color:#1dbf73}
+.bottom-nav i{font-style:normal;font-size:20px;display:block;margin-bottom:2px}
+
 .hidden{display:none!important}
-.modal{position:fixed;inset:0;background:rgba(5,12,30,.75);display:flex;align-items:flex-end;justify-content:center;z-index:9999;padding:0}
-.sheet{width:min(100%,560px);max-height:88vh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:20px 17px 28px;box-shadow:0 -15px 50px rgba(0,0,0,.3)}
-.sheet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.sheet-top h2{margin:0;font-size:20px}.close{width:38px;height:38px;border-radius:12px;background:#f1f5f9;color:#334155;font-size:24px}
-.mini-card{padding:14px;border:1px solid var(--line);border-radius:16px;margin-top:10px}.mini-card h3{margin:0 0 5px;font-size:15px}.muted{color:var(--muted);font-size:12px;line-height:1.55}
-.success{padding:12px;border-radius:13px;background:#eaf8f2;color:#08754d;font-size:12px;margin-top:10px}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.7);display:flex;align-items:flex-end;justify-content:center;z-index:9999;backdrop-filter:blur(4px)}
+.sheet{width:min(100%,600px);max-height:85vh;overflow:auto;background:#fff;border-radius:24px 24px 0 0;padding:20px 16px 30px}
+.sheet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.sheet-top h2{margin:0;font-size:18px}
+.close{width:36px;height:36px;border-radius:50%;background:#f1f5f9;color:#334155;font-size:20px;display:grid;place-items:center}
+.mini-card{padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:10px;background:#f8fafc}
+.muted{color:var(--muted);font-size:12px;line-height:1.5}
+.success{padding:12px;border-radius:10px;background:var(--soft);color:#19a463;font-size:12px;margin-top:10px;font-weight:600}
 </style>
 </head>
 <body>
 
-<div id="authOverlay" style="position:fixed;inset:0;background:linear-gradient(145deg,#0b1330 0%,#172b67 58%,#2456c8 100%);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;">
-  <div style="width:min(100%,440px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3);margin:auto;">
-    <div style="text-align:center;margin-bottom:15px">
-      <div style="font-size:28px;font-weight:900;color:#101a3a">Work<span style="color:#315bea">Hub</span></div>
-      <p style="color:#64748b;font-size:13px;margin-top:5px">প্রফেশনাল ফ্রিল্যান্সিং মার্কেটপ্লেস</p>
+<div id="authOverlay" style="position:fixed;inset:0;background:#0f172a;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;">
+  <div style="width:min(100%,400px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 40px rgba(0,0,0,.2);">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:26px;font-weight:900;color:#0f172a">Work<span style="color:#1dbf73">Hub</span></div>
+      <p style="color:#64748b;font-size:13px;margin-top:4px">Pro Fiverr-Style Freelance Marketplace</p>
     </div>
     
     <div id="authFormContent">
       <div id="nameFieldGroup">
-        <label class="label" style="margin-top:0">১. নাম (Name)</label>
-        <input id="authName" placeholder="আপনার পুরো নাম লিখুন">
+        <label class="label" style="margin-top:0">আপনার নাম</label>
+        <input id="authName" placeholder="पूरा নাম লিখুন">
       </div>
       
-      <label class="label">জিমেইল (Gmail)</label>
+      <label class="label">জিমেইল</label>
       <input id="authEmail" type="email" placeholder="example@gmail.com">
 
-      <label class="label">পাসওয়ার্ড (Password)</label>
-      <input id="authPass" type="password" placeholder="একটি শক্তিশালী পাসওয়ার্ড দিন">
+      <label class="label">পাসওয়ার্ড</label>
+      <input id="authPass" type="password5" type="password" placeholder="কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড">
 
       <div id="extraFields">
-        <label class="label">মোবাইল নম্বর (Number)</label>
+        <label class="label">মোবাইল নম্বর</label>
         <input id="authNum" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
       </div>
       
       <button class="primary" type="button" onclick="handleAuthAction()" id="authSubmitBtn">একাউন্ট তৈরি করুন</button>
-      <p style="text-align:center;margin-top:15px;font-size:13px;color:#315bea;cursor:pointer;" onclick="toggleAuthMode()" id="authToggleText">আগেই অ্যাকাউন্ট আছে? লগইন করুন</p>
+      <p style="text-align:center;margin-top:16px;font-size:13px;color:#1dbf73;cursor:pointer;font-weight:700" onclick="toggleAuthMode()" id="authToggleText">আগেই অ্যাকাউন্ট আছে? লগইন করুন</p>
     </div>
   </div>
 </div>
@@ -87,99 +112,90 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   <header class="hero">
     <div class="topbar">
       <div class="logo">Work<span>Hub</span></div>
-      <button class="profile-btn" type="button" onclick="openFiverrProfile()" id="profileInitialsBtn">U</button>
+      <div class="profile-btn" onclick="openFiverrProfile()" id="profileInitialsBtn" style="cursor:pointer">U</div>
     </div>
-    <p class="hero-sub">Pro Fiverr-Style Marketplace</p>
+    
+    <div class="hero-search">
+      <span>🔍</span>
+      <input id="mainSearchInput" placeholder="어떤 서비스를 찾고 계십니까? (গিগ খুঁজুন...)" oninput="filterGigs()">
+    </div>
+
     <div class="balance-card">
-      <div class="balance-label">বর্তমান ব্যালেন্স</div>
-      <div class="balance" id="balance">৳0</div>
+      <div class="balance-info">
+        <small>অ্যাকাউন্ট ব্যালেন্স</small>
+        <div class="balance" id="balance">৳0</div>
+      </div>
       <div class="hero-actions">
         <button class="withdraw-btn" type="button" onclick="openWithdraw()">Withdraw</button>
-        <button class="outline-btn" type="button" onclick="openHistory()">📜 History</button>
+        <button class="outline-btn" type="button" onclick="openHistory()">History</button>
       </div>
     </div>
   </header>
 
   <main>
+    <!-- Home Page / Fiverr Feed View -->
     <section id="homePage">
       <div id="adminPanelBtnContainer"></div>
+
+      <div class="section-head">
+        <h2>Popular Professional Gigs</h2>
+        <span onclick="showPage('jobsPage', document.querySelectorAll('#bottomNav button')[1])">See All</span>
+      </div>
       
-      <div class="section-head"><h2>আপনার স্ট্যাটাস</h2><span>Overview</span></div>
-      <div class="card">
-        <div class="stats">
-          <div class="stat"><small>সম্পন্ন কাজ</small><b id="jobsDone">0</b></div>
-          <div class="stat"><small>মোট আয়</small><b id="totalEarned">৳0</b></div>
-        </div>
-      </div>
-
-      <div class="section-head"><h2>Active Orders & Live Chat</h2><span>Ongoing projects</span></div>
-      <div class="card" id="myOrdersList">
-        <p class="muted" style="text-align:center">আপনার কোনো চলমান অর্ডার নেই।</p>
-      </div>
-
-      <div class="section-head"><h2>Support</h2><span>Official contact</span></div>
-      <div class="card">
-        <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support Team</a>
+      <!-- Fiverr Style Gigs Container for Home & Market -->
+      <div class="gigs-grid" id="availableJobsList">
+        <!-- Dynamic Gigs will load here -->
       </div>
     </section>
 
+    <!-- Post / Market Page -->
     <section id="jobsPage" class="hidden">
-      <div class="section-head"><h2>সার্ভিস বা গিগ খুঁজুন</h2><span>Search & Filter Gigs</span></div>
+      <div class="section-head"><h2>নতুন প্রফেশনাল গিগ তৈরি করুন</h2></div>
       <div class="card">
-        <input id="searchGigInput" placeholder="কী খুঁজতে চান এখানে লিখুন..." oninput="filterGigs()">
-        <label class="label">ক্যাটাগরি ফিল্টার</label>
-        <select id="filterCategory" onchange="filterGigs()">
-          <option value="All">সকল ক্যাটাগরি (All)</option>
-          <option value="Data Entry">📊 Data Entry & Excel</option>
-          <option value="Video Editing">✂️ Video Editing</option>
-          <option value="Graphic Design">🎨 Graphic Design</option>
-          <option value="Web Development">🌐 Web Development</option>
-        </select>
-      </div>
-
-      <div class="section-head"><h2>নতুন গিগ পোস্ট করুন</h2></div>
-      <div class="card">
+        <label class="label" style="margin-top:0">ক্যাটাগরি</label>
         <select id="postCategory">
           <option value="Data Entry">📊 Data Entry & Excel</option>
-          <option value="Video Editing">✂️ Video Editing</option>
-          <option value="Graphic Design">🎨 Graphic Design</option>
+          <option value="Video Editing">✂️ Video Editing & Motion</option>
+          <option value="Graphic Design">🎨 Graphic Design & Logo</option>
           <option value="Web Development">🌐 Web Development</option>
         </select>
-        <label class="label">শিরোনাম</label>
-        <input id="postTitle" placeholder="I will do...">
-        <label class="label">স্যাম্পল লিংক</label>
-        <input id="postLink" placeholder="Drive Link">
+        <label class="label">গিগ টাইটেল (I will do...)</label>
+        <input id="postTitle" placeholder="I will do professional work for you...">
+        <label class="label">স্যাম্পল বা পোর্টফোলিও লিংক</label>
+        <input id="postLink" placeholder="Drive / Portfolio Link">
         <label class="label">বাজেট (৳)</label>
         <input id="postPrice" type="number" placeholder="500">
-        <button class="primary" type="button" onclick="publishGig()">✅ গিগ পাবলিশ করুন</button>
+        <button class="primary" type="button" onclick="publishGig()">🚀 গিগ পাবলিশ করুন</button>
       </div>
 
       <div class="section-head"><h2>মার্কেটপ্লেস গিগসমূহ</h2></div>
-      <div class="card" id="availableJobsList"></div>
+      <div class="gigs-grid" id="marketGigsList"></div>
     </section>
 
+    <!-- Support Page -->
     <section id="supportPage" class="hidden">
-      <div class="section-head"><h2>Support</h2></div>
-      <div class="card">
-        <p class="muted">যেকোনো সহায়তার জন্য টেলিগ্রাম গ্রুপে যোগাযোগ করুন।</p>
-        <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support</a>
+      <div class="section-head"><h2>Customer Support</h2></div>
+      <div class="card" style="text-align:center;padding:24px">
+        <p class="muted">যেকোনো অর্ডার বা পেমেন্ট সংক্রান্ত সহায়তার জন্য সরাসরি আমাদের অফিসিয়াল সাপোর্ট টিমে যোগাযোগ করুন।</p>
+        <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support Channel</a>
       </div>
     </section>
 
+    <!-- Withdraw Page -->
     <section id="withdrawPage" class="hidden">
-      <div class="section-head"><h2>Withdraw</h2></div>
+      <div class="section-head"><h2>Earnings & Withdrawal</h2></div>
       <div class="card">
-        <div class="success">Minimum withdrawal: ৳1,000</div>
-        <button class="primary" type="button" onclick="openWithdraw()">💸 Withdraw Request</button>
+        <div class="success">মিনিমাম উইথড্রল অ্যামাউন্ট: ৳1,000</div>
+        <button class="primary" type="button" onclick="openWithdraw()">💸 উইথড্রল রিকোয়েস্ট পাঠান</button>
       </div>
     </section>
   </main>
 
   <nav class="bottom-nav" id="bottomNav">
     <button class="active" type="button" onclick="showPage('homePage',this)"><i>⌂</i>Home</button>
-    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>Market</button>
-    <button type="button" onclick="showPage('supportPage',this)"><i>◉</i>Support</button>
-    <button type="button" onclick="showPage('withdrawPage',this)"><i>৳</i>Withdraw</button>
+    <button type="button" onclick="showPage('jobsPage',this)"><i>💼</i>Market</button>
+    <button type="button" onclick="showPage('supportPage',this)"><i>🎧</i>Support</button>
+    <button type="button" onclick="showPage('withdrawPage',this)"><i>৳</i>Wallet</button>
   </nav>
 </div>
 
@@ -209,7 +225,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   const db = getFirestore(app);
 
   let isLoginMode = false;
-  let currentUid = "";
   let currentUserData = { name: "", email: "", num: "", balance: 0, jobs: 0, totalEarned: 0 };
   let allGigsCache = [];
   const ADMIN_PHONE = "01622842102";
@@ -257,7 +272,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   onAuthStateChanged(auth, async (user) => {
     if(user) {
-      currentUid = user.uid;
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if(userDoc.exists()) currentUserData = userDoc.data();
       $("authOverlay").classList.add("hidden");
@@ -267,7 +281,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       }
       render();
       loadGigs();
-      loadMyOrders();
     } else {
       $("authOverlay").classList.remove("hidden");
       $("workhubApp").classList.add("hidden");
@@ -276,78 +289,29 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   function render(){
     $("balance").textContent = "৳" + Number(currentUserData.balance || 0).toLocaleString("en-BD");
-    $("totalEarned").textContent = "৳" + Number(currentUserData.totalEarned || 0).toLocaleString("en-BD");
-    $("jobsDone").textContent = currentUserData.jobs || 0;
-
     const adminContainer = $("adminPanelBtnContainer");
     if(currentUserData.num === ADMIN_PHONE) {
-      adminContainer.innerHTML = `<div style="margin-bottom:14px"><button class="primary" style="background:linear-gradient(135deg,#12a86b,#0d8553)" type="button" onclick="openAdminPanel()">👑 Admin Control Panel</button></div>`;
+      adminContainer.innerHTML = `<div style="margin-bottom:14px"><button class="primary" style="background:#0f172a" type="button" onclick="openAdminPanel()">👑 Admin Control Panel</button></div>`;
     } else {
       adminContainer.innerHTML = "";
     }
   }
 
   window.openAdminPanel = async function() {
-    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>সব অর্ডার ও পেমেন্ট</h3><div id="adminOrdersList"><p class="muted">লোড হচ্ছে...</p></div></div>`);
+    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>সকল অর্ডার লিস্ট</h3><div id="adminOrdersList"><p class="muted">লোড হচ্ছে...</p></div></div>`);
     const q = await getDocs(collection(db, "orders"));
     const list = $("adminOrdersList");
     list.innerHTML = q.empty ? "<p class='muted'>কোনো অর্ডার নেই।</p>" : "";
     q.forEach(d => {
       const data = d.data();
-      list.innerHTML += `<div class="mini-card"><b>${data.serviceName}</b> - ৳${data.price}<br>Status: <b>${data.status}</b><br><button class="primary" style="margin-top:6px;padding:6px" onclick="updateOrderStatus('${d.id}', 'Completed', ${data.price})">Complete & Pay Seller</button></div>`;
+      list.innerHTML += `<div class="mini-card"><b>${data.serviceName}</b> - ৳${data.price}<br>Status: <b>${data.status}</b><br><button class="primary" style="margin-top:6px;padding:6px" onclick="updateOrderStatus('${d.id}', 'Completed')">Complete & Pay</button></div>`;
     });
   }
 
-  window.updateOrderStatus = async function(orderId, status, price) {
+  window.updateOrderStatus = async function(orderId, status) {
     await updateDoc(doc(db, "orders", orderId), { status });
-    alert("অর্ডার সম্পন্ন হয়েছে!");
+    alert("স্ট্যাটাস আপডেট হয়েছে!");
     closeModal();
-    loadMyOrders();
-  }
-
-  async function loadMyOrders() {
-    const list = $("myOrdersList");
-    if(!list) return;
-    const q = await getDocs(collection(db, "orders"));
-    list.innerHTML = "";
-    let count = 0;
-    q.forEach(d => {
-      const data = d.data();
-      if(data.buyerEmail === currentUserData.email || currentUserData.num === ADMIN_PHONE) {
-        count++;
-        list.innerHTML += `<div class="mini-card"><h3>${data.serviceName}</h3><p class="muted">৳${data.price} • Status: <b>${data.status}</b></p>${data.proof ? `<p style="color:#12a86b"><b>Proof:</b> ${data.proof}</p>` : ''}<div style="display:flex;gap:8px;margin-top:8px"><button class="primary" style="margin:0;flex:1;padding:6px" onclick="openChat('${d.id}', '${data.serviceName}')">💬 Chat</button><button class="outline-btn" style="background:#315bea;margin:0;flex:1;padding:6px" onclick="openProofModal('${d.id}')">Submit Proof</button></div></div>`;
-      }
-    });
-    if(count === 0) list.innerHTML = '<p class="muted" style="text-align:center">কোনো চলমান অর্ডার নেই।</p>';
-  }
-
-  window.openProofModal = function(orderId) {
-    openModal(`<div class="sheet-top"><h2>Submit Work Proof</h2><button class="close" type="button" onclick="closeModal()">×</button></div><label class="label">কাজের প্রমাণ (Drive link বা টেক্সট)</label><input id="proofInput" placeholder="লিংক বা বিবরণ দিন"><button class="primary" type="button" onclick="submitProof('${orderId}')">সাবমিট করুন</button>`);
-  }
-
-  window.submitProof = async function(orderId) {
-    const proof = $("proofInput").value.trim();
-    if(!proof) return;
-    await updateDoc(doc(db, "orders", orderId), { proof, status: "Pending Review" });
-    closeModal();
-    alert("প্রুফ সাবমিট করা হয়েছে!");
-    loadMyOrders();
-  }
-
-  window.openChat = async function(orderId, name) {
-    openModal(`<div class="sheet-top"><h2>💬 Chat: ${name}</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div id="chatBox" style="max-height:200px;overflow-y:auto;background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:10px">লোড হচ্ছে...</div><input id="chatText" placeholder="মেসেজ লিখুন..."><button class="primary" type="button" onclick="sendMsg('${orderId}')">পাঠান</button>`);
-    const q = await getDocs(collection(db, "orders", orderId, "messages"));
-    const box = $("chatBox");
-    box.innerHTML = q.empty ? '<p class="muted">মেসেজ নেই।</p>' : "";
-    q.forEach(d => { box.innerHTML += `<div><b>${d.data().sender}:</b> ${d.data().text}</div>`; });
-  }
-
-  window.sendMsg = async function(orderId) {
-    const text = $("chatText").value.trim();
-    if(!text) return;
-    await addDoc(collection(db, "orders", orderId, "messages"), { sender: currentUserData.name, text, createdAt: serverTimestamp() });
-    $("chatText").value = "";
-    openChat(orderId, "Chat");
   }
 
   window.publishGig = async function() {
@@ -356,8 +320,11 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     const link = $("postLink").value.trim();
     const price = Number($("postPrice").value);
     if(!title || !link || !price) return alert("সব তথ্য পূরণ করুন।");
-    await addDoc(collection(db, "gigs"), { category, title, link, price, sellerName: currentUserData.name, createdAt: serverTimestamp() });
+    await addDoc(collection(db, "gigs"), { category, title, link, price, sellerName: currentUserData.name || "Freelancer", createdAt: serverTimestamp() });
     alert("গিগ সফলভাবে পাবলিশ হয়েছে!");
+    $("postTitle").value = "";
+    $("postLink").value = "";
+    $("postPrice").value = "";
     loadGigs();
   }
 
@@ -369,37 +336,71 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   }
 
   function displayGigs(list) {
-    const container = $("availableJobsList");
-    if(!container) return;
-    container.innerHTML = list.length === 0 ? "<p class='muted' style='text-align:center'>কোনো গিগ পাওয়া যায়নি।</p>" : "";
-    list.forEach(data => {
-      container.innerHTML += `<div class="job"><div class="job-main"><div class="job-icon">💼</div><div><b>${data.title}</b><small>${data.category} • ৳${data.price} • ${data.sellerName}</small></div></div><button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${data.price}, '${data.title}')">Order</button></div>`;
-    });
+    const container1 = $("availableJobsList");
+    const container2 = $("marketGigsList");
+    
+    let htmlContent = "";
+    if(list.length === 0) {
+      htmlContent = "<p class='muted' style='text-align:center;grid-column:1/-1;padding:20px'>কোনো গিগ পাওয়া যায়নি।</p>";
+    } else {
+      list.forEach(data => {
+        const firstLetter = data.sellerName ? data.sellerName.charAt(0).toUpperCase() : "F";
+        htmlContent += `
+          <div class="gig-card">
+            <div class="gig-thumb">💼</div>
+            <div class="gig-body">
+              <div class="seller-info">
+                <div class="seller-avatar">${firstLetter}</div>
+                <div class="seller-name">${data.sellerName}</div>
+              </div>
+              <p class="gig-title">${data.title}</p>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Category: ${data.category}</div>
+              <div class="gig-footer">
+                <div class="gig-rating">⭐ 5.0</div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span class="gig-price">৳${data.price}</span>
+                  <button class="primary" style="margin:0;padding:6px 12px;font-size:12px;width:auto" onclick="buyJob(${data.price}, '${data.title.replace(/'/g, "")}')">Order</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    if(container1) container1.innerHTML = htmlContent;
+    if(container2) container2.innerHTML = htmlContent;
   }
 
   window.filterGigs = function() {
-    const query = $("searchGigInput").value.toLowerCase();
-    const category = $("filterCategory").value;
-    const filtered = allGigsCache.filter(item => {
-      const matchQuery = item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query);
-      const matchCat = category === "All" || item.category === category;
-      return matchQuery && matchCat;
-    });
+    const query = $("mainSearchInput").value.toLowerCase();
+    const filtered = allGigsCache.filter(item => 
+      item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query) || item.sellerName.toLowerCase().includes(query)
+    );
     displayGigs(filtered);
   }
 
   window.buyJob = function(price, name) {
-    openModal(`<div class="sheet-top"><h2>Order Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="success">Pay ৳${price} to Admin: <b>01622842102</b></div><label class="label">Medium<select id="payM"><option>bKash</option><option>Nagad</option></select></label><label class="label">Number<input id="payNum" maxlength="11" placeholder="01XXXXXXXXX"></label><label class="label">TrxID<input id="payTrx" placeholder="TrxID"></label><button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">কনফার্ম করুন</button>`);
+    openModal(`
+      <div class="sheet-top"><h2>Fiverr Order Checkout</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <div class="success">Admin-এ পেমেন্ট করুন: <b>01622842102</b> (৳${price})</div>
+      <label class="label">পেমেন্ট মাধ্যম</label>
+      <select id="payM"><option>bKash</option><option>Nagad</option></select>
+      <label class="label">আপনার নম্বর</label>
+      <input id="payNum" maxlength="11" placeholder="01XXXXXXXXX">
+      <label class="label">TrxID</label>
+      <input id="payTrx" placeholder="সঠিক TrxID দিন">
+      <button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">অর্ডার কনফার্ম করুন</button>
+    `);
   }
 
   window.confirmOrder = async function(price, name) {
     const senderNum = $("payNum").value;
     const trxId = $("payTrx").value;
-    if(!/^01\d{9}$/.test(senderNum) || trxId.length < 4) return alert("সঠিক তথ্য দিন।");
+    if(!/^01\d{9}$/.test(senderNum) || trxId.length < 4) return alert("সঠিক নম্বর ও TrxID দিন।");
     await addDoc(collection(db, "orders"), { serviceName: name, price, senderNum, trxId, buyerEmail: currentUserData.email, status: "Pending", createdAt: serverTimestamp() });
     closeModal();
-    alert("অর্ডার সাবমিট হয়েছে!");
-    loadMyOrders();
+    alert("আপনার অর্ডার সফলভাবে সাবমিট হয়েছে!");
   }
 </script>
 
@@ -416,44 +417,31 @@ function openModal(content){$("modalBody").innerHTML=content;$("modal").classLis
 function closeModal(){$("modal").classList.add("hidden");$("modalBody").innerHTML="";document.body.style.overflow="";}
 $("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
 
-// Fiverr-Style Pro Profile Page
 function openFiverrProfile(){
   openModal(`
-    <div class="sheet-top">
-      <h2>👤 Profile (Fiverr Style)</h2>
-      <button class="close" type="button" onclick="closeModal()">×</button>
-    </div>
+    <div class="sheet-top"><h2>Profile (Fiverr Style)</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
     <div style="text-align:center;padding:10px 0 15px;border-bottom:1px solid var(--line);">
-      <div style="width:72px;height:72px;background:#315bea;color:#fff;font-size:30px;font-weight:900;border-radius:50%;display:grid;place-items:center;margin:auto;box-shadow:0 8px 20px rgba(49,91,234,.3)">
+      <div style="width:70px;height:70px;background:#1dbf73;color:#fff;font-size:28px;font-weight:900;border-radius:50%;display:grid;place-items:center;margin:auto;">
         ${currentUserData.name ? currentUserData.name.charAt(0).toUpperCase() : 'U'}
       </div>
-      <h3 style="margin:10px 0 3px;font-size:18px;">${currentUserData.name || 'Freelancer'}</h3>
-      <p style="color:var(--muted);font-size:13px;margin:0;">⭐️ 5.0 (12 Reviews) • Top Rated Seller</p>
+      <h3 style="margin:8px 0 2px;font-size:18px;">${currentUserData.name || 'Freelancer'}</h3>
+      <p style="color:var(--muted);font-size:12px;margin:0;">⭐ 5.0 (Top Rated Seller)</p>
     </div>
     <div class="mini-card">
-      <h3><b>বায়ো ও পরিচিতি</b></h3>
-      <p class="muted">প্রফেশনাল ফ্রিল্যান্সার এবং ডিজিটাল সার্ভিস প্রোভাইডার। কাজের মান শতভাগ নিশ্চিত করা হয়।</p>
+      <h3><b>বায়ো</b></h3>
+      <p class="muted">প্রফেশনাল ফ্রিল্যান্সার এবং গিগ সার্ভিস প্রোভাইডার।</p>
     </div>
     <div class="mini-card">
-      <h3><b>দক্ষতা ও স্কিল (Skills)</b></h3>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
-        <span style="background:#eef4ff;color:#315bea;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;">Data Entry</span>
-        <span style="background:#eef4ff;color:#315bea;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;">Video Editing</span>
-        <span style="background:#eef4ff;color:#315bea;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;">Graphic Design</span>
-      </div>
-    </div>
-    <div class="mini-card">
-      <h3><b>একাউন্ট তথ্য</b></h3>
-      <p class="muted">📧 Email: ${currentUserData.email || 'N/A'}<br>📱 Mobile: ${currentUserData.num || 'N/A'}</p>
+      <h3><b>একাউন্ট ডিটেইলস</b></h3>
+      <p class="muted">📧 Email: ${currentUserData.email || 'N/A'}<br>📱 Phone: ${currentUserData.num || 'N/A'}</p>
     </div>
   `);
 }
-
 function openHistory(){
-  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><p class="muted">আপনার সমস্ত লেনদেন এবং উইথড্রল হিস্টরি এখানে সংরক্ষিত থাকবে।</p></div>`);
+  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><p class="muted">আপনার সকল পেমেন্ট এবং উইথড্রল হিস্টরি এখানে থাকবে।</p></div>`);
 }
 function openWithdraw(){
-  openModal(`<div class="sheet-top"><h2>Withdraw</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="success">Balance: ৳${currentUserData.balance}</div><label class="label">Amount<input id="wAmt" type="number" min="1000" placeholder="Min 1000"></label><button class="primary" onclick="alert('Withdraw Request Sent!')">Request</button>`);
+  openModal(`<div class="sheet-top"><h2>Withdraw Funds</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="success">Current Balance: ৳${currentUserData.balance}</div><label class="label">Withdraw Amount</label><input id="wAmt" type="number" min="1000" placeholder="Min 1000"><button class="primary" onclick="alert('Withdraw Request Submitted!')">Request Withdrawal</button>`);
 }
 </script>
 </body>
