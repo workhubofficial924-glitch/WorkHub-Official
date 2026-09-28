@@ -262,6 +262,20 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   let allGigsCache = [];
   const ADMIN_PHONE = "01622842102";
 
+  // Share live Firebase state with the UI handlers below.
+  Object.defineProperty(window, "currentUserData", {
+    configurable: true,
+    get: () => currentUserData
+  });
+  Object.defineProperty(window, "firebaseAuth", {
+    configurable: true,
+    get: () => auth
+  });
+  Object.defineProperty(window, "firebaseDb", {
+    configurable: true,
+    get: () => db
+  });
+
   window.toggleAuthMode = function() {
     isLoginMode = !isLoginMode;
     if(isLoginMode) {
@@ -340,7 +354,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   }
 
   window.openAdminPanel = async function() {
-    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>Sokol Order List</h3><div id="adminOrdersList"><p class="muted">Load hocche...</p></div></div>`);
+    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="window.closeModal()">×</button></div><div class="mini-card"><h3>Sokol Order List</h3><div id="adminOrdersList"><p class="muted">Load hocche...</p></div></div>`);
     const q = await getDocs(collection(db, "orders"));
     const list = document.getElementById("adminOrdersList");
     list.innerHTML = q.empty ? "<p class='muted'>Kono order nei.</p>" : "";
@@ -424,7 +438,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
 
   window.buyJob = function(price, name) {
     openModal(`
-      <div class="sheet-top"><h2>Binance USDT Checkout</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <div class="sheet-top"><h2>Binance USDT Checkout</h2><button class="close" type="button" onclick="window.closeModal()">×</button></div>
       <div class="success">Binance (USDT - TRC20) Payment Gateway</div>
       
       <label class="label">Admin USDT Wallet Address (TRC20):</label>
@@ -490,17 +504,18 @@ document.getElementById("modal").addEventListener("click", e => {
 });
 
 window.openFiverrProfile = function(){
-  const name = currentUserData.name || "Freelancer";
-  const email = currentUserData.email || "N/A";
-  const num = currentUserData.num || "N/A";
-  const country = currentUserData.country || "Bangladesh";
-  const balance = Number(currentUserData.balance || 0);
+  const user = window.currentUserData || {};
+  const name = user.name || "Freelancer";
+  const email = user.email || "N/A";
+  const num = user.num || "N/A";
+  const country = user.country || "Bangladesh";
+  const balance = Number(user.balance || 0);
   const initial = name.trim().charAt(0).toUpperCase() || "U";
 
   openModal(`
     <div class="sheet-top">
       <h2>My Profile</h2>
-      <button class="close" type="button" onclick="closeModal()" aria-label="Close">×</button>
+      <button class="close" type="button" onclick="window.closeModal()" aria-label="Close">×</button>
     </div>
 
     <div class="profile-hero">
@@ -537,16 +552,16 @@ window.openFiverrProfile = function(){
       <span>${escapeHtml(country)}</span>
     </div>
 
-    <button class="primary" type="button" onclick="closeModal();openWithdraw()">💸 Open Wallet</button>
+    <button class="primary" type="button" onclick="window.closeModal();window.openWithdraw()">💸 Open Wallet</button>
   `);
 }
 
 window.openHistory = function(){
-  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><p class="muted">Apnar sokol payment ebong withdrawal history ekhane thakbe.</p></div>`);
+  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="window.closeModal()">×</button></div><div class="mini-card"><p class="muted">Apnar sokol payment ebong withdrawal history ekhane thakbe.</p></div>`);
 }
 
 window.openWithdraw = function(){
-  const balance = Number(currentUserData.balance || 0);
+  const balance = Number((window.currentUserData || {}).balance || 0);
 
   window.openModal(`
     <div class="sheet-top">
@@ -563,15 +578,21 @@ window.openWithdraw = function(){
     </div>
 
     <label class="label">Withdrawal Method</label>
-    <select id="withdrawMethod">
-      <option value="Binance USDT (TRC20)">Binance USDT (TRC20)</option>
+    <select id="withdrawMethod" onchange="window.updateWithdrawMethod()">
+      <option value="bKash">📱 bKash</option>
+      <option value="Nagad">📱 Nagad</option>
+      <option value="Binance USDT (TRC20)">🪙 Binance USDT (TRC20)</option>
     </select>
 
     <label class="label">Withdraw Amount (৳)</label>
     <input id="wAmt" type="number" min="1000" max="${balance}" placeholder="Minimum ৳1,000">
 
-    <label class="label">Binance USDT Wallet Address (TRC20)</label>
-    <input id="wDest" type="text" autocomplete="off" placeholder="Enter your TRC20 wallet address">
+    <label class="label" id="destinationLabel">bKash Number</label>
+    <input id="wDest" type="tel" autocomplete="off" placeholder="01XXXXXXXXX">
+
+    <div class="mini-card" style="margin-top:10px">
+      <div class="muted">⚠️ নিজের সঠিক bKash/Nagad নম্বর অথবা Binance TRC20 address দিন। ভুল তথ্যের কারণে payment সমস্যা হলে request review লাগতে পারে।</div>
+    </div>
 
     <div id="withdrawError" class="muted" style="display:none;color:#dc2626;margin-top:8px"></div>
 
@@ -584,9 +605,34 @@ window.openWithdraw = function(){
   if(btn) btn.addEventListener("click", window.submitWithdrawRequest);
 }
 
+window.updateWithdrawMethod = function(){
+  const method = document.getElementById("withdrawMethod")?.value;
+  const label = document.getElementById("destinationLabel");
+  const input = document.getElementById("wDest");
+  if(!label || !input) return;
+
+  if(method === "bKash"){
+    label.textContent = "bKash Number";
+    input.type = "tel";
+    input.placeholder = "01XXXXXXXXX";
+    input.inputMode = "tel";
+  }else if(method === "Nagad"){
+    label.textContent = "Nagad Number";
+    input.type = "tel";
+    input.placeholder = "01XXXXXXXXX";
+    input.inputMode = "tel";
+  }else{
+    label.textContent = "Binance USDT Wallet Address (TRC20)";
+    input.type = "text";
+    input.placeholder = "Enter your TRC20 wallet address";
+    input.inputMode = "text";
+  }
+}
+
 window.submitWithdrawRequest = async function(){
   const amount = Number(document.getElementById("wAmt")?.value || 0);
   const destination = (document.getElementById("wDest")?.value || "").trim();
+  const method = document.getElementById("withdrawMethod")?.value || "bKash";
   const errorBox = document.getElementById("withdrawError");
   const btn = document.getElementById("submitWithdrawBtn");
   const balance = Number(currentUserData.balance || 0);
@@ -602,8 +648,14 @@ window.submitWithdrawRequest = async function(){
 
   if(amount < 1000) return showError("Minimum withdrawal amount is ৳1,000.");
   if(amount > balance) return showError("Apnar balance-er cheye beshi amount withdraw kora jabe na.");
-  if(!destination) return showError("Binance TRC20 wallet address din.");
-  if(destination.length < 20) return showError("Wallet address-ti check korun.");
+  if(!destination) return showError(method === "Binance USDT (TRC20)" ? "Binance TRC20 wallet address din." : method + " number din.");
+
+  if(method === "bKash" || method === "Nagad"){
+    const phone = destination.replace(/[\\s-]/g, "");
+    if(!/^01\\d{9}$/.test(phone)) return showError("Sothik 11 digit " + method + " number din.");
+  }else{
+    if(destination.length < 20) return showError("Binance TRC20 wallet address-ti check korun.");
+  }
 
   try{
     if(btn){
@@ -611,12 +663,12 @@ window.submitWithdrawRequest = async function(){
       btn.textContent = "⏳ Request submit hocche...";
     }
 
-    await addDoc(collection(db, "withdrawals"), {
-      uid: auth.currentUser?.uid || "",
-      name: currentUserData.name || "",
-      email: currentUserData.email || "",
+    await addDoc(collection(window.firebaseDb, "withdrawals"), {
+      uid: window.firebaseAuth?.currentUser?.uid || "",
+      name: (window.currentUserData || {}).name || "",
+      email: (window.currentUserData || {}).email || "",
       amount,
-      method: "Binance USDT (TRC20)",
+      method,
       walletAddress: destination,
       status: "Pending",
       createdAt: serverTimestamp()
