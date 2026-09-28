@@ -48,8 +48,6 @@ main{padding:16px}
 .label{display:block;margin-top:13px;font-size:12px;font-weight:800}
 input,select{width:100%;margin-top:6px;padding:13px 14px;border:1px solid #dbe2eb;border-radius:13px;background:#fff;outline:none}
 input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,234,.10)}
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:7px}
-.price{padding:11px 6px;border-radius:12px;background:#f1f5ff;color:#2851c8;font-weight:850}.price.active{background:#315bea;color:#fff}
 .primary{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#315bea,#2447c7);color:#fff;font-weight:900;margin-top:14px}
 .job{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
 .job:last-child{border-bottom:0}.job-main{display:flex;gap:10px;align-items:center}.job-icon{width:42px;height:42px;border-radius:13px;background:#eef4ff;display:grid;place-items:center;font-size:21px}
@@ -68,7 +66,30 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 </head>
 <body>
 
-<div class="app" id="workhubApp">
+<!-- Authentication / Sign-up Overlay -->
+<div id="authOverlay" style="position:fixed;inset:0;background:linear-gradient(145deg,#0b1330 0%,#172b67 58%,#2456c8 100%);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;">
+  <div style="width:min(100%,440px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3)">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:28px;font-weight:900;color:#101a3a">Work<span style="color:#315bea">Hub</span></div>
+      <p style="color:#64748b;font-size:13px;margin-top:5px">আপনার প্রফেশনাল মাইক্রো-টাস্ক প্ল্যাটফর্ম</p>
+    </div>
+    
+    <div id="authFormContent">
+      <label class="label" style="margin-top:0">আপনার নাম</label>
+      <input id="authName" placeholder="আপনার পুরো নাম লিখুন">
+      
+      <label class="label">একাউন্টের ধরণ / রোল (Role)</label>
+      <select id="authRole">
+        <option value="Worker">কর্মী / বিক্রেতা (Worker/Editor)</option>
+        <option value="Client Bringer">ক্লায়েন্ট সংগ্রাহক (Client Bringer)</option>
+      </select>
+      
+      <button class="primary" type="button" onclick="handleAuthRegister()">একাউন্ট তৈরি করুন / প্রবেশ করুন</button>
+    </div>
+  </div>
+</div>
+
+<div class="app hidden" id="workhubApp">
   <header class="hero">
     <div class="topbar">
       <div class="logo">Work<span>Hub</span></div>
@@ -80,7 +101,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
       <div class="balance" id="balance">৳0</div>
       <div class="hero-actions">
         <button class="withdraw-btn" type="button" onclick="openWithdraw()">Withdraw</button>
-        <button class="outline-btn" type="button" onclick="openRoles()">+ Role</button>
+        <button class="outline-btn" type="button" onclick="openRoles()">+ Role Active</button>
       </div>
     </div>
   </header>
@@ -90,7 +111,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
       <div class="section-head"><h2>আপনার Roles</h2><span>Multiple roles supported</span></div>
       <div class="card">
         <div class="role-row" id="roles"></div>
-        <button class="add-role" type="button" onclick="openRoles()">＋ নতুন Role Active করুন</button>
+        <button class="add-role" type="button" onclick="openRoles()">＋ নতুন Role Active করুন (৳100)</button>
       </div>
 
       <div class="section-head"><h2>Overview</h2></div>
@@ -112,34 +133,33 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
         <div class="split-row"><div class="split-left"><span class="split-icon">🎨</span>Worker</div><div class="percent">60%</div></div>
         <div class="split-row"><div class="split-left"><span class="split-icon">🤝</span>Client Bringer</div><div class="percent">20%</div></div>
         <div class="split-row"><div class="split-left"><span class="split-icon">👑</span>Owner</div><div class="percent">20%</div></div>
-        <p class="muted">উদাহরণ: ৳1,000 approved project হলে Worker ৳600, Client Bringer ৳200 এবং Owner ৳200।</p>
+        <p class="muted">লাভ বন্টন: Worker ৬০%, Client Bringer ২০%, Owner ২০%।</p>
       </div>
     </section>
 
     <section id="jobsPage" class="hidden">
-      <div class="section-head"><h2>নতুন Project</h2><span>Client order</span></div>
+      <div class="section-head"><h2>নতুন কাজের অফার পোস্ট</h2><span>Editor / Worker Post</span></div>
       <div class="card">
-        <div class="service-grid">
-          <button class="service active" type="button" id="canvaBtn" onclick="chooseService('Canva Design')"><span class="service-icon">🎨</span><b>Canva Design</b><small>Post • Banner • Design</small></button>
-          <button class="service" type="button" id="capcutBtn" onclick="chooseService('CapCut Editing')"><span class="service-icon">✂️</span><b>CapCut Editing</b><small>Reels • Shorts • Video</small></button>
-        </div>
+        <label class="label" style="margin-top:0">কাজের ক্যাটাগরি</label>
+        <select id="postCategory">
+          <option value="Canva Design">Canva Design</option>
+          <option value="CapCut Editing">CapCut Editing</option>
+        </select>
 
-        <label class="label">Project Budget</label>
-        <div class="price-grid">
-          <button class="price" type="button" onclick="setPrice(500,this)">Normal<br>৳500</button>
-          <button class="price" type="button" onclick="setPrice(1000,this)">High<br>৳1,000</button>
-          <button class="price" type="button" onclick="setPrice(2000,this)">Pro<br>৳2,000</button>
-        </div>
-        <input id="budget" type="number" min="50" placeholder="অথবা নিজের Budget লিখুন">
+        <label class="label">ভিডিও লিংক / ইমেজ লিংক</label>
+        <input id="postLink" placeholder="কাজের ড্রাইভ লিংক বা স্যাম্পল লিংক দিন">
 
-        <div class="notice">Payment Owner approve করার পরেই project Processing status পাবে।</div>
-        <button class="primary" type="button" onclick="openPayment()">💳 Payment & Order</button>
+        <label class="label">কাজের দাম / বাজেট (নিজের ইচ্ছমতো)</label>
+        <input id="postPrice" type="number" min="50" placeholder="যেমন: 500, 1000 বা আপনার ইচ্ছামত">
+
+        <div class="notice">আপনার সেট করা দামে ক্লায়েন্ট অর্ডার করতে পারবে।</div>
+        <button class="primary" type="button" onclick="publishJobOffer()">✅ কাজের অফার পাবলিশ করুন</button>
       </div>
 
-      <div class="section-head"><h2>Available Work</h2></div>
-      <div class="card">
-        <div class="job"><div class="job-main"><div class="job-icon">🎨</div><div><b>Canva Design</b><small>Social post / banner</small></div></div><span class="status">Worker 60%</span></div>
-        <div class="job"><div class="job-main"><div class="job-icon">✂️</div><div><b>CapCut Editing</b><small>Short video / reels</small></div></div><span class="status">Worker 60%</span></div>
+      <div class="section-head"><h2>Available Work & Orders</h2></div>
+      <div class="card" id="availableJobsList">
+        <div class="job"><div class="job-main"><div class="job-icon">🎨</div><div><b>Canva Design (Sample)</b><small>Price: ৳500 • Worker 60%</small></div></div><button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(500, 'Canva Design')">Order Now</button></div>
+        <div class="job"><div class="job-main"><div class="job-icon">✂️</div><div><b>CapCut Editing (Sample)</b><small>Price: ৳1000 • Worker 60%</small></div></div><button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(1000, 'CapCut Editing')">Order Now</button></div>
       </div>
     </section>
 
@@ -163,7 +183,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 
   <nav class="bottom-nav" id="bottomNav">
     <button class="active" type="button" onclick="showPage('homePage',this)"><i>⌂</i>Home</button>
-    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>কাজ</button>
+    <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>কাজ ও অফার</button>
     <button type="button" onclick="showPage('supportPage',this)"><i>◉</i>Support</button>
     <button type="button" onclick="showPage('withdrawPage',this)"><i>৳</i>Withdraw</button>
   </nav>
@@ -177,12 +197,27 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 
 <script>
 const state={
+  userName:"",
   balance:0, earned:0, jobs:0,
-  roles:["Worker"], service:"Canva Design",
-  orders:[], payments:[], withdrawals:[], activationRequests:[]
+  roles:[], service:"Canva Design",
+  orders:[], payments:[], withdrawals:[], activationRequests:[], postedJobs:[]
 };
 const $=id=>document.getElementById(id);
 const money=n=>"৳"+Number(n||0).toLocaleString("en-BD");
+
+function handleAuthRegister(){
+  const name = $("authName").value.trim();
+  const role = $("authRole").value;
+  if(!name){
+    return alert("দয়া করে আপনার নাম লিখুন।");
+  }
+  state.userName = name;
+  state.roles = [role];
+  
+  $("authOverlay").classList.add("hidden");
+  $("workhubApp").classList.remove("hidden");
+  render();
+}
 
 function render(){
   $("balance").textContent=money(state.balance);
@@ -193,6 +228,7 @@ function render(){
     return '<span class="role">'+icon+" "+r+"</span>";
   }).join("");
 }
+
 function showPage(id,btn){
   ["homePage","jobsPage","supportPage","withdrawPage"].forEach(x=>$(x).classList.add("hidden"));
   $(id).classList.remove("hidden");
@@ -200,6 +236,7 @@ function showPage(id,btn){
   btn.classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
 }
+
 function openModal(content){
   $("modalBody").innerHTML=content;
   $("modal").classList.remove("hidden");
@@ -215,54 +252,35 @@ $("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
 function openProfile(){
   openModal(`
     <div class="sheet-top"><h2>Profile</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="mini-card"><h3>WorkHub User</h3><p class="muted">Account dashboard ready.</p></div>
+    <div class="mini-card"><h3>${state.userName || "User"}</h3><p class="muted">Active Account & Dashboard</p></div>
     <div class="mini-card"><h3>Active Roles</h3><p class="muted">${state.roles.join(" • ")}</p></div>
   `);
 }
+
 function openRoles(){
   openModal(`
     <div class="sheet-top">
-      <h2>Role Activation</h2>
+      <h2>Role Activation (৳100 Fee)</h2>
       <button class="close" type="button" onclick="closeModal()">×</button>
     </div>
 
     <div class="mini-card">
-      <h3>🎨 Worker</h3>
-      <p class="muted">Canva ও CapCut editing কাজ করবেন।</p>
-      <div class="notice">
-        <b>Worker Active করতে ৳100 Send Money করতে হবে।</b><br>
-        bKash / Nagad: <b>01622842102</b>
-      </div>
-      <button class="primary" type="button" onclick="openActivationPayment('Worker')">
-        ৳100 Send Money করে Active করুন
-      </button>
+      <h3>🎨 Worker / Editor</h3>
+      <p class="muted">কাজের লিংক ও নিজের ইচ্ছমতো প্রাইস সেট করে অফার পোস্ট করতে পারবেন।</p>
+      <button class="primary" type="button" onclick="openActivationPayment('Worker')">Worker Role Active করুন (৳100)</button>
     </div>
 
     <div class="mini-card">
       <h3>🤝 Client Bringer</h3>
-      <p class="muted">Client বা নতুন project নিয়ে আসবেন।</p>
-      <div class="notice">
-        <b>Client Bringer Active করতে ৳100 Send Money করতে হবে।</b><br>
-        bKash / Nagad: <b>01622842102</b>
-      </div>
-      <button class="primary" type="button" onclick="openActivationPayment('Client Bringer')">
-        ৳100 Send Money করে Active করুন
-      </button>
-    </div>
-
-    <div class="mini-card">
-      <h3>💬 Support</h3>
-      <p class="muted">Payment বা activation বিষয়ে সাহায্য দরকার হলে Support Team-এ যোগাযোগ করুন।</p>
-      <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">
-        💬 Telegram Support Team
-      </a>
+      <p class="muted">ক্লায়েন্ট বা প্রজেক্ট নিয়ে এসে কমিশন উপার্জন করতে পারবেন।</p>
+      <button class="primary" type="button" onclick="openActivationPayment('Client Bringer')">Client Bringer Active করুন (৳100)</button>
     </div>
   `);
 }
 
 function openActivationPayment(role){
   if(state.roles.includes(role)){
-    return alert(role + " ইতিমধ্যে Active।");
+    return alert(role + " ইতিমধ্যে আপনার অ্যাকাউন্টে Active আছে।");
   }
 
   openModal(`
@@ -270,164 +288,119 @@ function openActivationPayment(role){
       <h2>${role} Activation</h2>
       <button class="close" type="button" onclick="closeModal()">×</button>
     </div>
-
-    <div class="success">
-      <b>Account/Role Active করতে ৳100 Send Money করতে হবে।</b>
-    </div>
-
-    <div class="mini-card">
-      <h3>📲 bKash / Nagad Send Money</h3>
-      <p class="muted">নিচের নম্বরে ঠিক <b>৳100</b> Send Money করুন:</p>
-      <div style="font-size:28px;font-weight:950;letter-spacing:.6px;margin:10px 0">01622842102</div>
-      <div class="notice">
-        <b>Payment Type: Send Money</b><br>
-        bKash অথবা Nagad ব্যবহার করুন। Payment করার পর TrxID submit করুন।
-      </div>
-      <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">
-        💬 Payment Help — Telegram Support
-      </a>
-    </div>
-
-    <label class="label">Payment Method
-      <select id="activationMethod">
-        <option value="bKash">bKash</option>
-        <option value="Nagad">Nagad</option>
-      </select>
+    <div class="success"><b>৳100 Send Money করতে হবে নিচের নম্বরে:</b></div>
+    <div style="font-size:26px;font-weight:900;margin:10px 0">01622842102</div>
+    <label class="label">পেমেন্ট মেথড
+      <select id="actMethod"><option>bKash</option><option>Nagad</option></select>
     </label>
-
-    <label class="label">Send Money TrxID
-      <input id="activationTrx" placeholder="Send Money TrxID দিন" autocomplete="off">
+    <label class="label">আপনার TrxID দিন
+      <input id="actTrx" placeholder="Send Money TrxID লিখুন">
     </label>
-
-    <button class="primary" type="button" onclick="submitActivation('${role}')">
-      ✅ Payment Submit করুন
-    </button>
-
-    <div class="muted" style="margin-top:10px;text-align:center">
-      Owner payment verify করার পরেই ${role} Active হবে।
-    </div>
+    <button class="primary" type="button" onclick="submitRoleActivation('${role}')">পেমেন্ট সাবমিট করুন</button>
   `);
 }
 
-function submitActivation(role){
-  const method = $("activationMethod").value;
-  const trx = $("activationTrx").value.trim();
-
-  if(trx.length < 5){
-    return alert("সঠিক Send Money TrxID দিন।");
-  }
-
-  if(!state.activationRequests) state.activationRequests = [];
-
-  const duplicate = state.activationRequests.some(x =>
-    x.role === role && x.trx.toLowerCase() === trx.toLowerCase()
-  );
-
-  if(duplicate){
-    return alert("এই TrxID দিয়ে আগে থেকেই request করা হয়েছে।");
-  }
-
-  state.activationRequests.push({
-    role: role,
-    method: method,
-    trx: trx,
-    number: "01622842102",
-    amount: 100,
-    status: "pending",
-    createdAt: new Date().toISOString()
-  });
-
-  openModal(`
-    <div class="sheet-top">
-      <h2>Activation Pending</h2>
-      <button class="close" type="button" onclick="closeModal()">×</button>
-    </div>
-
-    <div class="success">
-      ✅ <b>৳100 payment request submitted</b>
-    </div>
-
-    <div class="mini-card">
-      <p class="muted">
-        Role: <b>${role}</b><br>
-        Method: <b>${method}</b><br>
-        TrxID: <b>${trx}</b><br>
-        Amount: <b>৳100</b>
-      </p>
-      <div class="notice">
-        Owner TrxID verify করার পর আপনার Role Active হবে।
-      </div>
-      <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">
-        💬 Telegram Support
-      </a>
-    </div>
-
-    <button class="primary" type="button" onclick="closeModal()">ঠিক আছে</button>
-  `);
-}
-
-function activateWorker(){
-  openActivationPayment("Worker");
-}
-
-function activateClient(){
-  openActivationPayment("Client Bringer");
-}
-
-function chooseService(name){
-  state.service=name;
-  $("canvaBtn").classList.toggle("active",name==="Canva Design");
-  $("capcutBtn").classList.toggle("active",name==="CapCut Editing");
-}
-function setPrice(value,btn){
-  $("budget").value=value;
-  document.querySelectorAll(".price").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active");
-}
-function openPayment(){
-  const amount=Number($("budget").value);
-  if(!amount||amount<50)return alert("কমপক্ষে ৳50 Budget দিন।");
-  openModal(`
-    <div class="sheet-top"><h2>Client Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="success">Project: <b>${state.service}</b><br>Budget: <b>${money(amount)}</b></div><div class="notice"><b>bKash / Nagad Send Money:</b> 01622842102<br>টাকা পাঠানোর পর TrxID ও payment number দিন।</div>
-    <label class="label">Payment Method<select id="payMethod"><option>bKash</option><option>Nagad</option></select></label>
-    <label class="label">Payment Number<input id="payNumber" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></label>
-    <label class="label">Transaction ID (TrxID)<input id="trx" placeholder="আপনার TrxID"></label>
-    <div class="notice">Owner payment verify করে approve করলে project Processing-এ যাবে।</div>
-    <button class="primary" onclick="submitPayment(${amount})">Submit Payment</button>
-  `);
-}
-function submitPayment(amount){
-  const number=$("payNumber").value.trim(),trx=$("trx").value.trim();
-  if(!/^01\d{9}$/.test(number))return alert("সঠিক ১১ ডিজিটের payment number দিন।");
-  if(trx.length<5)return alert("সঠিক TrxID দিন।");
-  state.payments.push({amount,number,trx,status:"pending"});
-  state.orders.push({service:state.service,budget:amount,paymentStatus:"pending"});
+function submitRoleActivation(role){
+  const trx = $("actTrx").value.trim();
+  if(trx.length < 5) return alert("সঠিক TrxID দিন।");
+  
+  state.roles.push(role);
   closeModal();
-  alert("Payment submitted — এখন Owner verification pending।");
+  render();
+  alert(role + " সাকসেসফুলভাবে Active করা হয়েছে!");
 }
+
+function publishJobOffer(){
+  const category = $("postCategory").value;
+  const link = $("postLink").value.trim();
+  const price = Number($("postPrice").value);
+
+  if(!link || !price || price < 50){
+    return alert("সঠিক লিংক এবং কমপক্ষে ৳50 বা তার বেশি বাজেট দিন।");
+  }
+
+  state.postedJobs.push({category, link, price});
+  
+  // Update available work list
+  const list = $("availableJobsList");
+  const newDiv = document.createElement("div");
+  newDiv.className = "job";
+  newDiv.innerHTML = `
+    <div class="job-main">
+      <div class="job-icon">${category === 'Canva Design' ? '🎨' : '✂️'}</div>
+      <div><b>${category}</b><small>Price: ৳${price} • Worker 60%</small></div>
+    </div>
+    <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${price}, '${category}')">Order Now</button>
+  `;
+  list.appendChild(newDiv);
+
+  $("postLink").value = "";
+  $("postPrice").value = "";
+  alert("আপনার কাজের অফার সফলভাবে পাবলিশ হয়েছে!");
+}
+
+function buyJob(price, serviceName){
+  openModal(`
+    <div class="sheet-top"><h2>Client Order Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+    <div class="success">Service: <b>${serviceName}</b><br>Total Price: <b>${money(price)}</b></div>
+    <div class="notice"><b>মালিকের বিকাশ/নগদ Send Money নম্বর:</b><br><span style="font-size:20px;font-weight:900">01622842102</span><br>এই নম্বরে টাকা পাঠিয়ে নিচের তথ্য দিন।</div>
+    
+    <label class="label">পেমেন্ট মাধ্যম
+      <select id="clientPayMethod"><option>bKash</option><option>Nagad</option></select>
+    </label>
+    <label class="label">আপনার বিকাশ/নগদ নম্বর
+      <input id="clientPayNum" placeholder="01XXXXXXXXX" maxlength="11">
+    </label>
+    <label class="label">TrxID
+      <input id="clientTrx" placeholder="টাকা পাঠানোর TrxID দিন">
+    </label>
+    <button class="primary" type="button" onclick="confirmClientOrder(${price})">অর্ডার কনফার্ম করুন</button>
+  `);
+}
+
+function confirmClientOrder(price){
+  const num = $("clientPayNum").value.trim();
+  const trx = $("clientTrx").value.trim();
+
+  if(!/^01\d{9}$/.test(num)) return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
+  if(trx.length < 5) return alert("সঠিক TrxID দিন।");
+
+  // Calculate profit distribution (Worker: 60%, Client Bringer: 20%, Owner: 20%)
+  const workerShare = price * 0.60;
+  state.balance += workerShare;
+  state.earned += workerShare;
+  state.jobs += 1;
+
+  closeModal();
+  render();
+  alert("পেমেন্ট সফল! মালিক কর্তৃক ভেরিফাই হয়ে আপনার অ্যাকাউন্টে Worker এর ৬০% (৳" + workerShare + ") যোগ হয়েছে।");
+}
+
 function openWithdraw(){
   openModal(`
     <div class="sheet-top"><h2>Withdraw Request</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="success">Available balance: <b>${money(state.balance)}</b></div><div class="notice"><b>Payment/Support Number:</b> 01622842102<br>bKash / Nagad</div>
+    <div class="success">Available balance: <b>${money(state.balance)}</b></div>
     <label class="label">Method<select id="wMethod"><option>bKash</option><option>Nagad</option></select></label>
     <label class="label">Account Number<input id="wNumber" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></label>
     <label class="label">Amount<input id="wAmount" type="number" min="1000" placeholder="Minimum 1000"></label>
-    <button class="primary" onclick="withdraw()">Send Withdraw Request</button>
+    <button class="primary" onclick="requestWithdraw()">Send Withdraw Request</button>
   `);
 }
-function withdraw(){
-  const amount=Number($("wAmount").value),number=$("wNumber").value.trim();
-  if(amount<1000)return alert("Minimum withdrawal ৳1000।");
-  if(amount>state.balance)return alert("আপনার balance যথেষ্ট নয়।");
-  if(!/^01\d{9}$/.test(number))return alert("সঠিক bKash/Nagad number দিন।");
-  state.withdrawals.push({amount,number,status:"pending"});
+
+function requestWithdraw(){
+  const amount = Number($("wAmount").value);
+  const number = $("wNumber").value.trim();
+  if(amount < 1000) return alert("Minimum withdrawal ৳1000।");
+  if(amount > state.balance) return alert("আপনার balance যথেষ্ট নয়।");
+  if(!/^01\d{9}$/.test(number)) return alert("সঠিক bKash/Nagad number দিন।");
+  
+  state.balance -= amount;
   closeModal();
-  alert("Withdraw request Pending হয়েছে। Owner verification-এর পর payment হবে।");
+  render();
+  alert("Withdraw request সফল হয়েছে! খুব শীঘ্রই পেমেন্ট পেয়ে যাবেন।");
 }
+
 render();
-
-
 </script>
 </body>
 </html>
