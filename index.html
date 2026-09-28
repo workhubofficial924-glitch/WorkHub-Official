@@ -201,7 +201,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
       apiKey: "AIzaSyABrMA-Bb5sv4Z39uawO5BTpX76cXPblLs",
@@ -249,6 +249,15 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
         const country = document.getElementById("authCountry").value.trim() || "Bangladesh";
         const num = document.getElementById("authNum").value.trim();
         if(!name) return alert("Apnar nam likhun.");
+        if(!num) return alert("Apnar mobile number din.");
+
+        // Check if phone number already exists
+        const phoneQuery = query(collection(db, "users"), where("num", "==", num));
+        const phoneSnapshot = await getDocs(phoneQuery);
+
+        if(!phoneSnapshot.empty) {
+          return alert("Ei mobile number-ti diye already ekta account khola hoyeche! Onno number use korun.");
+        }
 
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
         const userData = { name, email, country, num, balance: 0, createdAt: serverTimestamp() };
