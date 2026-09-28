@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WorkHub — Pro Fiverr-Style Marketplace</title>
+<title>WorkHub — Pro Global Marketplace</title>
 <style>
 :root{
   --bg:#f8fafc;--card:#fff;--ink:#0f172a;--muted:#64748b;
@@ -17,18 +17,16 @@ button,input,select,textarea{font:inherit}
 button{border:0;cursor:pointer}
 .app{width:min(100%,600px);margin:auto;min-height:100vh;padding-bottom:84px}
 
-/* Fiverr Pro Header Style */
 .hero{padding:20px 16px;background:#0f172a;color:#fff;border-radius:0 0 24px 24px}
 .topbar{display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:24px;font-weight:900;letter-spacing:-.5px}
 .logo span{color:#1dbf73}
-.profile-btn{width:40px;height:40px;border-radius:50%;background:#1dbf73;color:#fff;font-weight:900;display:grid;place-items:center;font-size:16px}
+.profile-btn{width:40px;height:40px;border-radius:50%;background:#1dbf73;color:#fff;font-weight:900;display:grid;place-items:center;font-size:16px;cursor:pointer}
 .hero-search{margin-top:16px;position:relative}
 .hero-search input{width:100%;padding:12px 16px 12px 42px;border-radius:12px;border:0;background:#1e293b;color:#fff;outline:none}
 .hero-search input::placeholder{color:#94a3b8}
 .hero-search span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px}
 
-/* Balance Card */
 .balance-card{margin-top:16px;padding:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;display:flex;justify-content:space-between;align-items:center}
 .balance-info small{color:#94a3b8;font-size:11px}
 .balance-info .balance{font-size:24px;font-weight:900;color:#1dbf73;margin-top:2px}
@@ -41,9 +39,8 @@ main{padding:14px}
 .section-head h2{font-size:16px;margin:0;font-weight:800}
 .section-head span{font-size:12px;color:var(--muted);cursor:pointer}
 
-/* Fiverr Gig Card Style */
 .gigs-grid{display:grid;grid-template-columns:1fr;gap:14px}
-.gig-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s}
+.gig-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
 .gig-thumb{height:140px;background:linear-gradient(135deg,#e2e8f0,#cbd5e1);display:grid;place-items:center;font-size:32px;color:#64748b;font-weight:900}
 .gig-body{padding:14px}
 .seller-info{display:flex;align-items:center;gap:8px;margin-bottom:8px}
@@ -60,7 +57,6 @@ input,select,textarea{width:100%;margin-top:6px;padding:12px 14px;border:1px sol
 input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
 .primary{width:100%;padding:13px;border-radius:12px;background:#1dbf73;color:#fff;font-weight:800;margin-top:14px;font-size:14px}
 
-/* Bottom Nav Fiverr Style */
 .bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,600px);height:64px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:998;box-shadow:0 -4px 20px rgba(0,0,0,.03)}
 .bottom-nav button{background:transparent;color:var(--muted);font-size:10px;font-weight:700}
 .bottom-nav button.active{color:#1dbf73}
@@ -78,32 +74,36 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
 </head>
 <body>
 
+<!-- Global Sign Up / Login Screen -->
 <div id="authOverlay" style="position:fixed;inset:0;background:#0f172a;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;">
   <div style="width:min(100%,400px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 40px rgba(0,0,0,.2);">
     <div style="text-align:center;margin-bottom:20px">
       <div style="font-size:26px;font-weight:900;color:#0f172a">Work<span style="color:#1dbf73">Hub</span></div>
-      <p style="color:#64748b;font-size:13px;margin-top:4px">Pro Fiverr-Style Freelance Marketplace</p>
+      <p style="color:#64748b;font-size:13px;margin-top:4px">Global Freelance Marketplace (Desh-Bidesh)</p>
     </div>
     
     <div id="authFormContent">
       <div id="nameFieldGroup">
-        <label class="label" style="margin-top:0">আপনার নাম</label>
-        <input id="authName" placeholder="पूरा নাম লিখুন">
+        <label class="label" style="margin-top:0">Apnar Nam (Full Name)</label>
+        <input id="authName" placeholder="Pura nam likhun">
       </div>
       
-      <label class="label">জিমেইল</label>
+      <label class="label">Email Address</label>
       <input id="authEmail" type="email" placeholder="example@gmail.com">
 
-      <label class="label">পাসওয়ার্ড</label>
-      <input id="authPass" type="password5" type="password" placeholder="কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড">
+      <label class="label">Password</label>
+      <input id="authPass" type="password" placeholder="Minimum 6 characters">
 
       <div id="extraFields">
-        <label class="label">মোবাইল নম্বর</label>
-        <input id="authNum" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+        <label class="label">Country / Location</label>
+        <input id="authCountry" placeholder="Bangladesh / USA / UK etc.">
+        
+        <label class="label">Mobile Number / Contact</label>
+        <input id="authNum" placeholder="01XXXXXXXXX ba International Number">
       </div>
       
-      <button class="primary" type="button" onclick="handleAuthAction()" id="authSubmitBtn">একাউন্ট তৈরি করুন</button>
-      <p style="text-align:center;margin-top:16px;font-size:13px;color:#1dbf73;cursor:pointer;font-weight:700" onclick="toggleAuthMode()" id="authToggleText">আগেই অ্যাকাউন্ট আছে? লগইন করুন</p>
+      <button class="primary" type="button" onclick="handleAuthAction()" id="authSubmitBtn">Account Tori Korun</button>
+      <p style="text-align:center;margin-top:16px;font-size:13px;color:#1dbf73;cursor:pointer;font-weight:700" onclick="toggleAuthMode()" id="authToggleText">Agei account ache? Login korun</p>
     </div>
   </div>
 </div>
@@ -112,17 +112,17 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   <header class="hero">
     <div class="topbar">
       <div class="logo">Work<span>Hub</span></div>
-      <div class="profile-btn" onclick="openFiverrProfile()" id="profileInitialsBtn" style="cursor:pointer">U</div>
+      <div class="profile-btn" onclick="openFiverrProfile()" id="profileInitialsBtn">U</div>
     </div>
     
     <div class="hero-search">
       <span>🔍</span>
-      <input id="mainSearchInput" placeholder="어떤 서비스를 찾고 계십니까? (গিগ খুঁজুন...)" oninput="filterGigs()">
+      <input id="mainSearchInput" placeholder="Kon service khujte chan? (Gig khunjun...)" oninput="filterGigs()">
     </div>
 
     <div class="balance-card">
       <div class="balance-info">
-        <small>অ্যাকাউন্ট ব্যালেন্স</small>
+        <small>Account Balance</small>
         <div class="balance" id="balance">৳0</div>
       </div>
       <div class="hero-actions">
@@ -133,7 +133,6 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   </header>
 
   <main>
-    <!-- Home Page / Fiverr Feed View -->
     <section id="homePage">
       <div id="adminPanelBtnContainer"></div>
 
@@ -142,51 +141,45 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
         <span onclick="showPage('jobsPage', document.querySelectorAll('#bottomNav button')[1])">See All</span>
       </div>
       
-      <!-- Fiverr Style Gigs Container for Home & Market -->
-      <div class="gigs-grid" id="availableJobsList">
-        <!-- Dynamic Gigs will load here -->
-      </div>
+      <div class="gigs-grid" id="availableJobsList"></div>
     </section>
 
-    <!-- Post / Market Page -->
     <section id="jobsPage" class="hidden">
-      <div class="section-head"><h2>নতুন প্রফেশনাল গিগ তৈরি করুন</h2></div>
+      <div class="section-head"><h2>Notun Professional Gig Tori Korun</h2></div>
       <div class="card">
-        <label class="label" style="margin-top:0">ক্যাটাগরি</label>
+        <label class="label" style="margin-top:0">Category</label>
         <select id="postCategory">
           <option value="Data Entry">📊 Data Entry & Excel</option>
           <option value="Video Editing">✂️ Video Editing & Motion</option>
           <option value="Graphic Design">🎨 Graphic Design & Logo</option>
           <option value="Web Development">🌐 Web Development</option>
         </select>
-        <label class="label">গিগ টাইটেল (I will do...)</label>
+        <label class="label">Gig Title (I will do...)</label>
         <input id="postTitle" placeholder="I will do professional work for you...">
-        <label class="label">স্যাম্পল বা পোর্টফোলিও লিংক</label>
+        <label class="label">Sample / Portfolio Link</label>
         <input id="postLink" placeholder="Drive / Portfolio Link">
-        <label class="label">বাজেট (৳)</label>
+        <label class="label">Budget (৳ / USD)</label>
         <input id="postPrice" type="number" placeholder="500">
-        <button class="primary" type="button" onclick="publishGig()">🚀 গিগ পাবলিশ করুন</button>
+        <button class="primary" type="button" onclick="publishGig()">🚀 Gig Publish Korun</button>
       </div>
 
-      <div class="section-head"><h2>মার্কেটপ্লেস গিগসমূহ</h2></div>
+      <div class="section-head"><h2>Marketplace Gigs</h2></div>
       <div class="gigs-grid" id="marketGigsList"></div>
     </section>
 
-    <!-- Support Page -->
     <section id="supportPage" class="hidden">
       <div class="section-head"><h2>Customer Support</h2></div>
       <div class="card" style="text-align:center;padding:24px">
-        <p class="muted">যেকোনো অর্ডার বা পেমেন্ট সংক্রান্ত সহায়তার জন্য সরাসরি আমাদের অফিসিয়াল সাপোর্ট টিমে যোগাযোগ করুন।</p>
+        <p class="muted">Jekono order ba payment-er shohayotar jonno amader official support team-er sathe jogajog korun.</p>
         <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support Channel</a>
       </div>
     </section>
 
-    <!-- Withdraw Page -->
     <section id="withdrawPage" class="hidden">
       <div class="section-head"><h2>Earnings & Withdrawal</h2></div>
       <div class="card">
-        <div class="success">মিনিমাম উইথড্রল অ্যামাউন্ট: ৳1,000</div>
-        <button class="primary" type="button" onclick="openWithdraw()">💸 উইথড্রল রিকোয়েস্ট পাঠান</button>
+        <div class="success">Minimum Withdrawal: ৳1,000 / $10 USD</div>
+        <button class="primary" type="button" onclick="openWithdraw()">💸 Withdrawal Request Pathan</button>
       </div>
     </section>
   </main>
@@ -225,48 +218,48 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   const db = getFirestore(app);
 
   let isLoginMode = false;
-  let currentUserData = { name: "", email: "", num: "", balance: 0, jobs: 0, totalEarned: 0 };
+  let currentUserData = { name: "", email: "", num: "", country: "", balance: 0 };
   let allGigsCache = [];
   const ADMIN_PHONE = "01622842102";
 
   window.toggleAuthMode = function() {
     isLoginMode = !isLoginMode;
     if(isLoginMode) {
-      $("authSubmitBtn").textContent = "লগইন করুন";
-      $("authToggleText").textContent = "নতুন অ্যাকাউন্ট খুলতে চান? রেজিস্ট্রেশন করুন";
-      $("nameFieldGroup").style.display = "none";
-      $("extraFields").style.display = "none";
+      document.getElementById("authSubmitBtn").textContent = "Login Korun";
+      document.getElementById("authToggleText").textContent = "Notun account khulte chan? Registration korun";
+      document.getElementById("nameFieldGroup").style.display = "none";
+      document.getElementById("extraFields").style.display = "none";
     } else {
-      $("authSubmitBtn").textContent = "একাউন্ট তৈরি করুন";
-      $("authToggleText").textContent = "আগেই অ্যাকাউন্ট আছে? লগইন করুন";
-      $("nameFieldGroup").style.display = "block";
-      $("extraFields").style.display = "block";
+      document.getElementById("authSubmitBtn").textContent = "Account Tori Korun";
+      document.getElementById("authToggleText").textContent = "Agei account ache? Login korun";
+      document.getElementById("nameFieldGroup").style.display = "block";
+      document.getElementById("extraFields").style.display = "block";
     }
   }
 
   window.handleAuthAction = async function() {
-    const email = $("authEmail").value.trim();
-    const pass = $("authPass").value.trim();
-    if(!email || !email.includes("@")) return alert("সঠিক জিমেইল দিন।");
-    if(!pass || pass.length < 4) return alert("কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড দিন।");
+    const email = document.getElementById("authEmail").value.trim();
+    const pass = document.getElementById("authPass").value.trim();
+    if(!email || !email.includes("@")) return alert("Sothik Email din.");
+    if(!pass || pass.length < 6) return alert("Kamপক্ষে 6 okhorer password din.");
 
     try {
       if(!isLoginMode) {
-        const name = $("authName").value.trim();
-        const num = $("authNum").value.trim();
-        if(!name) return alert("নাম লিখুন।");
-        if(!/^01\d{9}$/.test(num)) return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
+        const name = document.getElementById("authName").value.trim();
+        const country = document.getElementById("authCountry").value.trim() || "Bangladesh";
+        const num = document.getElementById("authNum").value.trim();
+        if(!name) return alert("Apnar nam likhun.");
 
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        const userData = { name, email, num, balance: 0, jobs: 0, totalEarned: 0, createdAt: serverTimestamp() };
+        const userData = { name, email, country, num, balance: 0, createdAt: serverTimestamp() };
         await setDoc(doc(db, "users", cred.user.uid), userData);
-        alert("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
+        alert("Account shofolhabe tori hoyeche!");
       } else {
         await signInWithEmailAndPassword(auth, email, pass);
-        alert("সফলভাবে লগইন হয়েছে!");
+        alert("Shofolhabe login hoyeche!");
       }
     } catch(err) {
-      alert("ত্রুটি: " + err.message);
+      alert("Truti: " + err.message);
     }
   }
 
@@ -274,23 +267,23 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
     if(user) {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if(userDoc.exists()) currentUserData = userDoc.data();
-      $("authOverlay").classList.add("hidden");
-      $("workhubApp").classList.remove("hidden");
+      document.getElementById("authOverlay").classList.add("hidden");
+      document.getElementById("workhubApp").classList.remove("hidden");
       if(currentUserData.name) {
-        $("profileInitialsBtn").textContent = currentUserData.name.charAt(0).toUpperCase();
+        document.getElementById("profileInitialsBtn").textContent = currentUserData.name.charAt(0).toUpperCase();
       }
       render();
       loadGigs();
     } else {
-      $("authOverlay").classList.remove("hidden");
-      $("workhubApp").classList.add("hidden");
+      document.getElementById("authOverlay").classList.remove("hidden");
+      document.getElementById("workhubApp").classList.add("hidden");
     }
   });
 
   function render(){
-    $("balance").textContent = "৳" + Number(currentUserData.balance || 0).toLocaleString("en-BD");
-    const adminContainer = $("adminPanelBtnContainer");
-    if(currentUserData.num === ADMIN_PHONE) {
+    document.getElementById("balance").textContent = "৳" + Number(currentUserData.balance || 0).toLocaleString("en-BD");
+    const adminContainer = document.getElementById("adminPanelBtnContainer");
+    if(currentUserData.num === ADMIN_PHONE || currentUserData.email === "admin@workhub.com") {
       adminContainer.innerHTML = `<div style="margin-bottom:14px"><button class="primary" style="background:#0f172a" type="button" onclick="openAdminPanel()">👑 Admin Control Panel</button></div>`;
     } else {
       adminContainer.innerHTML = "";
@@ -298,33 +291,33 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   }
 
   window.openAdminPanel = async function() {
-    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>সকল অর্ডার লিস্ট</h3><div id="adminOrdersList"><p class="muted">লোড হচ্ছে...</p></div></div>`);
+    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>Sokol Order List</h3><div id="adminOrdersList"><p class="muted">Load hocche...</p></div></div>`);
     const q = await getDocs(collection(db, "orders"));
-    const list = $("adminOrdersList");
-    list.innerHTML = q.empty ? "<p class='muted'>কোনো অর্ডার নেই।</p>" : "";
+    const list = document.getElementById("adminOrdersList");
+    list.innerHTML = q.empty ? "<p class='muted'>Kono order nei.</p>" : "";
     q.forEach(d => {
       const data = d.data();
-      list.innerHTML += `<div class="mini-card"><b>${data.serviceName}</b> - ৳${data.price}<br>Status: <b>${data.status}</b><br><button class="primary" style="margin-top:6px;padding:6px" onclick="updateOrderStatus('${d.id}', 'Completed')">Complete & Pay</button></div>`;
+      list.innerHTML += `<div class="mini-card"><b>${data.serviceName}</b> - ৳${data.price}<br>Method: ${data.method} | Wallet Address: ${data.walletAddress}<br>Status: <b>${data.status}</b><br><button class="primary" style="margin-top:6px;padding:6px" onclick="updateOrderStatus('${d.id}', 'Completed')">Complete & Pay</button></div>`;
     });
   }
 
   window.updateOrderStatus = async function(orderId, status) {
     await updateDoc(doc(db, "orders", orderId), { status });
-    alert("স্ট্যাটাস আপডেট হয়েছে!");
+    alert("Status update hoyeche!");
     closeModal();
   }
 
   window.publishGig = async function() {
-    const category = $("postCategory").value;
-    const title = $("postTitle").value.trim();
-    const link = $("postLink").value.trim();
-    const price = Number($("postPrice").value);
-    if(!title || !link || !price) return alert("সব তথ্য পূরণ করুন।");
+    const category = document.getElementById("postCategory").value;
+    const title = document.getElementById("postTitle").value.trim();
+    const link = document.getElementById("postLink").value.trim();
+    const price = Number(document.getElementById("postPrice").value);
+    if(!title || !link || !price) return alert("Sokol toto puron korun.");
     await addDoc(collection(db, "gigs"), { category, title, link, price, sellerName: currentUserData.name || "Freelancer", createdAt: serverTimestamp() });
-    alert("গিগ সফলভাবে পাবলিশ হয়েছে!");
-    $("postTitle").value = "";
-    $("postLink").value = "";
-    $("postPrice").value = "";
+    alert("Gig shofolhabe publish hoyeche!");
+    document.getElementById("postTitle").value = "";
+    document.getElementById("postLink").value = "";
+    document.getElementById("postPrice").value = "";
     loadGigs();
   }
 
@@ -336,12 +329,12 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   }
 
   function displayGigs(list) {
-    const container1 = $("availableJobsList");
-    const container2 = $("marketGigsList");
+    const container1 = document.getElementById("availableJobsList");
+    const container2 = document.getElementById("marketGigsList");
     
     let htmlContent = "";
     if(list.length === 0) {
-      htmlContent = "<p class='muted' style='text-align:center;grid-column:1/-1;padding:20px'>কোনো গিগ পাওয়া যায়নি।</p>";
+      htmlContent = "<p class='muted' style='text-align:center;grid-column:1/-1;padding:20px'>Kono gig paoa jayni.</p>";
     } else {
       list.forEach(data => {
         const firstLetter = data.sellerName ? data.sellerName.charAt(0).toUpperCase() : "F";
@@ -373,7 +366,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   }
 
   window.filterGigs = function() {
-    const query = $("mainSearchInput").value.toLowerCase();
+    const query = document.getElementById("mainSearchInput").value.toLowerCase();
     const filtered = allGigsCache.filter(item => 
       item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query) || item.sellerName.toLowerCase().includes(query)
     );
@@ -382,66 +375,98 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
 
   window.buyJob = function(price, name) {
     openModal(`
-      <div class="sheet-top"><h2>Fiverr Order Checkout</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <div class="success">Admin-এ পেমেন্ট করুন: <b>01622842102</b> (৳${price})</div>
-      <label class="label">পেমেন্ট মাধ্যম</label>
-      <select id="payM"><option>bKash</option><option>Nagad</option></select>
-      <label class="label">আপনার নম্বর</label>
-      <input id="payNum" maxlength="11" placeholder="01XXXXXXXXX">
-      <label class="label">TrxID</label>
-      <input id="payTrx" placeholder="সঠিক TrxID দিন">
-      <button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">অর্ডার কনফার্ম করুন</button>
+      <div class="sheet-top"><h2>Binance USDT Checkout</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <div class="success">Binance (USDT - TRC20) Payment Gateway</div>
+      
+      <label class="label">Admin USDT Wallet Address (TRC20):</label>
+      <input type="text" value="THAX2DVDwj9kcScsTLjPm2kqSFVjQtjDiN" readonly style="font-family:monospace;background:#f1f5f9;">
+      
+      <label class="label">Apnar Transaction Hash / Wallet Address</label>
+      <input id="walletAddress" placeholder="TxID ba Crypto Address din">
+
+      <button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">Order Confirm Korun</button>
     `);
   }
 
   window.confirmOrder = async function(price, name) {
-    const senderNum = $("payNum").value;
-    const trxId = $("payTrx").value;
-    if(!/^01\d{9}$/.test(senderNum) || trxId.length < 4) return alert("সঠিক নম্বর ও TrxID দিন।");
-    await addDoc(collection(db, "orders"), { serviceName: name, price, senderNum, trxId, buyerEmail: currentUserData.email, status: "Pending", createdAt: serverTimestamp() });
+    const method = "Binance USDT (TRC20)";
+    const walletAddress = document.getElementById("walletAddress").value.trim();
+
+    if(!walletAddress) return alert("Apnar wallet address ba transaction hash din.");
+
+    await addDoc(collection(db, "orders"), { 
+      serviceName: name, 
+      price, 
+      method,
+      walletAddress,
+      buyerEmail: currentUserData.email, 
+      status: "Pending", 
+      createdAt: serverTimestamp() 
+    });
     closeModal();
-    alert("আপনার অর্ডার সফলভাবে সাবমিট হয়েছে!");
+    alert("Apnar order shofolhabe submit hoyeche!");
   }
 </script>
 
 <script>
-const $=id=>document.getElementById(id);
 function showPage(id,btn){
-  ["homePage","jobsPage","supportPage","withdrawPage"].forEach(x=>$(x).classList.add("hidden"));
-  $(id).classList.remove("hidden");
+  ["homePage","jobsPage","supportPage","withdrawPage"].forEach(x=>document.getElementById(x).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
   document.querySelectorAll("#bottomNav button").forEach(x=>x.classList.remove("active"));
   btn.classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function openModal(content){$("modalBody").innerHTML=content;$("modal").classList.remove("hidden");document.body.style.overflow="hidden";}
-function closeModal(){$("modal").classList.add("hidden");$("modalBody").innerHTML="";document.body.style.overflow="";}
-$("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
+function openModal(content){
+  document.getElementById("modalBody").innerHTML = content;
+  document.getElementById("modal").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+function closeModal(){
+  document.getElementById("modal").classList.add("hidden");
+  document.getElementById("modalBody").innerHTML = "";
+  document.body.style.overflow = "";
+}
+document.getElementById("modal").addEventListener("click", e => {
+  if(e.target === document.getElementById("modal")) closeModal();
+});
 
 function openFiverrProfile(){
   openModal(`
-    <div class="sheet-top"><h2>Profile (Fiverr Style)</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+    <div class="sheet-top"><h2>Global Profile</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
     <div style="text-align:center;padding:10px 0 15px;border-bottom:1px solid var(--line);">
       <div style="width:70px;height:70px;background:#1dbf73;color:#fff;font-size:28px;font-weight:900;border-radius:50%;display:grid;place-items:center;margin:auto;">
         ${currentUserData.name ? currentUserData.name.charAt(0).toUpperCase() : 'U'}
       </div>
       <h3 style="margin:8px 0 2px;font-size:18px;">${currentUserData.name || 'Freelancer'}</h3>
-      <p style="color:var(--muted);font-size:12px;margin:0;">⭐ 5.0 (Top Rated Seller)</p>
+      <p style="color:var(--muted);font-size:12px;margin:0;">🌍 Country: ${currentUserData.country || 'Bangladesh'} | ⭐ 5.0</p>
     </div>
     <div class="mini-card">
-      <h3><b>বায়ো</b></h3>
-      <p class="muted">প্রফেশনাল ফ্রিল্যান্সার এবং গিগ সার্ভিস প্রোভাইডার।</p>
-    </div>
-    <div class="mini-card">
-      <h3><b>একাউন্ট ডিটেইলস</b></h3>
-      <p class="muted">📧 Email: ${currentUserData.email || 'N/A'}<br>📱 Phone: ${currentUserData.num || 'N/A'}</p>
+      <h3><b>Account Details</b></h3>
+      <p class="muted">📧 Email: ${currentUserData.email || 'N/A'}<br>📱 Contact: ${currentUserData.num || 'N/A'}</p>
     </div>
   `);
 }
+
 function openHistory(){
-  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><p class="muted">আপনার সকল পেমেন্ট এবং উইথড্রল হিস্টরি এখানে থাকবে।</p></div>`);
+  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><p class="muted">Apnar sokol payment ebong withdrawal history ekhane thakbe.</p></div>`);
 }
+
 function openWithdraw(){
-  openModal(`<div class="sheet-top"><h2>Withdraw Funds</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="success">Current Balance: ৳${currentUserData.balance}</div><label class="label">Withdraw Amount</label><input id="wAmt" type="number" min="1000" placeholder="Min 1000"><button class="primary" onclick="alert('Withdraw Request Submitted!')">Request Withdrawal</button>`);
+  openModal(`
+    <div class="sheet-top"><h2>Withdraw Funds (Binance USDT)</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+    <div class="success">Current Balance: ৳${currentUserData.balance}</div>
+    
+    <label class="label">Withdrawal Medium</label>
+    <input type="text" value="Binance USDT (TRC20)" readonly style="background:#f1f5f9;">
+
+    <label class="label">Withdraw Amount (৳ / USD)</label>
+    <input id="wAmt" type="number" min="1000" placeholder="Minimum 1000">
+
+    <label class="label">Apnar Binance USDT Wallet Address (TRC20)</label>
+    <input id="wDest" placeholder="THAX2D...">
+
+    <button class="primary" onclick="alert('Withdraw Request Submitted Successfully!'); closeModal();">Withdraw Request Pathan</button>
+  `);
 }
 </script>
 </body>
