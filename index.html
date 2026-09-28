@@ -70,6 +70,46 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
 .mini-card{padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:10px;background:#f8fafc}
 .muted{color:var(--muted);font-size:12px;line-height:1.5}
 .success{padding:12px;border-radius:10px;background:var(--soft);color:#19a463;font-size:12px;margin-top:10px;font-weight:600}
+
+/* Professional profile + responsive polish */
+.profile-btn{
+  position:relative;
+  width:44px;height:44px;border-radius:14px;
+  background:linear-gradient(135deg,#1dbf73,#0f9f5f);
+  box-shadow:0 8px 20px rgba(29,191,115,.25);
+  border:1px solid rgba(255,255,255,.18);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.profile-btn:active{transform:scale(.95)}
+.profile-btn::after{
+  content:"";position:absolute;right:-2px;bottom:-2px;width:11px;height:11px;
+  border-radius:50%;background:#22c55e;border:2px solid #0f172a;
+}
+.profile-hero{
+  background:linear-gradient(145deg,#0f172a,#172554);
+  color:#fff;border-radius:20px;padding:20px;margin-bottom:14px;
+  box-shadow:0 12px 30px rgba(15,23,42,.16);
+}
+.profile-avatar{
+  width:82px;height:82px;border-radius:24px;margin:auto;
+  display:grid;place-items:center;font-size:30px;font-weight:900;
+  color:#fff;background:linear-gradient(135deg,#1dbf73,#0ea5e9);
+  box-shadow:0 12px 28px rgba(14,165,233,.18);
+  border:3px solid rgba(255,255,255,.25);
+}
+.profile-name{margin:10px 0 3px;text-align:center;font-size:20px;font-weight:900}
+.profile-country{text-align:center;color:#cbd5e1;font-size:12px}
+.profile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.profile-stat{padding:12px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08)}
+.profile-stat small{display:block;color:#94a3b8;font-size:10px}
+.profile-stat b{display:block;margin-top:3px;font-size:13px;overflow-wrap:anywhere}
+.profile-detail{
+  padding:13px;border:1px solid var(--line);border-radius:14px;background:#f8fafc;margin-top:10px;
+}
+.profile-detail b{font-size:12px}.profile-detail span{display:block;color:var(--muted);font-size:12px;margin-top:3px;overflow-wrap:anywhere}
+.modal .sheet{padding-bottom:34px}
+@media(max-width:380px){.hero-actions button{padding:8px 10px}.logo{font-size:21px}}
+
 </style>
 </head>
 <body>
@@ -112,7 +152,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   <header class="hero">
     <div class="topbar">
       <div class="logo">Work<span>Hub</span></div>
-      <div class="profile-btn" onclick="openFiverrProfile()" id="profileInitialsBtn">U</div>
+      <button class="profile-btn" type="button" onclick="openFiverrProfile()" id="profileInitialsBtn" aria-label="Open my profile">U</button>
     </div>
     
     <div class="hero-search">
@@ -418,11 +458,21 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
 </script>
 
 <script>
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
 function showPage(id,btn){
+
   ["homePage","jobsPage","supportPage","withdrawPage"].forEach(x=>document.getElementById(x).classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   document.querySelectorAll("#bottomNav button").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active");
+  if(btn) btn.classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function openModal(content){
@@ -440,19 +490,54 @@ document.getElementById("modal").addEventListener("click", e => {
 });
 
 function openFiverrProfile(){
+  const name = currentUserData.name || "Freelancer";
+  const email = currentUserData.email || "N/A";
+  const num = currentUserData.num || "N/A";
+  const country = currentUserData.country || "Bangladesh";
+  const balance = Number(currentUserData.balance || 0);
+  const initial = name.trim().charAt(0).toUpperCase() || "U";
+
   openModal(`
-    <div class="sheet-top"><h2>Global Profile</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div style="text-align:center;padding:10px 0 15px;border-bottom:1px solid var(--line);">
-      <div style="width:70px;height:70px;background:#1dbf73;color:#fff;font-size:28px;font-weight:900;border-radius:50%;display:grid;place-items:center;margin:auto;">
-        ${currentUserData.name ? currentUserData.name.charAt(0).toUpperCase() : 'U'}
+    <div class="sheet-top">
+      <h2>My Profile</h2>
+      <button class="close" type="button" onclick="closeModal()" aria-label="Close">×</button>
+    </div>
+
+    <div class="profile-hero">
+      <div class="profile-avatar">${escapeHtml(initial)}</div>
+      <div class="profile-name">${escapeHtml(name)}</div>
+      <div class="profile-country">🌍 ${escapeHtml(country)} &nbsp; • &nbsp; ⭐ 5.0</div>
+
+      <div class="profile-grid">
+        <div class="profile-stat">
+          <small>ACCOUNT BALANCE</small>
+          <b>৳${balance.toLocaleString("en-BD")}</b>
+        </div>
+        <div class="profile-stat">
+          <small>ACCOUNT STATUS</small>
+          <b>✓ Active</b>
+        </div>
       </div>
-      <h3 style="margin:8px 0 2px;font-size:18px;">${currentUserData.name || 'Freelancer'}</h3>
-      <p style="color:var(--muted);font-size:12px;margin:0;">🌍 Country: ${currentUserData.country || 'Bangladesh'} | ⭐ 5.0</p>
     </div>
-    <div class="mini-card">
-      <h3><b>Account Details</b></h3>
-      <p class="muted">📧 Email: ${currentUserData.email || 'N/A'}<br>📱 Contact: ${currentUserData.num || 'N/A'}</p>
+
+    <div class="profile-detail">
+      <b>📛 Full Name</b>
+      <span>${escapeHtml(name)}</span>
     </div>
+    <div class="profile-detail">
+      <b>📧 Email Address</b>
+      <span>${escapeHtml(email)}</span>
+    </div>
+    <div class="profile-detail">
+      <b>📱 Mobile / Contact</b>
+      <span>${escapeHtml(num)}</span>
+    </div>
+    <div class="profile-detail">
+      <b>🌍 Country / Location</b>
+      <span>${escapeHtml(country)}</span>
+    </div>
+
+    <button class="primary" type="button" onclick="closeModal();openWithdraw()">💸 Open Wallet</button>
   `);
 }
 
