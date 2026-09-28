@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WorkHub — Ads Earning & Referral System</title>
+<title>WorkHub — Pro Freelance Marketplace with Search & History</title>
 <style>
 :root{
   --bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;
@@ -32,14 +32,10 @@ main{padding:16px}
 .section-head{display:flex;justify-content:space-between;align-items:end;margin:3px 2px 10px}
 .section-head h2{font-size:18px;margin:0}.section-head span{font-size:12px;color:var(--muted)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:21px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
-.role-row{display:flex;gap:8px;flex-wrap:wrap}
-.role{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border-radius:999px;background:#eaf8f2;color:#08754d;font-size:12px;font-weight:850}
-.add-role{width:100%;margin-top:12px;padding:13px;border-radius:13px;background:var(--soft);color:#2851c8;font-weight:850}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .stat{padding:14px;border-radius:16px;background:#f8fafc}.stat small{color:var(--muted);font-size:12px}.stat b{display:block;font-size:21px;margin-top:4px}
 .split-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
 .split-row:last-child{border-bottom:0}.split-left{display:flex;align-items:center;gap:9px;font-weight:750}.split-icon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#f1f5ff}
-.percent{font-size:18px;font-weight:900;color:#234bb7}
 .label{display:block;margin-top:13px;font-size:12px;font-weight:800}
 input,select,textarea{width:100%;margin-top:6px;padding:13px 14px;border:1px solid #dbe2eb;border-radius:13px;background:#fff;outline:none}
 input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,234,.10)}
@@ -64,7 +60,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   <div style="width:min(100%,440px);background:#fff;border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3);margin:auto;">
     <div style="text-align:center;margin-bottom:15px">
       <div style="font-size:28px;font-weight:900;color:#101a3a">Work<span style="color:#315bea">Hub</span></div>
-      <p style="color:#64748b;font-size:13px;margin-top:5px">অ্যাড দেখে ইনকাম ও ফ্রিল্যান্সিং প্ল্যাটফর্ম</p>
+      <p style="color:#64748b;font-size:13px;margin-top:5px">প্রফেশনাল ফ্রিল্যান্সিং মার্কেটপ্লেস</p>
     </div>
     
     <div id="authFormContent">
@@ -82,9 +78,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       <div id="extraFields">
         <label class="label">মোবাইল নম্বর (Number)</label>
         <input id="authNum" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
-        
-        <label class="label">রেফার কোড (যদি থাকে)</label>
-        <input id="authRefer" placeholder="রেফারকারীর মোবাইল নম্বর বা কোড">
       </div>
       
       <button class="primary" type="button" onclick="handleAuthAction()" id="authSubmitBtn">একাউন্ট তৈরি করুন</button>
@@ -99,13 +92,13 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       <div class="logo">Work<span>Hub</span></div>
       <button class="profile-btn" type="button" onclick="openProfile()">U</button>
     </div>
-    <p class="hero-sub">Watch Ads & Referral Earning System</p>
+    <p class="hero-sub">Pro Marketplace with Search & History</p>
     <div class="balance-card">
       <div class="balance-label">বর্তমান ব্যালেন্স</div>
       <div class="balance" id="balance">৳0</div>
       <div class="hero-actions">
         <button class="withdraw-btn" type="button" onclick="openWithdraw()">Withdraw</button>
-        <button class="outline-btn" type="button" onclick="showPage('earnPage', document.querySelectorAll('#bottomNav button')[2])">🎁 Free Earn</button>
+        <button class="outline-btn" type="button" onclick="openHistory()">📜 History</button>
       </div>
     </div>
   </header>
@@ -117,60 +110,43 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       <div class="section-head"><h2>আপনার স্ট্যাটাস</h2><span>Overview</span></div>
       <div class="card">
         <div class="stats">
-          <div class="stat"><small>অ্যাড দেখে আয়</small><b id="adEarned">৳0</b></div>
-          <div class="stat"><small>রেফার বোনাস</small><b id="refEarned">৳0</b></div>
+          <div class="stat"><small>সম্পন্ন কাজ</small><b id="jobsDone">0</b></div>
+          <div class="stat"><small>মোট আয়</small><b id="totalEarned">৳0</b></div>
         </div>
       </div>
 
-      <div class="section-head"><h2>Active Orders & Chat</h2><span>Ongoing projects</span></div>
+      <div class="section-head"><h2>Active Orders & Live Chat</h2><span>Ongoing projects</span></div>
       <div class="card" id="myOrdersList">
         <p class="muted" style="text-align:center">আপনার কোনো চলমান অর্ডার নেই।</p>
       </div>
 
-      <div class="section-head"><h2>Payment & Support</h2><span>Official contact</span></div>
+      <div class="section-head"><h2>Support</h2><span>Official contact</span></div>
       <div class="card">
-        <div class="split-row"><div class="split-left"><span class="split-icon">💳</span>bKash / Nagad Send Money</div><div class="percent" style="font-size:15px">01622842102</div></div>
-        <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support</a>
-      </div>
-    </section>
-
-    <section id="earnPage" class="hidden">
-      <div class="section-head"><h2>অ্যাড দেখে ইনকাম (Watch Ads)</h2><span>Earn Money Daily</span></div>
-      <div class="card">
-        <div class="success">প্রতিটি অ্যাড সম্পূর্ণ দেখলে আপনার মূল ব্যালেন্সের সাথে টাকা যোগ হবে।</div>
-        <div id="adsListContainer" style="margin-top:14px">
-          <div class="job">
-            <div class="job-main"><div class="job-icon">📺</div><div><b>Ad Task #1 (Promotional Video)</b><small>Reward: ৳5 • Duration: 15 Sec</small></div></div>
-            <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="watchAd(5, 1)">Watch Ad</button>
-          </div>
-          <div class="job">
-            <div class="job-main"><div class="job-icon">📺</div><div><b>Ad Task #2 (Sponsor Banner)</b><small>Reward: ৳3 • Duration: 10 Sec</small></div></div>
-            <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="watchAd(3, 2)">Watch Ad</button>
-          </div>
-          <div class="job">
-            <div class="job-main"><div class="job-icon">📺</div><div><b>Ad Task #3 (App Promotion)</b><small>Reward: ৳5 • Duration: 15 Sec</small></div></div>
-            <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="watchAd(5, 3)">Watch Ad</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-head"><h2>বন্ধুদের রেফার করুন (Referral)</h2><span>Earn ৳20 per refer</span></div>
-      <div class="card">
-        <p class="muted">আপনার বন্ধু যখন আপনার রেফারেল লিংক বা মোবাইল নম্বর ব্যবহার করে একাউন্ট খুলবে, তখন আপনি ইনস্ট্যান্ট **৳20** বোনাস পাবেন!</p>
-        <label class="label">আপনার রেফারেল লিংক / কোড</label>
-        <input id="myReferLink" readonly style="background:#f8fafc;font-weight:bold;color:#315bea">
-        <button class="primary" type="button" onclick="copyReferLink()">📋 রেফার লিংক কপি করুন</button>
+        <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support Team</a>
       </div>
     </section>
 
     <section id="jobsPage" class="hidden">
-      <div class="section-head"><h2>গিগ মার্কেটপ্লেস</h2><span>Fiverr Style Gigs</span></div>
+      <div class="section-head"><h2>সার্ভিস বা গিগ খুঁজুন</h2><span>Search & Filter Gigs</span></div>
       <div class="card">
-        <label class="label" style="margin-top:0">ক্যাটাগরি</label>
+        <input id="searchGigInput" placeholder="কী খুঁজতে চান এখানে লিখুন..." oninput="filterGigs()">
+        <label class="label">ক্যাটাগরি ফিল্টার</label>
+        <select id="filterCategory" onchange="filterGigs()">
+          <option value="All">সকল ক্যাটাগরি (All)</option>
+          <option value="Data Entry">📊 Data Entry & Excel</option>
+          <option value="Video Editing">✂️ Video Editing</option>
+          <option value="Graphic Design">🎨 Graphic Design</option>
+          <option value="Web Development">🌐 Web Development</option>
+        </select>
+      </div>
+
+      <div class="section-head"><h2>নতুন গিগ পোস্ট করুন</h2></div>
+      <div class="card">
         <select id="postCategory">
           <option value="Data Entry">📊 Data Entry & Excel</option>
           <option value="Video Editing">✂️ Video Editing</option>
           <option value="Graphic Design">🎨 Graphic Design</option>
+          <option value="Web Development">🌐 Web Development</option>
         </select>
         <label class="label">শিরোনাম</label>
         <input id="postTitle" placeholder="I will do...">
@@ -180,7 +156,8 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
         <input id="postPrice" type="number" placeholder="500">
         <button class="primary" type="button" onclick="publishGig()">✅ গিগ পাবলিশ করুন</button>
       </div>
-      <div class="section-head"><h2>সব গিগসমূহ</h2></div>
+
+      <div class="section-head"><h2>মার্কেটপ্লেস গিগসমূহ</h2></div>
       <div class="card" id="availableJobsList"></div>
     </section>
 
@@ -204,7 +181,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   <nav class="bottom-nav" id="bottomNav">
     <button class="active" type="button" onclick="showPage('homePage',this)"><i>⌂</i>Home</button>
     <button type="button" onclick="showPage('jobsPage',this)"><i>▣</i>Market</button>
-    <button type="button" onclick="showPage('earnPage',this)"><i>🎁</i>Earn Ad</button>
     <button type="button" onclick="showPage('supportPage',this)"><i>◉</i>Support</button>
     <button type="button" onclick="showPage('withdrawPage',this)"><i>৳</i>Withdraw</button>
   </nav>
@@ -237,10 +213,8 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   let isLoginMode = false;
   let currentUid = "";
-  let currentUserData = {
-    name: "", email: "", num: "", balance: 0, adEarned: 0, refEarned: 0, roles: ["Worker"]
-  };
-
+  let currentUserData = { name: "", email: "", num: "", balance: 0, jobs: 0, totalEarned: 0 };
+  let allGigsCache = [];
   const ADMIN_PHONE = "01622842102";
 
   window.toggleAuthMode = function() {
@@ -261,47 +235,20 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   window.handleAuthAction = async function() {
     const email = $("authEmail").value.trim();
     const pass = $("authPass").value.trim();
-
-    if(!email || !email.includes("@")) return alert("দয়া করে সঠিক জিমেইল দিন।");
+    if(!email || !email.includes("@")) return alert("সঠিক জিমেইল দিন।");
     if(!pass || pass.length < 4) return alert("কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড দিন।");
 
     try {
       if(!isLoginMode) {
         const name = $("authName").value.trim();
         const num = $("authNum").value.trim();
-        const referCode = $("authRefer").value.trim();
-        if(!name) return alert("দয়া করে আপনার নাম লিখুন।");
+        if(!name) return alert("নাম লিখুন।");
         if(!/^01\d{9}$/.test(num)) return alert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
 
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        const userData = {
-          name, email, num, balance: 0, adEarned: 0, refEarned: 0, roles: ["Worker"], createdAt: serverTimestamp()
-        };
-        
-        // Referral Bonus Logic
-        if(referCode && referCode !== num) {
-          const querySnapshot = await getDocs(collection(db, "users"));
-          let referrerDocId = null;
-          querySnapshot.forEach(d => {
-            if(d.data().num === referCode) {
-              referrerDocId = d.id;
-              userData.referredBy = referCode;
-            }
-          });
-          if(referrerDocId) {
-            const refDocRef = doc(db, "users", referrerDocId);
-            const refSnap = await getDoc(refDocRef);
-            if(refSnap.exists()) {
-              const refData = refSnap.data();
-              const newRefBal = (refData.balance || 0) + 20;
-              const newRefEarn = (refData.refEarned || 0) + 20;
-              await updateDoc(refDocRef, { balance: newRefBal, refEarned: newRefEarn });
-            }
-          }
-        }
-
+        const userData = { name, email, num, balance: 0, jobs: 0, totalEarned: 0, createdAt: serverTimestamp() };
         await setDoc(doc(db, "users", cred.user.uid), userData);
-        alert("সফলভাবে অ্যাকাউন্ট তৈরি হয়েছে!");
+        alert("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
       } else {
         await signInWithEmailAndPassword(auth, email, pass);
         alert("সফলভাবে লগইন হয়েছে!");
@@ -315,9 +262,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     if(user) {
       currentUid = user.uid;
       const userDoc = await getDoc(doc(db, "users", user.uid));
-      if(userDoc.exists()) {
-        currentUserData = userDoc.data();
-      }
+      if(userDoc.exists()) currentUserData = userDoc.data();
       $("authOverlay").classList.add("hidden");
       $("workhubApp").classList.remove("hidden");
       render();
@@ -331,138 +276,66 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   function render(){
     $("balance").textContent = "৳" + Number(currentUserData.balance || 0).toLocaleString("en-BD");
-    $("adEarned").textContent = "৳" + Number(currentUserData.adEarned || 0).toLocaleString("en-BD");
-    $("refEarned").textContent = "৳" + Number(currentUserData.refEarned || 0).toLocaleString("en-BD");
-    $("myReferLink").value = currentUserData.num ? currentUserData.num : "No Number";
+    $("totalEarned").textContent = "৳" + Number(currentUserData.totalEarned || 0).toLocaleString("en-BD");
+    $("jobsDone").textContent = currentUserData.jobs || 0;
 
     const adminContainer = $("adminPanelBtnContainer");
     if(currentUserData.num === ADMIN_PHONE) {
-      adminContainer.innerHTML = `
-        <div style="margin-bottom:14px">
-          <button class="primary" style="background:linear-gradient(135deg,#12a86b,#0d8553)" type="button" onclick="openAdminPanel()">👑 Admin Control Panel</button>
-        </div>
-      `;
+      adminContainer.innerHTML = `<div style="margin-bottom:14px"><button class="primary" style="background:linear-gradient(135deg,#12a86b,#0d8553)" type="button" onclick="openAdminPanel()">👑 Admin Control Panel</button></div>`;
     } else {
       adminContainer.innerHTML = "";
     }
   }
 
-  window.watchAd = async function(rewardAmount, adId) {
-    openModal(`
-      <div class="sheet-top"><h2>📺 Watch Ad & Earn</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <div class="notice" style="text-align:center">অ্যাডটি সম্পূর্ণ দেখতে ১৫ সেকেন্ড অপেক্ষা করুন...</div>
-      <div id="adTimerBox" style="font-size:32px;font-weight:900;text-align:center;margin:20px 0;color:#315bea">15</div>
-      <button class="primary" id="claimAdBtn" disabled style="opacity:0.5" type="button" onclick="claimAdReward(${rewardAmount})">বাকাশ/ব্যালেন্সে টাকা যোগ করুন</button>
-    `);
-
-    let timeLeft = 15;
-    const timerInterval = setInterval(() => {
-      timeLeft--;
-      const box = $("adTimerBox");
-      if(box) box.textContent = timeLeft;
-      if(timeLeft <= 0) {
-        clearInterval(timerInterval);
-        if($("claimAdBtn")) {
-          $("claimAdBtn.disabled") // placeholder
-          $("claimAdBtn").disabled = false;
-          $("claimAdBtn").style.opacity = 1;
-          $("claimAdBtn").textContent = `🎁 Claim ৳${rewardAmount} Reward`;
-        }
-      }
-    }, 1000);
-  }
-
-  window.claimAdReward = async function(reward) {
-    currentUserData.balance = (currentUserData.balance || 0) + reward;
-    currentUserData.adEarned = (currentUserData.adEarned || 0) + reward;
-
-    try {
-      await updateDoc(doc(db, "users", currentUid), {
-        balance: currentUserData.balance,
-        adEarned: currentUserData.adEarned
-      });
-      closeModal();
-      render();
-      alert(`অভিনন্দন! সফলভাবে ৳${reward} আপনার ব্যালেন্সে যোগ হয়েছে।`);
-    } catch(err) {
-      alert("ত্রুটি: " + err.message);
-    }
-  }
-
-  window.copyReferLink = function() {
-    const num = currentUserData.num;
-    if(!num) return alert("নম্ব পাওয়া যায়নি।");
-    navigator.clipboard.writeText(num);
-    alert("আপনার রেফারেল কোড/নম্বর কপি হয়েছে: " + num);
-  }
-
   window.openAdminPanel = async function() {
-    openModal(`
-      <div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <div class="mini-card"><h3>সব অর্ডার ও পেমেন্ট রিকোয়েস্ট</h3><div id="adminOrdersList"><p class="muted">লোড হচ্ছে...</p></div></div>
-    `);
-    
-    try {
-      const querySnapshot = await getDocs(collection(db, "orders"));
-      const list = $("adminOrdersList");
-      list.innerHTML = "";
-      if(querySnapshot.empty) {
-        list.innerHTML = "<p class='muted'>কোনো অর্ডার নেই।</p>";
-        return;
-      }
-      querySnapshot.forEach((docSnap) => {
-        const d = docSnap.data();
-        const div = document.createElement("div");
-        div.className = "mini-card";
-        div.innerHTML = `
-          <b>Service:</b> ${d.serviceName}<br><b>Price:</b> ৳${d.price}<br><b>Status:</b> ${d.status || 'Pending'}<br>
-          <button class="primary" style="margin-top:8px;padding:6px" onclick="updateOrderStatus('${docSnap.id}', 'In Progress')">Work Start</button>
-        `;
-        list.appendChild(div);
-      });
-    } catch(err) {
-      $("adminOrdersList").innerHTML = "<p class='muted'>লোড করতে সমস্যা হয়েছে।</p>";
-    }
+    openModal(`<div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>সব অর্ডার ও পেমেন্ট</h3><div id="adminOrdersList"><p class="muted">লোড হচ্ছে...</p></div></div>`);
+    const q = await getDocs(collection(db, "orders"));
+    const list = $("adminOrdersList");
+    list.innerHTML = q.empty ? "<p class='muted'>কোনো অর্ডার নেই।</p>" : "";
+    q.forEach(d => {
+      const data = d.data();
+      list.innerHTML += `<div class="mini-card"><b>${data.serviceName}</b> - ৳${data.price}<br>Status: <b>${data.status}</b><br><button class="primary" style="margin-top:6px;padding:6px" onclick="updateOrderStatus('${d.id}', 'Completed', ${data.price})">Complete & Pay Seller</button></div>`;
+    });
   }
 
-  window.updateOrderStatus = async function(orderId, status) {
+  window.updateOrderStatus = async function(orderId, status, price) {
     await updateDoc(doc(db, "orders", orderId), { status });
-    alert("আপডেট হয়েছে!");
+    alert("অর্ডার সম্পন্ন হয়েছে!");
     closeModal();
+    loadMyOrders();
   }
 
   async function loadMyOrders() {
     const list = $("myOrdersList");
     if(!list) return;
-    try {
-      const querySnapshot = await getDocs(collection(db, "orders"));
-      list.innerHTML = "";
-      let count = 0;
-      querySnapshot.forEach((docSnap) => {
-        const d = docSnap.data();
-        if(d.buyerEmail === currentUserData.email || currentUserData.num === ADMIN_PHONE) {
-          count++;
-          const div = document.createElement("div");
-          div.className = "mini-card";
-          div.innerHTML = `
-            <h3>${d.serviceName}</h3><p class="muted">Price: ৳${d.price} • Status: <b>${d.status || 'Pending'}</b></p>
-            ${d.deliveryProof ? `<p style="color:#12a86b"><b>Delivery:</b> ${d.deliveryProof}</p>` : ''}
-            <button class="primary" style="margin-top:8px;padding:6px" onclick="openChat('${docSnap.id}', '${d.serviceName}')">💬 Live Chat</button>
-          `;
-          list.appendChild(div);
-        }
-      });
-      if(count === 0) list.innerHTML = '<p class="muted" style="text-align:center">চলমান কোনো অর্ডার নেই।</p>';
-    } catch(e) {}
+    const q = await getDocs(collection(db, "orders"));
+    list.innerHTML = "";
+    let count = 0;
+    q.forEach(d => {
+      const data = d.data();
+      if(data.buyerEmail === currentUserData.email || currentUserData.num === ADMIN_PHONE) {
+        count++;
+        list.innerHTML += `<div class="mini-card"><h3>${data.serviceName}</h3><p class="muted">৳${data.price} • Status: <b>${data.status}</b></p>${data.proof ? `<p style="color:#12a86b"><b>Proof:</b> ${data.proof}</p>` : ''}<div style="display:flex;gap:8px;margin-top:8px"><button class="primary" style="margin:0;flex:1;padding:6px" onclick="openChat('${d.id}', '${data.serviceName}')">💬 Chat</button><button class="outline-btn" style="background:#315bea;margin:0;flex:1;padding:6px" onclick="openProofModal('${d.id}')">Submit Proof</button></div></div>`;
+      }
+    });
+    if(count === 0) list.innerHTML = '<p class="muted" style="text-align:center">কোনো চলমান অর্ডার নেই।</p>';
   }
 
-  window.openChat = async function(orderId, serviceName) {
-    openModal(`
-      <div class="sheet-top"><h2>💬 Chat: ${serviceName}</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <div id="chatBox" style="max-height:220px;overflow-y:auto;background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:10px"><p class="muted">লোড হচ্ছে...</p></div>
-      <input id="chatText" placeholder="মেসেজ লিখুন...">
-      <button class="primary" type="button" onclick="sendMsg('${orderId}')">পাঠান</button>
-    `);
+  window.openProofModal = function(orderId) {
+    openModal(`<div class="sheet-top"><h2>Submit Work Proof</h2><button class="close" type="button" onclick="closeModal()">×</button></div><label class="label">কাজের প্রমাণ (Drive link বা টেক্সট)</label><input id="proofInput" placeholder="লিংক বা বিবরণ দিন"><button class="primary" type="button" onclick="submitProof('${orderId}')">সাবমিট করুন</button>`);
+  }
+
+  window.submitProof = async function(orderId) {
+    const proof = $("proofInput").value.trim();
+    if(!proof) return;
+    await updateDoc(doc(db, "orders", orderId), { proof, status: "Pending Review" });
+    closeModal();
+    alert("প্রুফ সাবমিট করা হয়েছে!");
+    loadMyOrders();
+  }
+
+  window.openChat = async function(orderId, name) {
+    openModal(`<div class="sheet-top"><h2>💬 Chat: ${name}</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div id="chatBox" style="max-height:200px;overflow-y:auto;background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:10px">লোড হচ্ছে...</div><input id="chatText" placeholder="মেসেজ লিখুন..."><button class="primary" type="button" onclick="sendMsg('${orderId}')">পাঠান</button>`);
     const q = await getDocs(collection(db, "orders", orderId, "messages"));
     const box = $("chatBox");
     box.innerHTML = q.empty ? '<p class="muted">মেসেজ নেই।</p>' : "";
@@ -474,7 +347,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     if(!text) return;
     await addDoc(collection(db, "orders", orderId, "messages"), { sender: currentUserData.name, text, createdAt: serverTimestamp() });
     $("chatText").value = "";
-    openChat(orderId, "Order Chat");
+    openChat(orderId, "Chat");
   }
 
   window.publishGig = async function() {
@@ -482,32 +355,41 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     const title = $("postTitle").value.trim();
     const link = $("postLink").value.trim();
     const price = Number($("postPrice").value);
-    if(!title || !link || !price) return alert("সব তথ্য দিন।");
+    if(!title || !link || !price) return alert("সব তথ্য পূরণ করুন।");
     await addDoc(collection(db, "gigs"), { category, title, link, price, sellerName: currentUserData.name, createdAt: serverTimestamp() });
-    alert("গিগ পাবলিশ হয়েছে!");
+    alert("গিগ সফলভাবে পাবলিশ হয়েছে!");
     loadGigs();
   }
 
   async function loadGigs() {
-    const list = $("availableJobsList");
-    if(!list) return;
     const q = await getDocs(collection(db, "gigs"));
-    list.innerHTML = q.empty ? "<p class='muted' style='text-align:center'>গিগ নেই।</p>" : "";
-    q.forEach(d => {
-      const data = d.data();
-      list.innerHTML += `<div class="job"><div class="job-main"><div class="job-icon">💼</div><div><b>${data.title}</b><small>৳${data.price} • ${data.sellerName}</small></div></div><button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${data.price}, '${data.title}')">Order</button></div>`;
+    allGigsCache = [];
+    q.forEach(d => allGigsCache.push({ id: d.id, ...d.data() }));
+    displayGigs(allGigsCache);
+  }
+
+  function displayGigs(list) {
+    const container = $("availableJobsList");
+    if(!container) return;
+    container.innerHTML = list.length === 0 ? "<p class='muted' style='text-align:center'>কোনো গিগ পাওয়া যায়নি।</p>" : "";
+    list.forEach(data => {
+      container.innerHTML += `<div class="job"><div class="job-main"><div class="job-icon">💼</div><div><b>${data.title}</b><small>${data.category} • ৳${data.price} • ${data.sellerName}</small></div></div><button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${data.price}, '${data.title}')">Order</button></div>`;
     });
   }
 
+  window.filterGigs = function() {
+    const query = $("searchGigInput").value.toLowerCase();
+    const category = $("filterCategory").value;
+    const filtered = allGigsCache.filter(item => {
+      const matchQuery = item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query);
+      const matchCat = category === "All" || item.category === category;
+      return matchQuery && matchCat;
+    });
+    displayGigs(filtered);
+  }
+
   window.buyJob = function(price, name) {
-    openModal(`
-      <div class="sheet-top"><h2>Order Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-      <div class="success">Pay ৳${price} to: <b>01622842102</b></div>
-      <label class="label">Medium<select id="payM"><option>bKash</option><option>Nagad</option></select></label>
-      <label class="label">Number<input id="payNum" maxlength="11" placeholder="01XXXXXXXXX"></label>
-      <label class="label">TrxID<input id="payTrx" placeholder="TrxID"></label>
-      <button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">কনফার্ম করুন</button>
-    `);
+    openModal(`<div class="sheet-top"><h2>Order Payment</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="success">Pay ৳${price} to Admin: <b>01622842102</b></div><label class="label">Medium<select id="payM"><option>bKash</option><option>Nagad</option></select></label><label class="label">Number<input id="payNum" maxlength="11" placeholder="01XXXXXXXXX"></label><label class="label">TrxID<input id="payTrx" placeholder="TrxID"></label><button class="primary" type="button" onclick="confirmOrder(${price}, '${name}')">কনফার্ম করুন</button>`);
   }
 
   window.confirmOrder = async function(price, name) {
@@ -516,7 +398,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     if(!/^01\d{9}$/.test(senderNum) || trxId.length < 4) return alert("সঠিক তথ্য দিন।");
     await addDoc(collection(db, "orders"), { serviceName: name, price, senderNum, trxId, buyerEmail: currentUserData.email, status: "Pending", createdAt: serverTimestamp() });
     closeModal();
-    alert("অর্ডার সফলভাবে সাবমিট হয়েছে!");
+    alert("অর্ডার সাবমিট হয়েছে!");
     loadMyOrders();
   }
 </script>
@@ -524,7 +406,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 <script>
 const $=id=>document.getElementById(id);
 function showPage(id,btn){
-  ["homePage","earnPage","jobsPage","supportPage","withdrawPage"].forEach(x=>$(x).classList.add("hidden"));
+  ["homePage","jobsPage","supportPage","withdrawPage"].forEach(x=>$(x).classList.add("hidden"));
   $(id).classList.remove("hidden");
   document.querySelectorAll("#bottomNav button").forEach(x=>x.classList.remove("active"));
   btn.classList.add("active");
@@ -535,6 +417,9 @@ function closeModal(){$("modal").classList.add("hidden");$("modalBody").innerHTM
 $("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
 function openProfile(){
   openModal(`<div class="sheet-top"><h2>Profile</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><h3>${currentUserData.name}</h3><p class="muted">📧 ${currentUserData.email}<br>📱 ${currentUserData.num}</p></div>`);
+}
+function openHistory(){
+  openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><p class="muted">আপনার সমস্ত লেনদেন এবং উইথড্রল হিস্টরি এখানে সংরক্ষিত থাকবে।</p></div>`);
 }
 function openWithdraw(){
   openModal(`<div class="sheet-top"><h2>Withdraw</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="success">Balance: ৳${currentUserData.balance}</div><label class="label">Amount<input id="wAmt" type="number" min="1000" placeholder="Min 1000"></label><button class="primary" onclick="alert('Withdraw Request Sent!')">Request</button>`);
