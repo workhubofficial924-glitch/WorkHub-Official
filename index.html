@@ -152,7 +152,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
   <header class="hero">
     <div class="topbar">
       <div class="logo">Work<span>Hub</span></div>
-      <button class="profile-btn" type="button" onclick="openFiverrProfile()" id="profileInitialsBtn" aria-label="Open my profile">U</button>
+      <button class="profile-btn" type="button" onclick="window.openFiverrProfile()" id="profileInitialsBtn" aria-label="Open my profile">U</button>
     </div>
     
     <div class="hero-search">
@@ -166,8 +166,8 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
         <div class="balance" id="balance">৳0</div>
       </div>
       <div class="hero-actions">
-        <button class="withdraw-btn" type="button" onclick="openWithdraw()">Withdraw</button>
-        <button class="outline-btn" type="button" onclick="openHistory()">History</button>
+        <button class="withdraw-btn" type="button" onclick="window.openWithdraw()">Withdraw</button>
+        <button class="outline-btn" type="button" onclick="window.openHistory()">History</button>
       </div>
     </div>
   </header>
@@ -219,7 +219,7 @@ input:focus,select:focus,textarea:focus{border-color:#1dbf73;background:#fff}
       <div class="section-head"><h2>Earnings & Withdrawal</h2></div>
       <div class="card">
         <div class="success">Minimum Withdrawal: ৳1,000 / $10 USD</div>
-        <button class="primary" type="button" onclick="openWithdraw()">💸 Withdrawal Request Pathan</button>
+        <button class="primary" type="button" onclick="window.openWithdraw()">💸 Withdrawal Request Pathan</button>
       </div>
     </section>
   </main>
@@ -475,12 +475,12 @@ function showPage(id,btn){
   if(btn) btn.classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function openModal(content){
+window.openModal = function(content){
   document.getElementById("modalBody").innerHTML = content;
   document.getElementById("modal").classList.remove("hidden");
   document.body.style.overflow = "hidden";
 }
-function closeModal(){
+window.closeModal = function(){
   document.getElementById("modal").classList.add("hidden");
   document.getElementById("modalBody").innerHTML = "";
   document.body.style.overflow = "";
@@ -489,7 +489,7 @@ document.getElementById("modal").addEventListener("click", e => {
   if(e.target === document.getElementById("modal")) closeModal();
 });
 
-function openFiverrProfile(){
+window.openFiverrProfile = function(){
   const name = currentUserData.name || "Freelancer";
   const email = currentUserData.email || "N/A";
   const num = currentUserData.num || "N/A";
@@ -541,26 +541,97 @@ function openFiverrProfile(){
   `);
 }
 
-function openHistory(){
+window.openHistory = function(){
   openModal(`<div class="sheet-top"><h2>Transaction History</h2><button class="close" type="button" onclick="closeModal()">×</button></div><div class="mini-card"><p class="muted">Apnar sokol payment ebong withdrawal history ekhane thakbe.</p></div>`);
 }
 
-function openWithdraw(){
-  openModal(`
-    <div class="sheet-top"><h2>Withdraw Funds (Binance USDT)</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="success">Current Balance: ৳${currentUserData.balance}</div>
-    
-    <label class="label">Withdrawal Medium</label>
-    <input type="text" value="Binance USDT (TRC20)" readonly style="background:#f1f5f9;">
+window.openWithdraw = function(){
+  const balance = Number(currentUserData.balance || 0);
 
-    <label class="label">Withdraw Amount (৳ / USD)</label>
-    <input id="wAmt" type="number" min="1000" placeholder="Minimum 1000">
+  window.openModal(`
+    <div class="sheet-top">
+      <h2>💸 Withdraw Funds</h2>
+      <button class="close" type="button" onclick="window.closeModal()" aria-label="Close">×</button>
+    </div>
 
-    <label class="label">Apnar Binance USDT Wallet Address (TRC20)</label>
-    <input id="wDest" placeholder="THAX2D...">
+    <div class="profile-hero" style="padding:16px;margin-bottom:12px">
+      <div style="font-size:11px;color:#94a3b8">AVAILABLE BALANCE</div>
+      <div style="font-size:28px;font-weight:900;color:#1dbf73;margin-top:3px">
+        ৳${balance.toLocaleString("en-BD")}
+      </div>
+      <div style="font-size:11px;color:#cbd5e1;margin-top:3px">Minimum withdrawal: ৳1,000</div>
+    </div>
 
-    <button class="primary" onclick="alert('Withdraw Request Submitted Successfully!'); closeModal();">Withdraw Request Pathan</button>
+    <label class="label">Withdrawal Method</label>
+    <select id="withdrawMethod">
+      <option value="Binance USDT (TRC20)">Binance USDT (TRC20)</option>
+    </select>
+
+    <label class="label">Withdraw Amount (৳)</label>
+    <input id="wAmt" type="number" min="1000" max="${balance}" placeholder="Minimum ৳1,000">
+
+    <label class="label">Binance USDT Wallet Address (TRC20)</label>
+    <input id="wDest" type="text" autocomplete="off" placeholder="Enter your TRC20 wallet address">
+
+    <div id="withdrawError" class="muted" style="display:none;color:#dc2626;margin-top:8px"></div>
+
+    <button class="primary" type="button" id="submitWithdrawBtn">
+      💸 Submit Withdrawal Request
+    </button>
   `);
+
+  const btn = document.getElementById("submitWithdrawBtn");
+  if(btn) btn.addEventListener("click", window.submitWithdrawRequest);
+}
+
+window.submitWithdrawRequest = async function(){
+  const amount = Number(document.getElementById("wAmt")?.value || 0);
+  const destination = (document.getElementById("wDest")?.value || "").trim();
+  const errorBox = document.getElementById("withdrawError");
+  const btn = document.getElementById("submitWithdrawBtn");
+  const balance = Number(currentUserData.balance || 0);
+
+  const showError = (msg) => {
+    if(errorBox){
+      errorBox.textContent = msg;
+      errorBox.style.display = "block";
+    } else {
+      alert(msg);
+    }
+  };
+
+  if(amount < 1000) return showError("Minimum withdrawal amount is ৳1,000.");
+  if(amount > balance) return showError("Apnar balance-er cheye beshi amount withdraw kora jabe na.");
+  if(!destination) return showError("Binance TRC20 wallet address din.");
+  if(destination.length < 20) return showError("Wallet address-ti check korun.");
+
+  try{
+    if(btn){
+      btn.disabled = true;
+      btn.textContent = "⏳ Request submit hocche...";
+    }
+
+    await addDoc(collection(db, "withdrawals"), {
+      uid: auth.currentUser?.uid || "",
+      name: currentUserData.name || "",
+      email: currentUserData.email || "",
+      amount,
+      method: "Binance USDT (TRC20)",
+      walletAddress: destination,
+      status: "Pending",
+      createdAt: serverTimestamp()
+    });
+
+    window.closeModal();
+    alert("✅ Withdrawal request successfully submitted. Admin review korar por process korbe.");
+  }catch(err){
+    console.error(err);
+    if(btn){
+      btn.disabled = false;
+      btn.textContent = "💸 Submit Withdrawal Request";
+    }
+    showError("Request submit hoyni. Firebase/Firestore permission check korun.");
+  }
 }
 </script>
 </body>
