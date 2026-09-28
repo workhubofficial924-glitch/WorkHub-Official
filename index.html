@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WorkHub — Fiverr Style Marketplace</title>
+<title>WorkHub — Fiverr Style Marketplace with Admin</title>
 <style>
 :root{
   --bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;
@@ -116,6 +116,8 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 
   <main>
     <section id="homePage">
+      <div id="adminPanelBtnContainer"></div>
+      
       <div class="section-head"><h2>আপনার Roles</h2><span>Multiple roles supported</span></div>
       <div class="card">
         <div class="role-row" id="roles"></div>
@@ -172,9 +174,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       </div>
 
       <div class="section-head"><h2>Public Marketplace Gigs</h2><span>All available services</span></div>
-      <div class="card" id="availableJobsList">
-        <!-- Live Gigs from Firestore will load here -->
-      </div>
+      <div class="card" id="availableJobsList"></div>
     </section>
 
     <section id="supportPage" class="hidden">
@@ -209,7 +209,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   </div>
 </div>
 
-<!-- Firebase Modular SDK Script -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -233,6 +232,8 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
   let currentUserData = {
     name: "", email: "", num: "", balance: 0, earned: 0, jobs: 0, roles: ["Worker"]
   };
+
+  const ADMIN_PHONE = "01622842102";
 
   window.toggleAuthMode = function() {
     isLoginMode = !isLoginMode;
@@ -279,7 +280,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
     }
   }
 
-  // Monitor Auth State
   onAuthStateChanged(auth, async (user) => {
     if(user) {
       const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -304,6 +304,50 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
       const icon = r.includes("Worker") ? "💻" : "🤝";
       return '<span class="role">' + icon + " " + r + "</span>";
     }).join("");
+
+    // Admin Panel Button Check
+    const adminContainer = $("adminPanelBtnContainer");
+    if(currentUserData.num === ADMIN_PHONE) {
+      adminContainer.innerHTML = `
+        <div style="margin-bottom:14px">
+          <button class="primary" style="background:linear-gradient(135deg,#12a86b,#0d8553)" type="button" onclick="openAdminPanel()">👑 Admin Control Panel</button>
+        </div>
+      `;
+    } else {
+      adminContainer.innerHTML = "";
+    }
+  }
+
+  window.openAdminPanel = async function() {
+    openModal(`
+      <div class="sheet-top"><h2>👑 Admin Dashboard</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
+      <div class="mini-card"><h3>রিসিভড অর্ডার ও পেমেন্ট রিকোয়েস্ট</h3><div id="adminOrdersList"><p class="muted">লোড হচ্ছে...</p></div></div>
+    `);
+    
+    try {
+      const querySnapshot = await getDocs(collection(db, "orders"));
+      const list = $("adminOrdersList");
+      list.innerHTML = "";
+      if(querySnapshot.empty) {
+        list.innerHTML = "<p class='muted'>কোনো নতুন অর্ডার বা পেমেন্ট নেই।</p>";
+        return;
+      }
+      querySnapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        const div = document.createElement("div");
+        div.className = "mini-card";
+        div.innerHTML = `
+          <b>Service:</b> ${d.serviceName}<br>
+          <b>Price:</b> ৳${d.price}<br>
+          <b>Method:</b> ${d.method} (${d.senderNum})<br>
+          <b>TrxID:</b> <span style="color:#315bea;font-weight:bold">${d.trxId}</span><br>
+          <b>Buyer:</b> ${d.buyerEmail}
+        `;
+        list.appendChild(div);
+      });
+    } catch(err) {
+      $("adminOrdersList").innerHTML = "<p class='muted'>ডাটা লোড করতে সমস্যা হয়েছে।</p>";
+    }
   }
 
   window.publishGig = async function() {
@@ -352,7 +396,7 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
         div.innerHTML = `
           <div class="job-main">
             <div class="job-icon">${icon}</div>
-            <div><b>${data.title}</b><small>Category: ${data.category} • Price: ৳${data.price} • By: ${data.sellerName} (Worker 60%)</small></div>
+            <div><b>${data.title}</b><small>Category: ${data.category} • Price: ৳${data.price} • By: ${data.sellerName}</small></div>
           </div>
           <button class="primary" style="margin:0;padding:6px 12px;width:auto" onclick="buyJob(${data.price}, '${data.title}')">Order Now</button>
         `;
@@ -416,7 +460,6 @@ input:focus,select:focus,textarea:focus{border-color:#315bea;box-shadow:0 0 0 3p
 </script>
 
 <script>
-// UI Helper Functions
 const $=id=>document.getElementById(id);
 
 function showPage(id,btn){
