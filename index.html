@@ -103,7 +103,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 
       <div class="section-head"><h2>Payment & Support</h2><span>Official contact</span></div>
       <div class="card">
-        <div class="split-row"><div class="split-left"><span class="split-icon">💳</span>bKash / Nagad</div><div class="percent" style="font-size:15px">01622842102</div></div>
+        <div class="split-row"><div class="split-left"><span class="split-icon">💳</span>bKash / Nagad Send Money</div><div class="percent" style="font-size:15px">01622842102</div></div>
         <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">💬 Telegram Support</a>
       </div>
 
@@ -179,7 +179,7 @@ input:focus,select:focus{border-color:#315bea;box-shadow:0 0 0 3px rgba(49,91,23
 const state={
   balance:0, earned:0, jobs:0,
   roles:["Worker"], service:"Canva Design",
-  orders:[], payments:[], withdrawals:[]
+  orders:[], payments:[], withdrawals:[], activationRequests:[]
 };
 const $=id=>document.getElementById(id);
 const money=n=>"৳"+Number(n||0).toLocaleString("en-BD");
@@ -225,22 +225,37 @@ function openRoles(){
       <h2>Role Activation</h2>
       <button class="close" type="button" onclick="closeModal()">×</button>
     </div>
+
     <div class="mini-card">
       <h3>🎨 Worker</h3>
       <p class="muted">Canva ও CapCut editing কাজ করবেন।</p>
-      <div class="notice"><b>Account activation fee: ৳100</b><br>৳100 Send Money করে Owner verification-এর জন্য submit করুন।</div>
-      <button class="primary" type="button" onclick="openActivationPayment('Worker')">৳100 Send Money করে Active করুন</button>
+      <div class="notice">
+        <b>Worker Active করতে ৳100 Send Money করতে হবে।</b><br>
+        bKash / Nagad: <b>01622842102</b>
+      </div>
+      <button class="primary" type="button" onclick="openActivationPayment('Worker')">
+        ৳100 Send Money করে Active করুন
+      </button>
     </div>
+
     <div class="mini-card">
       <h3>🤝 Client Bringer</h3>
       <p class="muted">Client বা নতুন project নিয়ে আসবেন।</p>
-      <div class="notice"><b>Role activation fee: ৳100</b><br>bKash/Nagad Send Money করে TrxID submit করুন।</div>
-      <button class="primary" type="button" onclick="openActivationPayment('Client Bringer')">৳100 Send Money করে Active করুন</button>
+      <div class="notice">
+        <b>Client Bringer Active করতে ৳100 Send Money করতে হবে।</b><br>
+        bKash / Nagad: <b>01622842102</b>
+      </div>
+      <button class="primary" type="button" onclick="openActivationPayment('Client Bringer')">
+        ৳100 Send Money করে Active করুন
+      </button>
     </div>
+
     <div class="mini-card">
-      <h3>💳 Send Money Number</h3>
-      <p class="muted">bKash / Nagad</p>
-      <div style="font-size:26px;font-weight:900;margin-top:8px">01622842102</div>
+      <h3>💬 Support</h3>
+      <p class="muted">Payment বা activation বিষয়ে সাহায্য দরকার হলে Support Team-এ যোগাযোগ করুন।</p>
+      <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">
+        💬 Telegram Support Team
+      </a>
     </div>
   `);
 }
@@ -249,53 +264,115 @@ function openActivationPayment(role){
   if(state.roles.includes(role)){
     return alert(role + " ইতিমধ্যে Active।");
   }
+
   openModal(`
     <div class="sheet-top">
       <h2>${role} Activation</h2>
       <button class="close" type="button" onclick="closeModal()">×</button>
     </div>
-    <div class="success"><b>Account/Role Active করতে ৳100 Send Money করুন।</b></div>
-    <div class="mini-card">
-      <h3>📲 Send Money</h3>
-      <p class="muted">bKash অথবা Nagad থেকে <b>Send Money</b> করুন:</p>
-      <div style="font-size:28px;font-weight:950;margin:10px 0">01622842102</div>
-      <div style="font-size:18px;font-weight:900;color:#17398c">Amount: ৳100</div>
-      <div class="notice"><b>শুধু Send Money করুন।</b><br>Payment করার পর নিচে TrxID submit করুন।</div>
+
+    <div class="success">
+      <b>Account/Role Active করতে ৳100 Send Money করতে হবে।</b>
     </div>
+
+    <div class="mini-card">
+      <h3>📲 bKash / Nagad Send Money</h3>
+      <p class="muted">নিচের নম্বরে ঠিক <b>৳100</b> Send Money করুন:</p>
+      <div style="font-size:28px;font-weight:950;letter-spacing:.6px;margin:10px 0">01622842102</div>
+      <div class="notice">
+        <b>Payment Type: Send Money</b><br>
+        bKash অথবা Nagad ব্যবহার করুন। Payment করার পর TrxID submit করুন।
+      </div>
+      <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">
+        💬 Payment Help — Telegram Support
+      </a>
+    </div>
+
     <label class="label">Payment Method
-      <select id="activationMethod"><option value="bKash">bKash</option><option value="Nagad">Nagad</option></select>
+      <select id="activationMethod">
+        <option value="bKash">bKash</option>
+        <option value="Nagad">Nagad</option>
+      </select>
     </label>
+
     <label class="label">Send Money TrxID
       <input id="activationTrx" placeholder="Send Money TrxID দিন" autocomplete="off">
     </label>
-    <button class="primary" type="button" onclick="submitActivation('${role}')">✅ Payment Submit করুন</button>
-    <div class="muted" style="margin-top:10px;text-align:center">Owner payment verify করার পরেই ${role} Active হবে।</div>
+
+    <button class="primary" type="button" onclick="submitActivation('${role}')">
+      ✅ Payment Submit করুন
+    </button>
+
+    <div class="muted" style="margin-top:10px;text-align:center">
+      Owner payment verify করার পরেই ${role} Active হবে।
+    </div>
   `);
 }
 
 function submitActivation(role){
   const method = $("activationMethod").value;
   const trx = $("activationTrx").value.trim();
-  if(trx.length < 5) return alert("সঠিক Send Money TrxID দিন।");
+
+  if(trx.length < 5){
+    return alert("সঠিক Send Money TrxID দিন।");
+  }
+
   if(!state.activationRequests) state.activationRequests = [];
-  if(state.activationRequests.some(x => x.role===role && x.trx.toLowerCase()===trx.toLowerCase())){
+
+  const duplicate = state.activationRequests.some(x =>
+    x.role === role && x.trx.toLowerCase() === trx.toLowerCase()
+  );
+
+  if(duplicate){
     return alert("এই TrxID দিয়ে আগে থেকেই request করা হয়েছে।");
   }
+
   state.activationRequests.push({
-    role, method, trx, number:"01622842102", amount:100,
-    status:"pending", createdAt:new Date().toISOString()
+    role: role,
+    method: method,
+    trx: trx,
+    number: "01622842102",
+    amount: 100,
+    status: "pending",
+    createdAt: new Date().toISOString()
   });
+
   openModal(`
-    <div class="sheet-top"><h2>Payment Pending</h2><button class="close" type="button" onclick="closeModal()">×</button></div>
-    <div class="success">✅ <b>৳100 payment request submitted</b></div>
-    <div class="mini-card"><p class="muted">
-      Role: <b>${role}</b><br>Method: <b>${method}</b><br>TrxID: <b>${trx}</b><br>Amount: <b>৳100</b>
-    </p><div class="notice">Owner TrxID verify করার পর Role Active হবে।</div></div>
+    <div class="sheet-top">
+      <h2>Activation Pending</h2>
+      <button class="close" type="button" onclick="closeModal()">×</button>
+    </div>
+
+    <div class="success">
+      ✅ <b>৳100 payment request submitted</b>
+    </div>
+
+    <div class="mini-card">
+      <p class="muted">
+        Role: <b>${role}</b><br>
+        Method: <b>${method}</b><br>
+        TrxID: <b>${trx}</b><br>
+        Amount: <b>৳100</b>
+      </p>
+      <div class="notice">
+        Owner TrxID verify করার পর আপনার Role Active হবে।
+      </div>
+      <a class="primary" href="https://t.me/WorkHub2027" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none">
+        💬 Telegram Support
+      </a>
+    </div>
+
     <button class="primary" type="button" onclick="closeModal()">ঠিক আছে</button>
   `);
 }
-function activateWorker(){ openActivationPayment("Worker"); }
-function activateClient(){ openActivationPayment("Client Bringer"); }
+
+function activateWorker(){
+  openActivationPayment("Worker");
+}
+
+function activateClient(){
+  openActivationPayment("Client Bringer");
+}
 
 function chooseService(name){
   state.service=name;
@@ -351,5 +428,6 @@ function withdraw(){
 render();
 
 
+</script>
 </body>
 </html>
